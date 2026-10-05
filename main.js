@@ -1,7 +1,7 @@
 import { calcularHashBuffer } from './modules/hash.js';
 import { parseExifFromArrayBuffer } from './modules/exif.js';
 import { bandaMgrs, ddParaUtm, utmParaDd } from './modules/utm.js';
-
+import { modulosConfig } from './modules/config.js';
 
         let arquivoHashGlobal = null;
 
@@ -1211,7 +1211,37 @@ Data: ${new Date().toLocaleDateString('pt-BR')}.`;
             reader.readAsText(file);
         }
 
+        function renderModules() {
+            const container = document.querySelector('.accordion-list');
+            if (!container) return;
+
+            // Keep the sidebar-title
+            let html = '<p class="sidebar-title">Módulos de Investigação</p>';
+
+            modulosConfig.forEach(mod => {
+                const btnClass = mod.isOpen
+                    ? 'tab-btn nav-btn bg-[#2563eb] text-white shadow-md transition-all flex items-center gap-3 rounded-xl'
+                    : 'tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl';
+                const chevronClass = mod.isOpen ? 'nav-chevron open' : 'nav-chevron';
+                const panelClass = mod.isOpen
+                    ? 'tab-content accordion-panel space-y-6'
+                    : 'tab-content accordion-panel space-y-6 hidden';
+
+                html += `
+            <button onclick="switchTab('${mod.id}')" id="btn-${mod.id}" class="${btnClass}" style="animation-delay:${mod.delay}s">
+                <span class="icon w-4 h-4">${mod.icon}</span><span>${mod.title}</span>
+                <span class="${chevronClass}">›</span>
+            </button>
+<div id="tab-${mod.id}" class="${panelClass}">
+            ${mod.content}
+        </div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
         window.onload = function () {
+            renderModules();
             analisarIP();
             validarIMEI();
             analisarPix();
