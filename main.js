@@ -1,4 +1,3 @@
-import { escapePdfText, toLatin1Pdf, quebrarLinhasPdf, construirPDFBytes } from './modules/pdf.js';
 import { calcularHashBuffer } from './modules/hash.js';
 import { parseExifFromArrayBuffer } from './modules/exif.js';
 import { bandaMgrs, ddParaUtm, utmParaDd } from './modules/utm.js';
@@ -128,18 +127,7 @@ import { bandaMgrs, ddParaUtm, utmParaDd } from './modules/utm.js';
             showToast('Download concluído!');
         }
 
-        // ===================== GERADOR DE PDF (nativo, sem bibliotecas externas) =====================
-        // Constroi um PDF valido "na mao", escrevendo a estrutura binaria do formato (objetos,
-        // stream de conteudo com texto monoespacado em Courier, tabela xref e trailer). Nao depende
-        // de nenhuma biblioteca de terceiros (jsPDF etc.) nem de conexao com a internet.
-
-
-
-
-
-
-
-
+        // ===================== GERADOR DE PDF (via jsPDF) =====================
 
         function baixarComoPDF(elementId, filename, tituloDocumento) {
             const texto = document.getElementById(elementId).innerText;
@@ -148,16 +136,145 @@ import { bandaMgrs, ddParaUtm, utmParaDd } from './modules/utm.js';
                 return;
             }
             try {
-                const bytes = construirPDFBytes(tituloDocumento, texto);
-                const blob = new Blob([bytes], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = filename;
-                link.click();
-                URL.revokeObjectURL(link.href);
-                registrarLogAuditoria(`Documento exportado em PDF: ${filename}`);
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // Setup dimensions and fonts
+                const margin = 15;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                let cursorY = margin;
+
+                // Header Background
+                doc.setFillColor(37, 99, 235); // Blue (#2563eb)
+                doc.rect(0, 0, pageWidth, 25, 'F');
+
+                // Add a simple logo placeholder (white circle with 'OSINT' text)
+                doc.setFillColor(255, 255, 255);
+                doc.circle(margin + 5, 12.5, 7, 'F');
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(37, 99, 235);
+                doc.setFontSize(10);
+                // "OSINT" centered in the circle roughly
+                doc.text("HUB", margin + 1.5, 14);
+
+                // Header Text
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(14);
+                doc.text(tituloDocumento, margin + 18, 14.5);
+
+                cursorY = 35; // Start writing text below header
+                doc.setTextColor(30, 41, 59); // Slate-800
+
+                const paragraphs = texto.split('\n');
+
+                paragraphs.forEach(paragraph => {
+                    const text = paragraph.trim();
+                    if (!text) {
+                        cursorY += 5; // Spacing for empty lines
+                        return;
+                    }
+
+                    // Helper to check and add page if needed
+                    const checkPageBreak = (neededHeight) => {
+                        if (cursorY + neededHeight > pageHeight - margin - 10) {
+                            doc.addPage();
+                            cursorY = margin + 10;
+                        }
+                    };
+
+                    // Parse formatting patterns
+                    if (text.startsWith('===')) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(14);
+                        const lines = doc.splitTextToSize(text, pageWidth - margin * 2);
+                        lines.forEach(line => {
+                            checkPageBreak(7);
+                            doc.text(line, margin, cursorY);
+                            cursorY += 7;
+                        });
+                        cursorY += 2;
+                    } else if (/^\d+\./.test(text)) { // Section Headers (1., 2. etc)
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(12);
+                        const lines = doc.splitTextToSize(text, pageWidth - margin * 2);
+                        lines.forEach(line => {
+                            checkPageBreak(6);
+                            doc.text(line, margin, cursorY);
+                            cursorY += 6;
+                        });
+                        cursorY += 2;
+                    } else if (text.startsWith('•')) { // Bullet points
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(10);
+
+                        // Bold labels ending with colon
+                        const colonIndex = text.indexOf(':');
+                        if (colonIndex > 0 && colonIndex < 40) {
+                            const label = text.substring(0, colonIndex + 1);
+                            const value = text.substring(colonIndex + 1);
+
+                            doc.setFont('helvetica', 'bold');
+                            const labelWidth = doc.getTextWidth(label + " ");
+
+                            doc.setFont('helvetica', 'normal');
+                            const lines = doc.splitTextToSize(value, pageWidth - margin * 2 - 5 - labelWidth);
+
+                            lines.forEach((line, index) => {
+                                checkPageBreak(5);
+                                if (index === 0) {
+                                    doc.setFont('helvetica', 'bold');
+                                    doc.text(label, margin + 5, cursorY);
+                                    doc.setFont('helvetica', 'normal');
+                                    doc.text(line, margin + 5 + labelWidth, cursorY);
+                                } else {
+                                    doc.text(line, margin + 5 + labelWidth, cursorY);
+                                }
+                                cursorY += 5;
+                            });
+                            cursorY += 1;
+                        } else {
+                            const lines = doc.splitTextToSize(text, pageWidth - margin * 2 - 5);
+                            lines.forEach(line => {
+                                checkPageBreak(5);
+                                doc.text(line, margin + 5, cursorY);
+                                cursorY += 5;
+                            });
+                            cursorY += 1;
+                        }
+                    } else { // Regular text
+                        doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(10);
+                        const lines = doc.splitTextToSize(text, pageWidth - margin * 2);
+                        lines.forEach(line => {
+                            checkPageBreak(5);
+                            doc.text(line, margin, cursorY);
+                            cursorY += 5;
+                        });
+                        cursorY += 1;
+                    }
+                });
+
+                // Footer (Page numbers)
+                const pageCount = doc.internal.getNumberOfPages();
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139); // Slate-500
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin - 20, pageHeight - margin + 5);
+                }
+
+                doc.save(filename);
+                registrarLogAuditoria(`Documento exportado em PDF (jsPDF): ${filename}`);
                 showToast('PDF gerado e baixado!');
             } catch (err) {
+                console.error("PDF Generation error:", err);
                 showToast('Erro ao gerar PDF: ' + err.message);
             }
         }
