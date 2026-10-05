@@ -31,61 +31,228 @@ export const modulosConfig = [
                     </p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
+
+<!-- Redes Sociais & Mensageria -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">💬</span> Redes Sociais &amp; Mensageria</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
 <div>
 <h4 class="text-xs font-bold text-slate-100 mb-1">Meta Legal Portal (FB / IG / WhatsApp)</h4>
-<p class="text-[11px] text-slate-400 mb-3">Portal oficial para requisições de preservação e quebra de sigilo.</p>
+<p class="text-[11px] text-slate-400 mb-2">Portal oficial para requisições de preservação e quebra de sigilo.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-blue-900/50 text-blue-400 border border-blue-800 rounded text-[9px] font-bold">Preservação Administrativa</span>
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
 </div>
-<a class="py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://facebook.com/records/login" target="_blank">
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://facebook.com/records/login" target="_blank">
 <span>Acessar Meta Records</span><span class="icon w-3.5 h-3.5">↗️</span>
 </a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
 </div>
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
-<div>
-<h4 class="text-xs font-bold text-slate-100 mb-1">Google LERS</h4>
-<p class="text-[11px] text-slate-400 mb-3">Requisições para Gmail, YouTube, Google Maps, Drive e Android.</p>
 </div>
-<a class="py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lers.google.com" target="_blank">
-<span>Acessar Google LERS</span><span class="icon w-3.5 h-3.5">↗️</span>
-</a>
-</div>
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
 <div>
 <h4 class="text-xs font-bold text-slate-100 mb-1">X / Twitter Law Enforcement</h4>
-<p class="text-[11px] text-slate-400 mb-3">Portal de solicitações judiciais e legais para requisição de dados no X.</p>
+<p class="text-[11px] text-slate-400 mb-2">Portal de solicitações judiciais e legais para requisição de dados no X.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
 </div>
-<a class="py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.x.com" target="_blank">
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.x.com" target="_blank">
 <span>Acessar Portal X Legal</span><span class="icon w-3.5 h-3.5">↗️</span>
 </a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
 </div>
-<!-- NOVOS PORTAIS ADICIONADOS -->
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
 <div>
 <h4 class="text-xs font-bold text-slate-100 mb-1">TikTok Law Enforcement Portal</h4>
-<p class="text-[11px] text-slate-400 mb-3">Portal para requisições legais de dados de usuários TikTok.</p>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições legais de dados de usuários TikTok.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
 </div>
-<a class="py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.tiktok.com" target="_blank">
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.tiktok.com" target="_blank">
 <span>Acessar Portal TikTok</span><span class="icon w-3.5 h-3.5">↗️</span>
 </a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
 </div>
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Discord Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal de solicitações de preservação e informações no Discord.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+<span class="px-2 py-0.5 bg-blue-900/50 text-blue-400 border border-blue-800 rounded text-[9px] font-bold">Preservação Administrativa</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://discord.com/safety/360044157931-Law-Enforcement-Guidelines" target="_blank">
+<span>Acessar Portal Discord</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+
+<!-- Big Tech & Nuvem -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">☁️</span> Big Tech &amp; Nuvem</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Google LERS</h4>
+<p class="text-[11px] text-slate-400 mb-2">Requisições para Gmail, YouTube, Google Maps, Drive e Android.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lers.google.com" target="_blank">
+<span>Acessar Google LERS</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
 <div>
 <h4 class="text-xs font-bold text-slate-100 mb-1">Microsoft Law Enforcement Requests</h4>
-<p class="text-[11px] text-slate-400 mb-3">Outlook, Skype, Xbox, Azure e demais serviços Microsoft.</p>
+<p class="text-[11px] text-slate-400 mb-2">Outlook, Skype, Xbox, Azure e demais serviços Microsoft.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
 </div>
-<a class="py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.microsoft.com/en-us/corporate-responsibility/leo" target="_blank">
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.microsoft.com/en-us/corporate-responsibility/leo" target="_blank">
 <span>Acessar Portal Microsoft</span><span class="icon w-3.5 h-3.5">↗️</span>
 </a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
 </div>
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item">
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Apple Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições de dados de iCloud e dispositivos Apple.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.apple.com" target="_blank">
+<span>Acessar Portal Apple</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<!-- Serviços Financeiros & Cripto -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">💰</span> Serviços Financeiros &amp; Cripto</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
 <div>
 <h4 class="text-xs font-bold text-slate-100 mb-1">SIMBA (Bacen)</h4>
-<p class="text-[11px] text-slate-400 mb-3">Sistema de Investigação de Movimentações Bancárias — Banco Central.</p>
+<p class="text-[11px] text-slate-400 mb-2">Sistema de Investigação de Movimentações Bancárias — Banco Central.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
 </div>
-<a class="py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.bcb.gov.br" target="_blank">
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.bcb.gov.br" target="_blank">
 <span>Acessar Portal Bacen</span><span class="icon w-3.5 h-3.5">↗️</span>
 </a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
 </div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Binance Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições de informações sobre contas e transações cripto.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.binance.com/en/support/law-enforcement" target="_blank">
+<span>Acessar Portal Binance</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Mercado Livre Requerimentos Legais</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para ofícios envolvendo Mercado Livre e Mercado Pago.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-lg text-xs font-bold flex items-center justify-center space-x-1.5 transition-all" href="https://requerimentoslegais.mercadolivre.com.br/" target="_blank">
+<span>Acessar Portal Mercado Livre</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<!-- Mobilidade & Delivery -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">🛵</span> Mobilidade &amp; Delivery</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Uber LERT</h4>
+<p class="text-[11px] text-slate-400 mb-2">Requisições de dados de corridas, motoristas e passageiros.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all border border-slate-600" href="https://lert.uber.com" target="_blank">
+<span>Acessar Uber LERT</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
 </div>
 </div>`
   },
@@ -155,16 +322,6 @@ export const modulosConfig = [
 <div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
 <span class="text-[#2563eb] font-mono select-all">oficios@mercadolivre.com</span>
 <button aria-label="Copiar e-mail do Mercado Livre" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('oficios@mercadolivre.com')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
-</div>
-</div>
-<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
-<div>
-<h3 class="text-sm font-bold text-slate-100 mb-1">Discord Trust &amp; Safety</h3>
-<p class="text-xs text-slate-400 mb-3">Registros de conexão e dados cadastrais de usuários.</p>
-</div>
-<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
-<span class="text-[#2563eb] font-mono select-all">lawenforcement@discord.com</span>
-<button aria-label="Copiar e-mail do Discord Trust &amp; Safety" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('lawenforcement@discord.com')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
 </div>
 </div>
 </div>
