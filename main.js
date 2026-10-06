@@ -1439,3 +1439,171 @@ window.filtrarConteudoGlobal = filtrarConteudoGlobal;
 window.enviarPreservacaoParaOficio = enviarPreservacaoParaOficio;
 window.baixarArquivo = baixarArquivo;
 window.atualizarIdentificacaoPerito = atualizarIdentificacaoPerito;
+
+// --- NOVO MODULO: Extrator Automático & Correlacionador ---
+
+// Lógica de Upload de Arquivos
+async function processarArquivoExtrator(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const textarea = document.getElementById('extratorInput');
+    const nomeOriginal = file.name;
+
+    showToast('Lendo arquivo...');
+
+    if (nomeOriginal.endsWith('.pdf')) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+
+            // Usar pdf.js para ler
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageStrings = textContent.items.map(item => item.str);
+                fullText += pageStrings.join(' ') + '\n';
+            }
+
+            textarea.value = fullText;
+            showToast('PDF extraído com sucesso!');
+        } catch (error) {
+            console.error('Erro ao ler PDF:', error);
+            alert('Erro ao ler PDF. O arquivo pode estar corrompido ou protegido por senha.');
+        }
+    } else {
+        // TXT ou CSV
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            textarea.value = e.target.result;
+            showToast('Arquivo carregado com sucesso!');
+        };
+        reader.readAsText(file);
+    }
+
+    // Reseta o input de arquivo
+    event.target.value = '';
+}
+
+// Lógica de Extração e Deduplicação
+const extratorRegexes = {
+    'IPv4 / IPv6': /(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}/g,
+    'E-mails': /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+    'Telefones BR': /(?:\+?55\s?)?(?:\(?\d{2}\)?\s?)?(?:9\d{4}[-\s]?\d{4}|\d{4}[-\s]?\d{4})/g,
+    'CPFs': /(?:\d{3}\.\d{3}\.\d{3}-\d{2}|\b\d{11}\b)/g,
+    'CNPJs': /(?:\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\b\d{14}\b)/g,
+    'Hashes (MD5/SHA1/SHA256)': /\b[a-fA-F0-9]{32}\b|\b[a-fA-F0-9]{40}\b|\b[a-fA-F0-9]{64}\b/g,
+    'Usernames / Handles': /(?<=^|\s)@[a-zA-Z0-9_.-]+/g
+};
+
+let entidadesExtratorGlobais = {};
+
+function analisarDadosExtrator() {
+    const rawText = document.getElementById('extratorInput').value;
+    if (!rawText.trim()) {
+        alert('Por favor, insira ou carregue algum texto antes de analisar.');
+        return;
+    }
+
+    entidadesExtratorGlobais = {}; // Reset
+
+    Object.entries(extratorRegexes).forEach(([categoria, regex]) => {
+        const matches = rawText.match(regex) || [];
+        // Deduplicação
+        entidadesExtratorGlobais[categoria] = [...new Set(matches)];
+    });
+
+    renderizarCardsExtrator();
+    document.getElementById('extratorResultados').classList.remove('hidden');
+    showToast('Dados analisados com sucesso!');
+}
+
+function renderizarCardsExtrator() {
+    const cardsContainer = document.getElementById('extratorCards');
+    cardsContainer.innerHTML = '';
+
+    Object.entries(entidadesExtratorGlobais).forEach(([categoria, entidades]) => {
+        if (entidades.length === 0) return;
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3';
+
+        let botoesHtml = entidades.map(ent => `
+            <button onclick="mostrarContextoCorrelacao('${ent.replace(/'/g, "\\'")}')" class="w-full text-left px-2 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded text-xs font-mono text-slate-300 break-all transition-colors">
+                ${ent}
+            </button>
+        `).join('');
+
+        card.innerHTML = `
+            <div>
+                <h4 class="text-xs font-bold text-slate-400 mb-1 flex justify-between">
+                    <span>${categoria}</span>
+                    <span class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">${entidades.length}</span>
+                </h4>
+                <div class="space-y-1 max-h-40 overflow-y-auto pr-1">
+                    ${botoesHtml}
+                </div>
+            </div>
+            <button onclick="sanitizarECopiarExtrator('${categoria}')" class="w-full py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs font-bold transition-all flex justify-center items-center gap-2 mt-2">
+                <span class="icon w-3 h-3">✂️</span> Sanitizar & Copiar
+            </button>
+        `;
+        cardsContainer.appendChild(card);
+    });
+
+    if (cardsContainer.innerHTML === '') {
+        cardsContainer.innerHTML = '<p class="text-sm text-slate-500 col-span-full text-center py-4">Nenhuma entidade identificada no texto.</p>';
+    }
+}
+
+// Lógica de Sanitização e Contexto
+function sanitizarECopiarExtrator(categoria) {
+    const entidades = entidadesExtratorGlobais[categoria];
+    if (!entidades || entidades.length === 0) return;
+
+    const textoSanitizado = entidades.map(ent => {
+        return ent.replace(/\./g, '[.]').replace(/@/g, '[@]');
+    }).join('\n');
+
+    navigator.clipboard.writeText(textoSanitizado).then(() => {
+        showToast(`${categoria} copiados com sanitização!`);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        alert('Falha ao copiar para a área de transferência.');
+    });
+}
+
+function mostrarContextoCorrelacao(entidade) {
+    const rawText = document.getElementById('extratorInput').value;
+    const linhas = rawText.split('\n');
+
+    // Filtrar linhas que contêm a entidade
+    const linhasComContexto = linhas.filter(linha => linha.includes(entidade));
+
+    const contextoPanel = document.getElementById('extratorContexto');
+    const contextoTexto = document.getElementById('extratorContextoTexto');
+    const contextoLabel = document.getElementById('extratorContextoLabel');
+
+    contextoLabel.innerText = `Filtro: ${entidade}`;
+
+    if (linhasComContexto.length > 0) {
+        contextoTexto.innerText = linhasComContexto.join('\n\n');
+    } else {
+        contextoTexto.innerText = 'Nenhum contexto encontrado (linha exata).';
+    }
+
+    contextoPanel.classList.remove('hidden');
+    // Scroll suave para o painel de contexto
+    contextoPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function limparDadosExtrator() {
+    document.getElementById('extratorInput').value = '';
+    document.getElementById('extratorResultados').classList.add('hidden');
+    document.getElementById('extratorContexto').classList.add('hidden');
+    document.getElementById('extratorCards').innerHTML = '';
+    entidadesExtratorGlobais = {};
+    showToast('Dados limpos.');
+}
