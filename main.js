@@ -950,6 +950,14 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
         }
 
         // ===================== IP / CGNAT (com validação real) =====================
+        function isCGNAT(ip) {
+            const parts = ip.split('.');
+            if (parts.length !== 4) return false;
+            const p1 = parseInt(parts[0], 10);
+            const p2 = parseInt(parts[1], 10);
+            return p1 === 100 && p2 >= 64 && p2 <= 127;
+        }
+
         function isValidIPv4(ip) {
             const regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
             const m = ip.match(regex);
@@ -976,6 +984,7 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             const isV6 = isValidIPv6(ip);
 
             warningEl.classList.add('hidden');
+            warningEl.innerText = ''; // Reset on every analysis
 
             if (isV4) {
                 badge.innerText = 'IP VÁLIDO (IPv4)';
@@ -991,13 +1000,33 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             }
 
             const portaValida = porta && Number(porta) >= 1 && Number(porta) <= 65535;
+            let warnings = [];
+
             if (porta && !portaValida) {
-                warningEl.innerText = (warningEl.innerText ? warningEl.innerText + ' ' : '') + 'Porta lógica fora do intervalo válido (1–65535).';
+                warnings.push('Porta lógica fora do intervalo válido (1–65535).');
+            }
+
+            if (isV4 && isCGNAT(ip)) {
+                warnings.push('Atenção: IP de CGNAT (Rede Móvel ou Compartilhada). A porta lógica de origem é obrigatória para identificação do usuário.');
+            }
+
+            if (warnings.length > 0) {
+                warningEl.innerText = warnings.join(' ');
                 warningEl.classList.remove('hidden');
             }
 
             document.getElementById('ipFormattedString').innerText =
                 `IP: ${ip}${!isV6 && porta ? ' : Porta Lógica ' + porta : ''} (Horário ${fuso}) - Provedor: ${provedor} - Fonte: ${fonte}`;
+
+            const linksContainer = document.getElementById('ipDynamicLinks');
+            if (isV4 || isV6) {
+                linksContainer.innerHTML = `
+                    <a href="https://www.abuseipdb.com/check/${encodeURIComponent(ip)}" target="_blank" class="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs font-bold text-center transition-all">AbuseIPDB</a>
+                    <a href="https://ipinfo.io/${encodeURIComponent(ip)}" target="_blank" class="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs font-bold text-center transition-all">IPinfo</a>
+                `;
+            } else {
+                linksContainer.innerHTML = '';
+            }
         }
 
         function enviarIpParaOficio() {
@@ -1051,6 +1080,17 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             tacEl.innerText = imei.substring(0, 8);
             snrEl.innerText = imei.substring(8, 14);
             cdEl.innerText = imei.substring(14, 15);
+
+            const linksContainer = document.getElementById('imeiDynamicLink');
+            if (valido) {
+                linksContainer.innerHTML = `
+                    <a href="https://www.imei.info/" target="_blank" class="w-full py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs font-bold flex items-center justify-center space-x-2 transition-all">
+                        <span class="icon w-3.5 h-3.5">↗️</span><span>Consultar Modelo (imei.info)</span>
+                    </a>
+                `;
+            } else {
+                linksContainer.innerHTML = '';
+            }
         }
 
         function enviarImeiParaOficio() {
@@ -1104,6 +1144,35 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             return resultado == digitos.charAt(1);
         }
 
+        // Testa se uma sequencia de 10 ou 11 digitos "parece" um telefone BR (sem DDI):
+        // DDD precisa ser um codigo realmente atribuido pela Anatel, e celular (11 digitos)
+        // precisa ter o "9" na 3a posicao (padrao obrigatorio desde a unificacao do 9o digito).
+        function pareceTelefoneBr(digitos) {
+            if (digitos.length !== 10 && digitos.length !== 11) return false;
+            const ddd = digitos.slice(0, 2);
+            if (!DDD_ESTADOS[ddd]) return false;
+            if (digitos.length === 11) return digitos.charAt(2) === '9';
+            return true; // 10 digitos: fixo, sem exigencia do 9
+        }
+
+        function parsePixEMVCo(payload) {
+            let offset = 0;
+            const result = {};
+            while (offset < payload.length) {
+                if (offset + 4 > payload.length) break;
+                const tag = payload.substring(offset, offset + 2);
+                const lengthStr = payload.substring(offset + 2, offset + 4);
+                const length = parseInt(lengthStr, 10);
+                if (isNaN(length)) break;
+                offset += 4;
+                if (offset + length > payload.length) break;
+                const value = payload.substring(offset, offset + length);
+                result[tag] = value;
+                offset += length;
+            }
+            return result;
+        }
+
         function analisarPix() {
             const val = document.getElementById('pixInput').value.trim();
             const tipoEl = document.getElementById('pixTipoTexto');
@@ -1119,18 +1188,41 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             let clean = val;
             let validText = 'Não foi possível classificar automaticamente.';
 
-            // Testa se uma sequencia de 10 ou 11 digitos "parece" um telefone BR (sem DDI):
-            // DDD precisa ser um codigo realmente atribuido pela Anatel, e celular (11 digitos)
-            // precisa ter o "9" na 3a posicao (padrao obrigatorio desde a unificacao do 9o digito).
-            function pareceTelefoneBr(digitos) {
-                if (digitos.length !== 10 && digitos.length !== 11) return false;
-                const ddd = digitos.slice(0, 2);
-                if (!DDD_ESTADOS[ddd]) return false;
-                if (digitos.length === 11) return digitos.charAt(2) === '9';
-                return true; // 10 digitos: fixo, sem exigencia do 9
-            }
+            if (val.startsWith('000201')) {
+                const emvcoData = parsePixEMVCo(val);
+                tipo = 'COPIA E COLA (EMVCo)';
+                badgeClass = 'badge-ok';
+                clean = val.length > 30 ? val.substring(0, 30) + '...' : val; // Truncate clean display so it doesn't break UI layout if huge
 
-            if (uuidRegex.test(val)) {
+                // We use document.createElement to safely create DOM nodes instead of using innerHTML
+                const container = document.createElement('div');
+                container.appendChild(document.createTextNode('Código EMVCo detectado e parseado.'));
+                container.appendChild(document.createElement('br'));
+
+                const recStrong = document.createElement('strong');
+                recStrong.className = 'text-slate-400';
+                recStrong.textContent = 'Recebedor (Tag 59): ';
+                container.appendChild(recStrong);
+
+                const recSpan = document.createElement('span');
+                recSpan.className = 'text-white';
+                recSpan.textContent = emvcoData['59'] || 'Não identificado (Tag 59 ausente)';
+                container.appendChild(recSpan);
+
+                container.appendChild(document.createElement('br'));
+
+                const cityStrong = document.createElement('strong');
+                cityStrong.className = 'text-slate-400';
+                cityStrong.textContent = 'Cidade (Tag 60): ';
+                container.appendChild(cityStrong);
+
+                const citySpan = document.createElement('span');
+                citySpan.className = 'text-white';
+                citySpan.textContent = emvcoData['60'] || 'Não identificada (Tag 60 ausente)';
+                container.appendChild(citySpan);
+
+                validText = container; // We store the DOM element instead of a string
+            } else if (uuidRegex.test(val)) {
                 tipo = 'CHAVE ALEATÓRIA (UUID)';
                 badgeClass = 'badge-ok';
                 clean = val.toLowerCase();
@@ -1181,7 +1273,13 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             tipoEl.innerText = tipo;
             tipoEl.className = 'text-[10px] font-bold px-2 py-1 rounded-full ' + badgeClass;
             cleanEl.innerText = clean || val;
-            validEl.innerText = validText;
+
+            if (typeof validText === 'string') {
+                validEl.innerText = validText;
+            } else {
+                validEl.innerHTML = '';
+                validEl.appendChild(validText);
+            }
         }
 
         function enviarPixParaOficio() {
