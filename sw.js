@@ -4,9 +4,6 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './style.css',
   './main.js',
-  './modules/exif.js',
-  './modules/hash.js',
-  './modules/utm.js',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];

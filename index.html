@@ -89,6 +89,1252 @@
 
         <div class="accordion-list">
             <p class="sidebar-title">Módulos de Investigação</p>
+
+        <button onclick="switchTab('redes')" id="btn-redes" class="tab-btn nav-btn bg-[#2563eb] text-white shadow-md transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.0s">
+            <span class="icon w-4 h-4">🌐</span><span>Redes & Portais</span>
+            <span class="nav-chevron open">›</span>
+        </button>
+        <div id="tab-redes" class="tab-content accordion-panel space-y-6">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center justify-between border-b border-slate-800 pb-4">
+<div class="flex items-center space-x-3">
+<div class="p-3 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
+<span class="icon w-6 h-6">🌐</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Central Operacional de Redes Sociais &amp; OSINT</h2>
+<p class="text-xs text-slate-400">Preservação de evidências digitais e portais oficiais de requisição judicial</p>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-slate-950 to-blue-950/30 border border-slate-800 p-5 rounded-xl space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold text-[#2563eb] flex items-center">
+<span class="icon w-4 h-4 mr-2">🎯</span> Fundamentação Cautelar (Art. 15 Marco Civil da Internet)
+                        </h3>
+<button class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs rounded-lg border border-slate-700 transition-all flex items-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Fundamentação copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Fundamentação</span>
+</button>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed" id="checklist-texto">
+                        Solicito a preservação cautelar e emergencial de todos os registros de acesso a aplicações (incluindo endereços IP de criação e conexão, portas lógicas de origem, data/hora UTC e dados cadastrais vinculados), nos termos do Artigo 15 da Lei nº 12.965/2014 (Marco Civil da Internet), pelo prazo legal aplicável.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+<!-- Redes Sociais & Mensageria -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">💬</span> Redes Sociais &amp; Mensageria</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Meta Legal Portal (FB / IG / WhatsApp)</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal oficial para requisições de preservação e quebra de sigilo.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-blue-900/50 text-blue-400 border border-blue-800 rounded text-[9px] font-bold">Preservação Administrativa</span>
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://facebook.com/records/login" target="_blank">
+<span>Acessar Meta Records</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">X / Twitter Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal de solicitações judiciais e legais para requisição de dados no X.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.x.com" target="_blank">
+<span>Acessar Portal X Legal</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">TikTok Law Enforcement Portal</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições legais de dados de usuários TikTok.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.tiktok.com" target="_blank">
+<span>Acessar Portal TikTok</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Discord Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal de solicitações de preservação e informações no Discord.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+<span class="px-2 py-0.5 bg-blue-900/50 text-blue-400 border border-blue-800 rounded text-[9px] font-bold">Preservação Administrativa</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://discord.com/safety/360044157931-Law-Enforcement-Guidelines" target="_blank">
+<span>Acessar Portal Discord</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+
+<!-- Big Tech & Nuvem -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">☁️</span> Big Tech &amp; Nuvem</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Google LERS</h4>
+<p class="text-[11px] text-slate-400 mb-2">Requisições para Gmail, YouTube, Google Maps, Drive e Android.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lers.google.com" target="_blank">
+<span>Acessar Google LERS</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Microsoft Law Enforcement Requests</h4>
+<p class="text-[11px] text-slate-400 mb-2">Outlook, Skype, Xbox, Azure e demais serviços Microsoft.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.microsoft.com/en-us/corporate-responsibility/leo" target="_blank">
+<span>Acessar Portal Microsoft</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Apple Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições de dados de iCloud e dispositivos Apple.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://lawenforcement.apple.com" target="_blank">
+<span>Acessar Portal Apple</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<!-- Serviços Financeiros & Cripto -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">💰</span> Serviços Financeiros &amp; Cripto</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">SIMBA (Bacen)</h4>
+<p class="text-[11px] text-slate-400 mb-2">Sistema de Investigação de Movimentações Bancárias — Banco Central.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-red-900/50 text-red-400 border border-red-800 rounded text-[9px] font-bold">Exige Ordem Judicial</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.bcb.gov.br" target="_blank">
+<span>Acessar Portal Bacen</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Binance Law Enforcement</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para requisições de informações sobre contas e transações cripto.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-yellow-600 hover:bg-yellow-500 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all" href="https://www.binance.com/en/support/law-enforcement" target="_blank">
+<span>Acessar Portal Binance</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Mercado Livre Requerimentos Legais</h4>
+<p class="text-[11px] text-slate-400 mb-2">Portal para ofícios envolvendo Mercado Livre e Mercado Pago.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-lg text-xs font-bold flex items-center justify-center space-x-1.5 transition-all" href="https://requerimentoslegais.mercadolivre.com.br/" target="_blank">
+<span>Acessar Portal Mercado Livre</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+<!-- Mobilidade & Delivery -->
+<div class="md:col-span-3 border-b border-slate-800 pb-2 mt-4 mb-2">
+<h3 class="text-sm font-bold text-slate-100 flex items-center"><span class="icon w-4 h-4 mr-2">🛵</span> Mobilidade &amp; Delivery</h3>
+</div>
+
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all search-item space-y-3">
+<div>
+<h4 class="text-xs font-bold text-slate-100 mb-1">Uber LERT</h4>
+<p class="text-[11px] text-slate-400 mb-2">Requisições de dados de corridas, motoristas e passageiros.</p>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-amber-900/50 text-amber-400 border border-amber-800 rounded text-[9px] font-bold">Requer E-mail Institucional</span>
+</div>
+</div>
+<div class="space-y-2">
+<a class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-medium flex items-center justify-center space-x-1.5 transition-all border border-slate-600" href="https://lert.uber.com" target="_blank">
+<span>Acessar Uber LERT</span><span class="icon w-3.5 h-3.5">↗️</span>
+</a>
+<button class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg text-[11px] border border-slate-700 transition-all flex items-center justify-center space-x-1.5" onclick="copiarTexto('checklist-texto', 'Minuta copiada!')">
+<span class="icon w-3.5 h-3.5">📋</span><span>Copiar Minuta</span>
+</button>
+</div>
+</div>
+
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('plataformas')" id="btn-plataformas" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.04s">
+            <span class="icon w-4 h-4">✉️</span><span>E-mails & Apps</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-plataformas" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+<span class="icon w-6 h-6">✉️</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Diretório de Canais Oficiais de Ofícios e Cumprimento Legal</h2>
+<p class="text-xs text-slate-400">Contatos de compliance, jurídico e segurança das principais plataformas</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
+<div>
+<h3 class="text-sm font-bold text-slate-100 mb-1">Meta Legal</h3>
+<p class="text-xs text-slate-400 mb-3">Atendimento jurídico para ordens judiciais.</p>
+</div>
+<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+<span class="text-[#2563eb] font-mono select-all">records@support.facebook.com</span>
+<button aria-label="Copiar e-mail do Meta Legal" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('records@support.facebook.com')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
+<div>
+<h3 class="text-sm font-bold text-slate-100 mb-1">Telegram Compliance</h3>
+<p class="text-xs text-slate-400 mb-3">Cooperação policial para identificação de IPs.</p>
+</div>
+<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+<span class="text-[#2563eb] font-mono select-all">compliance@telegram.org</span>
+<button aria-label="Copiar e-mail do Telegram Compliance" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('compliance@telegram.org')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
+<div>
+<h3 class="text-sm font-bold text-slate-100 mb-1">iFood Segurança</h3>
+<p class="text-xs text-slate-400 mb-3">Dados de entregadores, clientes e GPS.</p>
+</div>
+<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+<span class="text-[#2563eb] font-mono select-all">seguranca@ifood.com.br</span>
+<button aria-label="Copiar e-mail do iFood Segurança" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('seguranca@ifood.com.br')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+</div>
+<!-- NOVOS CONTATOS ADICIONADOS -->
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
+<div>
+<h3 class="text-sm font-bold text-slate-100 mb-1">Uber Segurança Pública</h3>
+<p class="text-xs text-slate-400 mb-3">Requisições de dados de corridas, motoristas e passageiros.</p>
+</div>
+<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+<span class="text-[#2563eb] font-mono select-all">lersubmissions@uber.com</span>
+<button aria-label="Copiar e-mail do Uber Segurança Pública" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('lersubmissions@uber.com')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col justify-between search-item">
+<div>
+<h3 class="text-sm font-bold text-slate-100 mb-1">Mercado Livre / Mercado Pago</h3>
+<p class="text-xs text-slate-400 mb-3">Dados cadastrais de vendedores, compradores e transações.</p>
+</div>
+<div class="pt-3 border-t border-slate-900 flex items-center justify-between text-xs">
+<span class="text-[#2563eb] font-mono select-all">oficios@mercadolivre.com</span>
+<button aria-label="Copiar e-mail do Mercado Livre" class="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-800" onclick="copiarDirect('oficios@mercadolivre.com')" title="Copiar e-mail"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+</div>
+</div>
+<p class="text-[10px] text-slate-500 leading-relaxed pt-2 border-t border-slate-900">
+                    Nota: confirme sempre o endereço/portal vigente diretamente no canal oficial de cada empresa antes de enviar qualquer ofício — contatos de compliance mudam com frequência.
+                </p>
+</div>
+        </div>
+        <button onclick="switchTab('repositorio')" id="btn-repositorio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.08s">
+            <span class="icon w-4 h-4">🧭</span><span>Repositório OSINT</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-repositorio" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-[#2563eb]/10 text-[#2563eb] rounded-xl border border-[#2563eb]/20">
+<span class="icon w-6 h-6">🧭</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Repositório de Ferramentas OSINT</h2>
+<p class="text-xs text-slate-400">Diretório categorizado das principais ferramentas gratuitas de inteligência em fontes abertas, com explicação de para que serve cada uma</p>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ Ferramentas de terceiros, fora do controle deste app. Use apenas para consultar informação já pública — o achado de uma exposição não autoriza acessar sistemas protegidos (ver aviso da aba Google Dorks). Verifique sempre os termos de uso de cada serviço antes de utilizá-lo profissionalmente.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🧭</span> Metodologia &amp; Frameworks</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://osintframework.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">OSINT Framework</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Um mapa geral com centenas de ferramentas OSINT organizadas por categoria (pessoas, e-mail, domínio, imagem etc). Comece por aqui quando não souber qual ferramenta específica usar.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://inteltechniques.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">IntelTechniques</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Site do especialista Michael Bazzell, referência mundial em OSINT. Reúne buscadores prontos para redes sociais, telefone e e-mail, sem precisar sair da página.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://bellingcat.gitbook.io/toolkit" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Bellingcat Toolkit</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Guia de investigação de código aberto mantido por jornalistas investigativos. Ensina passo a passo como verificar imagens, vídeos e geolocalizar cenas.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">👤</span> Pessoas &amp; Redes Sociais</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://whatsmyname.app" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">WhatsMyName</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Digite um nome de usuário (nickname) e a ferramenta verifica automaticamente se ele existe em mais de 500 sites e redes sociais ao mesmo tempo.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://namechk.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Namechk</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Verifica se um nome de usuário está disponível ou já registrado em dezenas de plataformas — útil para confirmar se alguém usa o mesmo nick em vários lugares.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.social-searcher.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Social Searcher</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Busca em tempo real por menções públicas de um nome, marca ou termo nas principais redes sociais, sem precisar ter conta em cada uma delas.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://github.com/sherlock-project/sherlock" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Sherlock (requer instalação)</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Ferramenta de linha de comando (Python) que verifica um nome de usuário em centenas de sites simultaneamente. Mais completa que as versões web, porém exige instalação técnica.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🖼️</span> Imagens &amp; Geolocalização</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://images.google.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Google Imagens</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Envie ou cole o link de uma foto para encontrar onde mais ela aparece na internet — útil para descobrir se uma foto de perfil é falsa ou roubada de outra pessoa.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://tineye.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">TinEye</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Especializado em rastrear a origem e as versões mais antigas de uma imagem — mostra em quais sites e desde quando ela circula na internet.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://yandex.com/images" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Yandex Imagens</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Buscador russo de imagens com reconhecimento facial e de paisagens frequentemente mais preciso que o Google — vale usar como segunda tentativa.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.bing.com/visualsearch" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Bing Visual Search</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Terceira opção de busca reversa de imagem, útil quando Google Imagens e Yandex não retornam nenhum resultado.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">📧</span> E-mail, Vazamentos &amp; Credenciais</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://haveibeenpwned.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Have I Been Pwned</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Digite um e-mail e descubra em quais vazamentos de dados conhecidos ele já apareceu, e que tipo de informação foi exposta (senha, telefone etc).</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://hunter.io" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Hunter.io</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Informe um domínio (ex: empresa.com.br) e a ferramenta lista o padrão de e-mail corporativo usado por aquela empresa, tentando confirmar endereços reais.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://intelx.io" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Intelligence X</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Motor de busca especializado em vazamentos, documentos públicos e dados históricos da web — cobre fontes que buscadores comuns não indexam.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://dehashed.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">DeHashed (serviço pago)</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Busca profunda em bancos de dados vazados (senhas, e-mails, telefones). É pago, mas cobre uma base de dados mais ampla que as alternativas gratuitas.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🖧</span> Domínios, IP &amp; Infraestrutura</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.shodan.io" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Shodan</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Motor de busca que encontra dispositivos conectados à internet — câmeras, servidores, roteadores — filtrando por país, empresa ou tipo de serviço exposto.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://search.censys.io" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Censys</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Parecido com o Shodan: mapeia hosts, certificados digitais e serviços expostos de um domínio ou IP, ajudando a entender a infraestrutura de um alvo.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.virustotal.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">VirusTotal</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Verifica se um arquivo, link, IP ou domínio já foi identificado como malicioso por dezenas de antivírus e serviços de segurança ao mesmo tempo.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://crt.sh" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">crt.sh</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Consulta o histórico público de certificados SSL de um domínio — costuma revelar subdomínios que não aparecem em buscas normais.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🔎</span> WHOIS &amp; DNS</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://who.is" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Who.is</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Consulta WHOIS tradicional: mostra quem registrou um domínio, data de criação, servidores DNS e dados de contato (quando não estão ocultos).</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://dnsdumpster.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">DNSDumpster</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Mapeia a estrutura de DNS e os subdomínios associados a um domínio — útil para enxergar toda a infraestrutura online de uma empresa de uma vez.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://viewdns.info" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">ViewDNS.info</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Conjunto de mini-ferramentas de rede: IP reverso, histórico de WHOIS, verificação de proxy/VPN e outras consultas, tudo em um só lugar.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🗄️</span> Arquivamento &amp; Cache Web</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://web.archive.org" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Wayback Machine</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Mostra como uma página era em datas passadas — essencial para ver conteúdo que já foi editado ou removido do site original.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://archive.ph" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Archive.today</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Permite capturar manualmente uma cópia fiel de uma página agora mesmo. Use antes de uma publicação suspeita ser apagada pelo autor.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🔬</span> Metadados &amp; Forense de Imagem</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://fotoforensics.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">FotoForensics</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Analisa uma foto em busca de sinais de edição/manipulação digital (Error Level Analysis), além de extrair metadados básicos do arquivo.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.aperisolve.com" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Aperi'Solve</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Ferramenta técnica que procura dados escondidos dentro de uma imagem (esteganografia) e faz uma varredura de metadados mais profunda.</p>
+</a>
+</div>
+</div>
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+<h3 class="text-xs font-bold text-[#2563eb] uppercase tracking-wider flex items-center gap-2"><span class="icon w-4 h-4">🇧🇷</span> Registros Públicos (Brasil)</h3>
+<div class="space-y-2">
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://solucoes.receita.fazenda.gov.br/servicos/cnpjreva/cnpjreva_solicitacao.asp" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">Receita Federal — Consulta CNPJ</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Consulta oficial e gratuita da situação cadastral de uma empresa: sócios, endereço, atividade econômica e se está ativa, suspensa ou baixada.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.jusbrasil.com.br" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">JusBrasil</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Busca de processos judiciais e publicações em diários oficiais que envolvem uma pessoa ou empresa — útil para verificar histórico jurídico público.</p>
+</a>
+<a class="search-item block p-3 bg-slate-900 hover:bg-slate-800 rounded-lg border border-slate-800 transition-all" href="https://www.tse.jus.br" target="_blank">
+<div class="flex items-center justify-between gap-2 mb-1">
+<p class="text-xs font-bold text-slate-100">TSE</p>
+<span class="icon w-4 h-4 text-slate-500 shrink-0">↗️</span>
+</div>
+<p class="text-[11px] text-slate-400 leading-relaxed">Consulta dados eleitorais públicos: candidaturas, prestação de contas de campanha e situação de um candidato perante a Justiça Eleitoral.</p>
+</a>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('whoisbr')" id="btn-whoisbr" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.12s">
+            <span class="icon w-4 h-4">📡</span><span>WHOIS & Telefone BR</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-whoisbr" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-[#2563eb]/10 text-[#2563eb] rounded-xl border border-[#2563eb]/20">
+<span class="icon w-6 h-6">📡</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">WHOIS de Domínio &amp; Identificação de Número BR</h2>
+<p class="text-xs text-slate-400">Consulta técnica pública — não revela identidade do titular, apenas dados de infraestrutura e operadora</p>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ <strong>Limite importante:</strong> este módulo identifica DDD/estado, operadora atual e se um número tem WhatsApp ativo — dados técnicos e públicos. A <strong>identidade civil do titular</strong> (nome, CPF, endereço) é protegida por sigilo telefônico (LGT c/ Lei 9.472/1997) e só pode ser obtida mediante ofício judicial à operadora. Use o botão "Exportar para Ofício" abaixo para isso.</p>
+<!-- WHOIS de dominio -->
+<div class="border-t border-slate-800 pt-6">
+<h3 class="text-sm font-bold text-slate-100 mb-1 flex items-center gap-2"><span class="icon w-4 h-4">🌐</span> WHOIS de Domínio</h3>
+<p class="text-[10px] text-slate-500 mb-4">Descobre quem registrou um domínio, data de criação/expiração e servidores DNS.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+<label class="block text-xs font-medium text-slate-300 mb-1">Domínio (sem http://)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="whoisDominioInput" oninput="atualizarWhoisDominio()" placeholder="Ex: exemplo.com.br" type="text"/>
+<p class="text-[10px] text-slate-500" id="whoisDominioStatus">Digite um domínio para habilitar as consultas.</p>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-center gap-2">
+<button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700" onclick="abrirWhoisEm('whois')">Consultar em Who.is</button>
+<button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700" onclick="abrirWhoisEm('rdap')">Consultar via RDAP (dados estruturados)</button>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs" onclick="abrirWhoisEm('crt')">Ver Subdomínios (crt.sh)</button>
+</div>
+</div>
+</div>
+<!-- Telefone BR -->
+<div class="border-t border-slate-800 pt-6">
+<h3 class="text-sm font-bold text-slate-100 mb-1 flex items-center gap-2"><span class="icon w-4 h-4">📱</span> Identificação de Número de Telefone (BR)</h3>
+<p class="text-[10px] text-slate-500 mb-4">Identifica DDD/estado localmente, e abre as consultas oficiais de operadora e WhatsApp.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+<label class="block text-xs font-medium text-slate-300 mb-1">Número com DDD (só dígitos)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="telBrInput" maxlength="11" oninput="atualizarTelefoneBr()" placeholder="Ex: 11987654321" type="text"/>
+<div class="space-y-1.5 text-xs pt-2">
+<p class="flex items-center justify-between"><strong class="text-slate-400">Formato:</strong> <span class="text-[10px] font-bold px-2 py-1 rounded-full badge-warn" id="telBrFormatoBadge">AGUARDANDO</span></p>
+<p><strong class="text-slate-400">DDD / Estado:</strong> <span class="text-slate-100 font-mono" id="telBrEstadoText">-</span></p>
+<p><strong class="text-slate-400">Tipo:</strong> <span class="text-slate-100 font-mono" id="telBrTipoText">-</span></p>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-center gap-2">
+<button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700 flex items-center justify-center gap-2" onclick="abrirAbrTelecom()">
+<span class="icon w-4 h-4">🏢</span><span>Consultar Operadora (ABR Telecom)</span>
+</button>
+<button class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2" onclick="abrirWhatsappCheck()">
+<span class="icon w-4 h-4">💬</span><span>Verificar WhatsApp (click-to-chat)</span>
+</button>
+<p class="text-[10px] text-slate-500 leading-relaxed">Se o WhatsApp abrir o chat normalmente, o número está ativo — o nome/foto só aparecem se a pessoa deixar essa informação pública. Se aparecer "número inválido", o WhatsApp não está associado a ele.</p>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2" onclick="enviarTelefoneParaOficio()">
+<span class="icon w-4 h-4">📨</span><span>Exportar para Ofício (identidade do titular)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('ip')" id="btn-ip" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.14s">
+            <span class="icon w-4 h-4">🖧</span><span>IP & CGNAT</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-ip" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl border border-purple-500/20">
+<span class="icon w-6 h-6">🖧</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Análise de Endereços IP, WHOIS &amp; CGNAT (Porta Lógica)</h2>
+<p class="text-xs text-slate-400">Validação técnica em tempo real com exportação direta para a minuta de ofício</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<h3 class="text-sm font-semibold text-[#2563eb] flex items-center">
+<span class="icon w-4 h-4 mr-2">🎛️</span> Entrada de Dados (Input)
+                        </h3>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Endereço IP (v4 ou v6)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono focus:ring-2 focus:ring-[#2563eb] outline-none" id="ipInput" oninput="analisarIP()" type="text" value="177.132.45.10"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Porta Lógica (CGNAT)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono focus:ring-2 focus:ring-[#2563eb] outline-none" id="portaInput" oninput="analisarIP()" type="number" value="51234"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Fuso Horário</label>
+<select class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono focus:ring-2 focus:ring-[#2563eb] outline-none" id="fusoInput" onchange="analisarIP()">
+<option value="UTC">UTC (GMT 0)</option>
+<option selected="" value="BRT">BRT (UTC-3 Brasília)</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Provedor Identificado (ASN)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono focus:ring-2 focus:ring-[#2563eb] outline-none" id="provedorInput" oninput="analisarIP()" type="text" value="CLARO S.A. (AS28573)"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Fonte da Informação</label>
+<select class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="fonteInput" onchange="analisarIP()">
+<option value="Consulta WHOIS pública">Consulta WHOIS pública</option>
+<option value="Resposta a ofício da plataforma/provedor">Resposta a ofício da plataforma/provedor</option>
+<option value="Log de servidor próprio">Log de servidor próprio</option>
+<option value="Ferramenta de OSINT de terceiros">Ferramenta de OSINT de terceiros</option>
+<option value="Informação repassada por outra unidade/órgão">Informação repassada por outra unidade/órgão</option>
+</select>
+<p class="text-[10px] text-slate-500 mt-1">Registrar a fonte é essencial para a cadeia de custódia — um IP sem proveniência documentada tem baixo valor probatório.</p>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-semibold text-slate-100 flex items-center">
+<span class="icon w-4 h-4 mr-2 text-purple-400">📈</span> Diagnóstico Técnico
+                                </h3>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full badge-ok" id="ipValidBadge">IP VÁLIDO (IPv4)</span>
+</div>
+<div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-xs font-mono text-slate-300">
+<span class="text-[#2563eb] break-all" id="ipFormattedString">IP 177.132.45.10 : Porta 51234 (Horário BRT) - Provedor: CLARO S.A. (AS28573)</span>
+</div>
+<p class="text-[10px] text-amber-400 mt-2 hidden" id="ipWarningText"></p>
+</div>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="enviarIpParaOficio()">
+<span class="icon w-4 h-4">📨</span><span>Exportar para Gerador de Ofício</span>
+</button>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('imei')" id="btn-imei" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.16s">
+            <span class="icon w-4 h-4">📱</span><span>IMEI & Luhn</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-imei" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
+<span class="icon w-6 h-6">📱</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Análise e Validação de IMEI (Algoritmo de Luhn)</h2>
+<p class="text-xs text-slate-400">Verificação de integridade do 15º dígito e extração do bloco TAC/Serial</p>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ <strong>LGPD (Lei 13.709/2018):</strong> IMEI identifica um aparelho e, indiretamente, seu usuário — é dado pessoal. Vincule sempre a um procedimento formal antes de requisitar dados à operadora.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Número IMEI (15 dígitos)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono tracking-widest outline-none" id="imeiInput" maxlength="15" oninput="validarIMEI()" type="text" value="356938035643809"/>
+<p class="text-[10px] text-slate-500 mt-1">Digite os 15 dígitos. O último dígito é o dígito verificador (Luhn).</p>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div class="space-y-2 text-xs">
+<p class="flex items-center justify-between">
+<strong class="text-slate-400">Status Luhn:</strong>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full badge-ok" id="imeiStatusText">IMEI VÁLIDO</span>
+</p>
+<p><strong class="text-slate-400">TAC (Fabricante/Modelo):</strong> <span class="text-slate-100 font-mono" id="imeiTacText">35693803</span></p>
+<p><strong class="text-slate-400">Número de Série (SNR):</strong> <span class="text-slate-100 font-mono" id="imeiSnrText">564380</span></p>
+<p><strong class="text-slate-400">Dígito Verificador:</strong> <span class="text-slate-100 font-mono" id="imeiCdText">9</span></p>
+</div>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="enviarImeiParaOficio()">
+<span class="icon w-4 h-4">📨</span><span>Exportar IMEI para Ofício</span>
+</button>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('pix')" id="btn-pix" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.2s">
+            <span class="icon w-4 h-4">🔳</span><span>Chave PIX</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-pix" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-teal-500/10 text-teal-400 rounded-xl border border-teal-500/20">
+<span class="icon w-6 h-6">🔳</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Sanitização e Classificação de Chave PIX</h2>
+<p class="text-xs text-slate-400">Classificação automática (CPF/CNPJ/e-mail/telefone/aleatória) para requisições ao Bacen (SIMBA/CCS)</p>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ <strong>LGPD (Lei 13.709/2018):</strong> chave PIX é dado pessoal. Trate com finalidade específica do procedimento, minimize o acesso e evite armazenar fora dos autos. O uso indevido pode gerar responsabilização.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Chave PIX Suspeita</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="pixInput" oninput="analisarPix()" type="text" value="123.456.789-00"/>
+<p class="text-[10px] text-slate-500 mt-1">Aceita CPF, CNPJ, e-mail, telefone (+55) ou chave aleatória (UUID).</p>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div class="space-y-2 text-xs">
+<p class="flex items-center justify-between">
+<strong class="text-slate-400">Tipo Identificado:</strong>
+<span class="text-[10px] font-bold px-2 py-1 rounded-full badge-ok" id="pixTipoTexto">CPF</span>
+</p>
+<p><strong class="text-slate-400">Chave Sanitizada:</strong> <span class="text-[#2563eb] font-mono font-bold" id="pixCleanTexto">12345678900</span></p>
+<p><strong class="text-slate-400">Validação Formal:</strong> <span class="text-slate-100 font-mono" id="pixValidText">Dígitos verificadores OK</span></p>
+</div>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="enviarPixParaOficio()">
+<span class="icon w-4 h-4">📨</span><span>Exportar PIX para Ofício</span>
+</button>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('forense')" id="btn-forense" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.24s">
+            <span class="icon w-4 h-4">🖥️</span><span>Forense, Hash & Arquivo</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-forense" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center justify-between border-b border-slate-800 pb-4">
+<div class="flex items-center space-x-3">
+<div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
+<span class="icon w-6 h-6">🖥️</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Calculadora Forense: Hash SHA-256 de Arquivo &amp; Auto de Constatação</h2>
+<p class="text-xs text-slate-400">Carregue qualquer arquivo do seu computador para gerar o Hash impresso diretamente no Auto de Constatação</p>
+</div>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ <strong>Regra de ouro da perícia digital (ISO/IEC 27037, Art. 158-B CPP):</strong> nunca trabalhe sobre o arquivo original. Faça uma cópia forense primeiro, calcule o hash do original preservado, e só então manuseie a cópia. O hash aqui gerado deve corresponder ao arquivo <em>tal como recebido</em>, antes de qualquer edição.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<h3 class="text-sm font-semibold text-[#2563eb] flex items-center">
+<span class="icon w-4 h-4 mr-2">📤</span> Upload de Arquivo de Evidência Digital
+                        </h3>
+<label class="border-2 border-dashed border-slate-700 hover:border-[#2563eb] p-5 rounded-xl text-center cursor-pointer transition-all bg-slate-900/50 upload-zone" for="fileHashInput">
+<span class="icon w-8 h-8 text-slate-400 mx-auto mb-2">☁️</span>
+<span class="text-xs text-slate-300 font-bold block">Toque para selecionar um arquivo local</span>
+<span class="text-[10px] text-slate-500">Imagens, vídeos, PDFs, documentos, logs ou executáveis</span>
+<input class="file-input-vh" id="fileHashInput" onchange="processarHashArquivo(event)" type="file"/>
+</label>
+<div class="space-y-2 text-xs">
+<p><strong class="text-slate-400">Nome do Arquivo:</strong> <span class="text-slate-100 font-mono" id="fileNameDisplay">Nenhum arquivo selecionado</span></p>
+<p><strong class="text-slate-400">Tamanho:</strong> <span class="text-slate-100 font-mono" id="fileSizeDisplay">0 KB</span></p>
+<p><strong class="text-slate-400">Tipo MIME:</strong> <span class="text-slate-100 font-mono" id="fileTypeDisplay">-</span></p>
+</div>
+<div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex items-start justify-between gap-2">
+<div class="min-w-0">
+<span class="text-[10px] text-slate-500 uppercase block font-bold mb-1">Hash SHA-256 Calculado:</span>
+<p class="text-xs font-mono text-[#2563eb] break-all select-all" id="hashResult">Aguardando arquivo...</p>
+</div>
+<button aria-label="Copiar hash SHA-256" class="p-1.5 bg-slate-950 hover:bg-slate-800 text-slate-300 rounded border border-slate-800 shrink-0" onclick="copiarTexto('hashResult', 'Hash copiado!')" title="Copiar hash SHA-256"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+<div class="p-3 bg-slate-900 rounded-lg border border-slate-800 flex items-start justify-between gap-2">
+<div class="min-w-0">
+<span class="text-[10px] text-slate-500 uppercase block font-bold mb-1">Hash SHA-1 Calculado (redundância):</span>
+<p class="text-xs font-mono text-cyan-400 break-all select-all" id="hashResultSha1">Aguardando arquivo...</p>
+</div>
+<button aria-label="Copiar hash SHA-1" class="p-1.5 bg-slate-950 hover:bg-slate-800 text-slate-300 rounded border border-slate-800 shrink-0" onclick="copiarTexto('hashResultSha1', 'Hash SHA-1 copiado!')" title="Copiar hash SHA-1"><span class="icon w-3.5 h-3.5">📋</span></button>
+</div>
+<div class="pt-3 border-t border-slate-900 space-y-2">
+<h4 class="text-xs font-bold text-slate-100 flex items-center gap-1.5"><span class="icon w-3.5 h-3.5">🔍</span> Verificador de Integridade</h4>
+<p class="text-[10px] text-slate-500">Cole um hash SHA-256 previamente registrado para conferir se o arquivo carregado acima continua íntegro.</p>
+<input class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono text-slate-100 outline-none" id="hashVerificarInput" placeholder="Cole aqui o hash SHA-256 de referência..." type="text"/>
+<button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700" onclick="verificarIntegridadeHash()">Comparar com o Hash Calculado</button>
+<p class="text-[10px] font-bold hidden px-2 py-1.5 rounded-lg" id="hashVerificarResultado"></p>
+</div>
+</div>
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<h3 class="text-sm font-semibold text-[#2563eb] flex items-center">
+<span class="icon w-4 h-4 mr-2">🕐</span> Conversor Temporal UTC (GMT 0)
+                        </h3>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Data/Hora Local (Brasília UTC-3)</label>
+<input class="w-full px-3.5 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="timeLocalInput" onchange="converterFuso()" type="datetime-local"/>
+</div>
+<div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs">
+<span class="text-slate-400 block text-[10px] uppercase font-bold">Equivalente em Horário UTC:</span>
+<p class="font-mono text-cyan-400 font-bold text-sm" id="timeUtcResult">Selecione uma data acima</p>
+</div>
+<div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs">
+<span class="text-slate-400 block text-[10px] uppercase font-bold">Timestamp Unix (segundos):</span>
+<p class="font-mono text-cyan-400 font-bold text-sm" id="timeUnixResult">-</p>
+</div>
+</div>
+</div>
+<div class="bg-slate-950 p-5 rounded-xl border border-cyan-500/30 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-semibold text-cyan-400 flex items-center">
+<span class="icon w-4 h-4 mr-2">📄</span> Auto de Constatação de Prova Digital (Com Hash Impresso)
+                        </h3>
+<div class="flex space-x-2">
+<button class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs rounded-lg font-bold flex items-center space-x-1" onclick="gerarAutoConstatacao()">
+<span class="icon w-3.5 h-3.5">✨</span><span>Gerar Auto de Constatação</span>
+</button>
+<button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg flex items-center space-x-1 border border-slate-700" onclick="baixarArquivo('outAutoConstatacao', 'Auto_Constatacao_Forense.txt')">
+<span class="icon w-3.5 h-3.5">⬇️</span><span>Baixar .TXT</span>
+</button>
+<button class="px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white text-xs rounded-lg flex items-center space-x-1 border border-rose-600" onclick="baixarComoPDF('outAutoConstatacao', 'Auto_Constatacao_Forense.pdf', 'AUTO DE CONSTATAÇÃO DE EVIDÊNCIA DIGITAL')">
+<span class="icon w-3.5 h-3.5">📄</span><span>Baixar .PDF</span>
+</button>
+</div>
+</div>
+<pre class="p-4 bg-slate-900 rounded-lg text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed border border-slate-800" id="outAutoConstatacao">Selecione um arquivo acima e clique em "Gerar Auto de Constatação"...</pre>
+</div>
+<!-- Log de Auditoria da Sessão -->
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-semibold text-slate-100 flex items-center gap-2">
+<span class="icon w-4 h-4">🗒️</span> Log de Auditoria da Sessão
+                        </h3>
+<button class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg flex items-center gap-1 border border-slate-700" onclick="baixarLogAuditoria()">
+<span class="icon w-3.5 h-3.5">⬇️</span><span>Baixar Log</span>
+</button>
+</div>
+<p class="text-[10px] text-slate-500">Registro cronológico (em UTC) das ações realizadas nesta sessão — hashes calculados, EXIF analisado, ofícios gerados. Válido apenas enquanto a página não for recarregada.</p>
+<div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300 max-h-40 overflow-y-auto space-y-1" id="logAuditoriaLista">
+<span class="text-slate-600" id="logAuditoriaVazio">Nenhuma ação registrada ainda.</span>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('exif')" id="btn-exif" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.28s">
+            <span class="icon w-4 h-4">📷</span><span>Análise EXIF</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-exif" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
+<span class="icon w-6 h-6">📷</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Extrator de Metadados EXIF de Fotos</h2>
+<p class="text-xs text-slate-400">Extração de coordenadas GPS, modelo da câmera, data/hora da captura e parâmetros de disparo</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<label class="border-2 border-dashed border-slate-700 hover:border-rose-400 p-5 rounded-xl text-center cursor-pointer transition-all bg-slate-900/50 upload-zone" for="exifFileInput">
+<span class="icon w-8 h-8 text-rose-400 mx-auto mb-2">🖼️</span>
+<span class="text-xs text-slate-300 font-bold block">Toque para selecionar uma imagem (.JPG / .JPEG)</span>
+<input accept="image/jpeg, image/jpg" class="file-input-vh" id="exifFileInput" onchange="analisarExif(event)" type="file"/>
+</label>
+<div class="hidden text-center" id="exifImagePreviewContainer">
+<img class="max-h-48 mx-auto rounded-lg border border-slate-700 shadow-md" id="exifPreviewImg"/>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 space-y-3 text-xs">
+<h3 class="text-sm font-bold text-slate-100 border-b border-slate-800 pb-2">Metadados Extraídos</h3>
+<p><strong class="text-slate-400">Câmera/Smartphone:</strong> <span class="text-slate-100 font-mono" id="exifMakeModel">Aguardando foto...</span></p>
+<p><strong class="text-slate-400">Data/Hora Original:</strong> <span class="text-slate-100 font-mono" id="exifDateTime">-</span></p>
+<p><strong class="text-slate-400">Dimensões:</strong> <span class="text-slate-100 font-mono" id="exifDimensions">-</span></p>
+<p><strong class="text-slate-400">Orientação:</strong> <span class="text-slate-100 font-mono" id="exifOrientation">-</span></p>
+<p><strong class="text-slate-400">Coordenadas GPS:</strong> <span class="text-[#2563eb] font-mono font-bold" id="exifGpsCoords">-</span></p>
+<div class="hidden pt-2" id="exifGpsBtnContainer">
+<a class="px-3 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold inline-flex items-center space-x-1.5" id="exifGpsMapLink" target="_blank">
+<span class="icon w-4 h-4">🗺️</span><span>Abrir Posição no Google Maps</span>
+</a>
+</div>
+<p class="text-[10px] text-amber-400 border-t border-slate-800 pt-2 mt-2">⚠️ A ausência de coordenadas GPS <strong>não</strong> comprova que a foto foi tirada sem localização — a maioria das redes sociais e apps de mensagem removem o EXIF automaticamente no upload. Só a fonte original (ofício à plataforma) confirma isso.</p>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('dorks')" id="btn-dorks" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.32s">
+            <span class="icon w-4 h-4">🔍</span><span>Google Dorks</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-dorks" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
+<span class="icon w-6 h-6">🔍</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Construtor Interativo de Google Dorks (OSINT)</h2>
+<p class="text-xs text-slate-400">Monte consultas avançadas para encontrar arquivos, credenciais expostas e páginas ocultas</p>
+</div>
+</div>
+<p class="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-3">🚫 <strong>Limite legal:</strong> Google Dorks buscam apenas conteúdo já indexado publicamente. Encontrar um resultado exposto <strong>não autoriza</strong> acessar sistemas protegidos, burlar autenticação ou explorar a falha (Lei 12.737/2012 — invasão de dispositivo). Se a exposição indicar vazamento de dados sensíveis, documente o achado e formalize o encaminhamento — não avance sozinho.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3 text-xs">
+<div>
+<label class="block font-medium text-slate-300 mb-1">Domínio Alvo (site:)</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkSite" oninput="gerarDork()" placeholder="Ex: instagram.com ou gov.br" type="text"/>
+</div>
+<div>
+<label class="block font-medium text-slate-300 mb-1">Palavra/Nome Exato ("termo")</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkTermo" oninput="gerarDork()" placeholder="Ex: Nome do Investigado" type="text"/>
+</div>
+<div>
+<label class="block font-medium text-slate-300 mb-1">Palavra no Texto da Página (intext:)</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkIntext" oninput="gerarDork()" placeholder="Ex: senha, confidencial" type="text"/>
+</div>
+<div>
+<label class="block font-medium text-slate-300 mb-1">Palavra no Título (intitle:)</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkIntitle" oninput="gerarDork()" placeholder="Ex: index of" type="text"/>
+</div>
+<div>
+<label class="block font-medium text-slate-300 mb-1">Excluir Termo (-termo)</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkExcluir" oninput="gerarDork()" placeholder="Ex: exemplo" type="text"/>
+</div>
+<div>
+<label class="block font-medium text-slate-300 mb-1">Tipo de Arquivo (filetype:)</label>
+<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg font-mono text-slate-100 outline-none" id="dorkFiletype" onchange="gerarDork()">
+<option value="">Qualquer arquivo</option>
+<option value="pdf">PDF (Documentos)</option>
+<option value="xlsx">XLSX / CSV (Planilhas)</option>
+<option value="txt">TXT / LOG (Registros)</option>
+<option value="doc,docx">DOC / DOCX (Word)</option>
+<option value="sql">SQL (Bancos de dados)</option>
+<option value="env">ENV (Configurações/Credenciais)</option>
+</select>
+</div>
+<div class="pt-2 border-t border-slate-900">
+<label class="block font-medium text-slate-300 mb-2">Atalhos de Presets</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg text-[10px] text-slate-300" onclick="aplicarPresetDork('painel')">Painéis de login expostos</button>
+<button class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg text-[10px] text-slate-300" onclick="aplicarPresetDork('planilha')">Planilhas vazadas</button>
+<button class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-lg text-[10px] text-slate-300" onclick="aplicarPresetDork('diretorio')">Diretórios abertos</button>
+</div>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div>
+<h3 class="text-xs font-bold text-slate-400 mb-2 uppercase">Dork Resultante:</h3>
+<div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-xs font-mono text-[#2563eb] break-all" id="dorkOutputText">
+<!-- Preenchido dinamicamente -->
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs flex items-center justify-center space-x-2 border border-slate-700" onclick="copiarTexto('dorkOutputText', 'Dork copiada!')">
+<span class="icon w-4 h-4">📋</span><span>Copiar</span>
+</button>
+<button class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="executarDork()">
+<span class="icon w-4 h-4">🔗</span><span>Pesquisar</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('coords')" id="btn-coords" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.36s">
+            <span class="icon w-4 h-4">📍</span><span>Coordenadas GPS</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-coords" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
+<span class="icon w-6 h-6">📍</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Conversor de Coordenadas Geográficas (DMS &lt;-&gt; DD)</h2>
+<p class="text-xs text-slate-400">Converta coordenadas de ERBs e GPS para exibição direta no Google Maps e Google Earth</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3 text-xs">
+<h3 class="font-bold text-[#2563eb]">Graus, Minutos e Segundos (DMS) -&gt; Graus Decimais (DD)</h3>
+<div class="grid grid-cols-3 gap-2">
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="dmsGraus" oninput="converterDmsParaDd()" placeholder="Graus (°)" type="number"/>
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="dmsMinutos" oninput="converterDmsParaDd()" placeholder="Minutos (')" type="number"/>
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="dmsSegundos" oninput="converterDmsParaDd()" placeholder="Segundos ('')" type="number"/>
+</div>
+<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="dmsDirecao" onchange="converterDmsParaDd()">
+<option value="S">Sul (S) - Latitude Negativa</option>
+<option value="W">Oeste (W) - Longitude Negativa</option>
+<option value="N">Norte (N) - Latitude Positiva</option>
+<option value="E">Leste (E) - Longitude Positiva</option>
+</select>
+<h3 class="font-bold text-cyan-400 pt-3 border-t border-slate-900">Graus Decimais (DD) -&gt; DMS</h3>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="ddInput" oninput="converterDdParaDms()" placeholder="Ex: -23.550520" step="any" type="number"/>
+<p class="font-mono text-cyan-300" id="dmsResultText">-</p>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div class="space-y-2 text-xs">
+<p><strong class="text-slate-400">Valor Decimal (DD):</strong> <span class="text-cyan-400 font-mono font-bold text-sm" id="ddResultText">0.000000</span></p>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs flex items-center justify-center space-x-2 border border-slate-700" onclick="copiarTexto('ddResultText', 'Coordenada copiada!')">
+<span class="icon w-4 h-4">📋</span><span>Copiar</span>
+</button>
+<button class="flex-1 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2" onclick="abrirCoordNoMapa()">
+<span class="icon w-4 h-4">🗺️</span><span>Ver no Mapa</span>
+</button>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-800 pt-6">
+<h3 class="text-sm font-bold text-slate-100 mb-1 flex items-center gap-2"><span class="icon w-4 h-4">🗺️</span> Conversor UTM (Universal Transverse Mercator)</h3>
+<p class="text-[10px] text-slate-500 mb-4">Formato usado em rádio, ERBs e mapas policiais/militares (Datum WGS84). Ex: Zona 23L 186142mE 8253205mN.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3 text-xs">
+<h4 class="font-bold text-[#2563eb]">Graus Decimais (DD) → UTM</h4>
+<div class="grid grid-cols-2 gap-2">
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmLatInput" oninput="converterDdParaUtm()" placeholder="Latitude (ex: -15.7801)" step="any" type="number"/>
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmLonInput" oninput="converterDdParaUtm()" placeholder="Longitude (ex: -47.9292)" step="any" type="number"/>
+</div>
+<p class="font-mono text-cyan-300 break-all" id="utmResultText">-</p>
+<h4 class="font-bold text-cyan-400 pt-3 border-t border-slate-900">UTM → Graus Decimais (DD)</h4>
+<div class="grid grid-cols-2 gap-2">
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmZonaInput" oninput="converterUtmParaDd()" placeholder="Zona (ex: 23)" type="number"/>
+<select class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmHemisferioInput" onchange="converterUtmParaDd()">
+<option value="S">Hemisfério Sul</option>
+<option value="N">Hemisfério Norte</option>
+</select>
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmEastingInput" oninput="converterUtmParaDd()" placeholder="Easting (mE)" step="any" type="number"/>
+<input class="px-2 py-2 bg-slate-900 border border-slate-800 rounded font-mono" id="utmNorthingInput" oninput="converterUtmParaDd()" placeholder="Northing (mN)" step="any" type="number"/>
+</div>
+</div>
+<div class="bg-slate-900/80 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+<div class="space-y-2 text-xs">
+<p><strong class="text-slate-400">Coordenada DD (a partir do UTM):</strong> <span class="text-cyan-400 font-mono font-bold text-sm" id="utmParaDdResultText">-</span></p>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700" onclick="copiarTexto('utmResultText', 'UTM copiado!')">Copiar UTM</button>
+<button class="flex-1 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg text-xs" onclick="abrirUtmNoMapa()">Ver no Mapa</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('preservacao')" id="btn-preservacao" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.4s">
+            <span class="icon w-4 h-4">🌐</span><span>Preservação Web</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-preservacao" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+<span class="icon w-6 h-6">🌐</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Preservação de Conteúdo Web (Posts, Perfis, Páginas)</h2>
+<p class="text-xs text-slate-400">Gera um Termo de Preservação com hash e carimbo de tempo — essencial antes que o conteúdo seja apagado</p>
+</div>
+</div>
+<p class="text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">⚠️ Este app roda 100% no seu navegador e não tem como visitar a URL sozinho. Capture a tela (print/screenshot) da página <strong>antes de continuar</strong> e anexe abaixo — a captura de tela vira a evidência que recebe o hash e o carimbo de tempo.</p>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">URL da Página / Post / Perfil</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs font-mono text-slate-100 outline-none" id="preservUrl" oninput="atualizarTermoPreservacao()" placeholder="https://..." type="text"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Descrição do Conteúdo Capturado</label>
+<textarea class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs font-mono text-slate-100 outline-none" id="preservDescricao" oninput="atualizarTermoPreservacao()" placeholder="Ex: Publicação pública com ameaças, perfil @usuario, postada em..." rows="3"></textarea>
+</div>
+<label class="border-2 border-dashed border-slate-700 hover:border-indigo-400 p-5 rounded-xl text-center cursor-pointer transition-all bg-slate-900/50 upload-zone" for="preservFileInput">
+<span class="icon w-8 h-8 text-indigo-400 mx-auto mb-2">📸</span>
+<span class="text-xs text-slate-300 font-bold block">Toque para anexar a captura de tela da página</span>
+<span class="text-[10px] text-slate-500">Qualquer imagem ou PDF da tela capturada</span>
+<input class="file-input-vh" id="preservFileInput" onchange="processarPreservacaoArquivo(event)" type="file"/>
+</label>
+<div class="text-xs space-y-1">
+<p><strong class="text-slate-400">Arquivo anexado:</strong> <span class="text-slate-100 font-mono" id="preservFileNameDisplay">Nenhum</span></p>
+<p><strong class="text-slate-400">Hash SHA-256 da captura:</strong> <span class="text-[#2563eb] font-mono break-all" id="preservHashDisplay">-</span></p>
+</div>
+</div>
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col justify-between gap-4">
+<div>
+<h3 class="text-xs font-bold text-slate-400 mb-2 uppercase">Termo de Preservação Gerado:</h3>
+<pre class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-300 whitespace-pre-wrap leading-relaxed max-h-72 overflow-y-auto" id="preservTermoTexto">Preencha a URL para gerar o termo...</pre>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700" onclick="baixarArquivo('preservTermoTexto', 'Termo_Preservacao_Web.txt')">Baixar .TXT</button>
+<button class="flex-1 py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs" onclick="baixarComoPDF('preservTermoTexto', 'Termo_Preservacao_Web.pdf', 'TERMO DE PRESERVAÇÃO DE CONTEÚDO WEB')">Baixar .PDF</button>
+</div>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs" onclick="enviarPreservacaoParaOficio()">Exportar para Gerador de Ofício</button>
+</div>
+</div>
+</div>
+        </div>
+        <button onclick="switchTab('oficios')" id="btn-oficios" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.44s">
+            <span class="icon w-4 h-4">📄</span><span>Gerador de Ofício</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-oficios" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+<div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+<div class="p-3 bg-rose-500/10 text-rose-400 rounded-xl border border-rose-500/20">
+<span class="icon w-6 h-6">📄</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-slate-100">Gerador Interativo de Minuta de Ofício / Requisição</h2>
+<p class="text-xs text-slate-400">Montagem em tempo real de requisição jurídica</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4 lg:col-span-1">
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Número do Procedimento</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioInquerito" oninput="atualizarMinutaOficio()" type="text" value="IP nº 123/2026 - DP"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Autoridade Requisitante</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioAutoridade" oninput="atualizarMinutaOficio()" type="text" value="Delegacia de Polícia"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Destinatário</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioDestinatario" oninput="atualizarMinutaOficio()" type="text" value="CLARO S.A. - Setor de Cumprimento de Ordens"/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Alvo Técnico Solicitado</label>
+<textarea class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioAlvo" oninput="atualizarMinutaOficio()" rows="3">IP: 177.132.45.10 | Porta Lógica: 51234 | Fuso: UTC-3</textarea>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Fundamentação Legal</label>
+<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioFundamentacao" onchange="atualizarMinutaOficio()">
+<option value="Art. 15 da Lei nº 12.965/2014 (Marco Civil da Internet)">Art. 15 - Marco Civil da Internet</option>
+<option value="Art. 13-A e 13-B da Lei nº 12.965/2014 c/c Lei nº 13.344/2016">Art. 13-A/13-B MCI c/c Lei do Tráfico de Pessoas</option>
+<option value="Art. 158-A e seguintes do Código de Processo Penal (Cadeia de Custódia)">Art. 158-A e ss. CPP - Cadeia de Custódia</option>
+<option value="Lei Complementar nº 105/2001 (Sigilo Bancário) c/c Resolução BCB">LC 105/2001 - Sigilo Bancário / SIMBA</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">Prazo para Resposta</label>
+<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioPrazo" onchange="atualizarMinutaOficio()">
+<option value="24 (vinte e quatro) horas - URGENTE">24 horas (Urgência)</option>
+<option value="48 (quarenta e oito) horas">48 horas</option>
+<option selected="" value="05 (cinco) dias úteis">05 dias úteis</option>
+<option value="10 (dez) dias úteis">10 dias úteis</option>
+<option value="15 (quinze) dias úteis">15 dias úteis</option>
+</select>
+</div>
+<button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="baixarOficioTxt()">
+<span class="icon w-4 h-4">⬇️</span><span>Baixar Documento (.TXT)</span>
+</button>
+<button class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="baixarComoPDF('oficioPreviewText', 'Minuta_Oficio_OSINT.pdf', 'REQUISIÇÃO CAUTELAR DE DADOS DIGITAIS')">
+<span class="icon w-4 h-4">📄</span><span>Baixar Documento (.PDF)</span>
+</button>
+</div>
+<div class="bg-slate-950 p-5 rounded-xl border border-slate-800 lg:col-span-2">
+<div class="p-4 bg-slate-900/90 rounded-lg border border-slate-800 text-xs font-mono text-slate-200 leading-relaxed whitespace-pre-wrap select-all" id="oficioPreviewText">
+<!-- Preenchido via JS -->
+</div>
+</div>
+</div>
+</div>
+        </div>
         </div>
     </div>
 
@@ -102,7 +1348,7 @@
         </div>
     </footer>
 
-    <script type="module" src="main.js"></script>
+    <script src="main.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
