@@ -1188,13 +1188,26 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             let clean = val;
             let validText = 'Não foi possível classificar automaticamente.';
 
-            if (val.startsWith('000201')) {
-                const emvcoData = parsePixEMVCo(val);
+            if (val.length > 50) {
                 tipo = 'COPIA E COLA (EMVCo)';
                 badgeClass = 'badge-ok';
-                clean = val.length > 30 ? val.substring(0, 30) + '...' : val; // Truncate clean display so it doesn't break UI layout if huge
+                clean = val.length > 30 ? val.substring(0, 30) + '...' : val;
 
-                // We use document.createElement to safely create DOM nodes instead of using innerHTML
+                let resultData = {};
+                let i = 0;
+                try {
+                    while (i < val.length) {
+                        let id = val.substring(i, i + 2);
+                        let len = parseInt(val.substring(i + 2, i + 4), 10);
+                        if (isNaN(len) || len <= 0) break; // Trava de segurança anti-loop infinito
+                        let tagVal = val.substring(i + 4, i + 4 + len);
+                        resultData[id] = tagVal;
+                        i += 4 + len;
+                    }
+                } catch (e) {
+                    console.error('Erro na depuração do parser PIX:', e);
+                }
+
                 const container = document.createElement('div');
                 container.appendChild(document.createTextNode('Código EMVCo detectado e parseado.'));
                 container.appendChild(document.createElement('br'));
@@ -1204,9 +1217,10 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
                 recStrong.textContent = 'Recebedor (Tag 59): ';
                 container.appendChild(recStrong);
 
+                const nomeRecebedor = resultData['59'] || 'Não identificado (Tag 59 ausente)';
                 const recSpan = document.createElement('span');
                 recSpan.className = 'text-white';
-                recSpan.textContent = emvcoData['59'] || 'Não identificado (Tag 59 ausente)';
+                recSpan.textContent = nomeRecebedor;
                 container.appendChild(recSpan);
 
                 container.appendChild(document.createElement('br'));
@@ -1216,12 +1230,33 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
                 cityStrong.textContent = 'Cidade (Tag 60): ';
                 container.appendChild(cityStrong);
 
+                const nomeCidade = resultData['60'] || 'Não identificada (Tag 60 ausente)';
                 const citySpan = document.createElement('span');
                 citySpan.className = 'text-white';
-                citySpan.textContent = emvcoData['60'] || 'Não identificada (Tag 60 ausente)';
+                citySpan.textContent = nomeCidade;
                 container.appendChild(citySpan);
 
-                validText = container; // We store the DOM element instead of a string
+                container.appendChild(document.createElement('br'));
+                container.appendChild(document.createElement('br'));
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all mt-2';
+                copyBtn.onclick = function() {
+                    copiarDirect('[OSINT] PIX Recebedor: ' + nomeRecebedor + ' | Cidade: ' + nomeCidade);
+                };
+
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'icon w-4 h-4';
+                iconSpan.textContent = '📋';
+                copyBtn.appendChild(iconSpan);
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = 'Copiar Resumo OSINT';
+                copyBtn.appendChild(textSpan);
+
+                container.appendChild(copyBtn);
+
+                validText = container;
             } else if (uuidRegex.test(val)) {
                 tipo = 'CHAVE ALEATÓRIA (UUID)';
                 badgeClass = 'badge-ok';
