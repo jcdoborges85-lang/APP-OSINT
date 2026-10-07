@@ -1705,3 +1705,106 @@ function limparDadosExtrator() {
     entidadesExtratorGlobais = {};
     showToast('Dados limpos.');
 }
+
+// ---------------------------------------------------
+// MULTI-PESQUISA DE IDENTIDADES (ONE-CLICK OSINT)
+// ---------------------------------------------------
+
+const osintDictionary = {
+    nome: [
+        { name: "Jusbrasil", url: "https://www.jusbrasil.com.br/busca?q={q}", icon: "⚖️" },
+        { name: "Escavador", url: "https://www.escavador.com/busca?q={q}", icon: "📄" },
+        { name: "Transparência", url: "https://portaldatransparencia.gov.br/busca?termo={q}", icon: "🏛️" },
+        { name: "Google Exato", url: 'https://www.google.com/search?q="{q}"', icon: "🔍" },
+        { name: "CNA / OAB (Dork)", url: 'https://www.google.com/search?q=site:cna.oab.org.br+"{q}"', icon: "👨‍⚖️" }
+    ],
+    username: [
+        { name: "WhatsMyName", url: "https://whatsmyname.app/?q={q}", icon: "🕵️" },
+        { name: "Namechk", url: "https://namechk.com/?q={q}", icon: "✅" },
+        { name: "Instagram", url: "https://www.instagram.com/{q}/", icon: "📸" },
+        { name: "X/Twitter", url: "https://twitter.com/{q}", icon: "🐦" },
+        { name: "TikTok", url: "https://www.tiktok.com/@{q}", icon: "🎵" }
+    ],
+    email: [
+        { name: "HaveIBeenPwned", url: "https://haveibeenpwned.com/account/{q}", icon: "🛡️" },
+        { name: "Epieos", url: "https://epieos.com/?q={q}", icon: "📧" },
+        { name: "Google Leak Search", url: 'https://www.google.com/search?q="{q}"+intext:password', icon: "🔑" }
+    ]
+};
+
+let currentMultipesquisaCategory = 'nome';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const inputField = document.getElementById('multipesquisa-input');
+    const filterButtons = document.querySelectorAll('#multipesquisa-filters .filter-btn');
+
+    if (inputField && filterButtons.length > 0) {
+        inputField.addEventListener('input', renderMultipesquisaResults);
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active button styling
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-[#2563eb]', 'text-white');
+                    b.classList.add('bg-slate-800', 'text-slate-300');
+                });
+                e.target.classList.remove('bg-slate-800', 'text-slate-300');
+                e.target.classList.add('bg-[#2563eb]', 'text-white');
+
+                currentMultipesquisaCategory = e.target.getAttribute('data-category');
+                renderMultipesquisaResults();
+            });
+        });
+    }
+});
+
+function renderMultipesquisaResults() {
+    const inputField = document.getElementById('multipesquisa-input');
+    const resultsArea = document.getElementById('multipesquisa-results');
+    const target = inputField.value.trim();
+
+    if (!target) {
+        resultsArea.innerHTML = `
+            <div class="col-span-full text-center py-8 text-slate-500 text-sm italic" id="multipesquisa-empty">
+                Digite um alvo e selecione a categoria para carregar as ferramentas OSINT
+            </div>
+        `;
+        return;
+    }
+
+    resultsArea.innerHTML = ''; // Clear previous results
+
+    // Some targets need special encoding depending on context, but encodeURIComponent is safe for general use
+    const encodedTarget = encodeURIComponent(target);
+
+    const tools = osintDictionary[currentMultipesquisaCategory] || [];
+
+    tools.forEach(tool => {
+        let finalUrl = tool.url.replace(/{q}/g, encodedTarget);
+
+        // For Google Exato and CNA/OAB where quotes are already in the URL template,
+        // we might not want to URL encode the quotes themselves if they are part of the template.
+        // The template has '{q}' so if we encode '{q}' as encodedTarget, the quotes stay intact.
+        // Example: https://www.google.com/search?q="{q}" -> https://www.google.com/search?q="John%20Doe"
+        // This is perfectly valid for modern browsers.
+
+        const a = document.createElement('a');
+        a.href = finalUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'flex items-center gap-3 p-3 bg-slate-800 border border-slate-700 rounded-xl hover:border-blue-500 transition-colors shadow-sm group';
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'icon w-5 h-5 text-xl group-hover:scale-110 transition-transform';
+        iconSpan.textContent = tool.icon;
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'text-sm font-medium text-slate-100';
+        textSpan.textContent = tool.name;
+
+        a.appendChild(iconSpan);
+        a.appendChild(textSpan);
+
+        resultsArea.appendChild(a);
+    });
+}
