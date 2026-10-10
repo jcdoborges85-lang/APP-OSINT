@@ -1843,3 +1843,281 @@ function renderMultipesquisaResults() {
         resultsArea.appendChild(a);
     });
 }
+let filaArquivosEstudio = [];
+
+function adicionarArquivosEstudio(event) {
+    try {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) return;
+
+        filaArquivosEstudio = filaArquivosEstudio.concat(files);
+        atualizarInterfaceEstudio();
+
+        // Limpar o input para permitir selecionar o mesmo arquivo novamente
+        event.target.value = '';
+    } catch (error) {
+        console.error("Erro ao adicionar arquivos:", error);
+        showToast("Erro ao adicionar arquivos.");
+    }
+}
+
+function configurarDragAndDropEstudio() {
+    const dropzone = document.getElementById('estudio-dropzone');
+    if (!dropzone) return;
+
+    dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('border-purple-500', 'bg-slate-800');
+    });
+
+    dropzone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('border-purple-500', 'bg-slate-800');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('border-purple-500', 'bg-slate-800');
+
+        try {
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                const files = Array.from(e.dataTransfer.files);
+                filaArquivosEstudio = filaArquivosEstudio.concat(files);
+                atualizarInterfaceEstudio();
+            }
+        } catch (error) {
+            console.error("Erro ao processar drop:", error);
+            showToast("Erro ao processar arquivos arrastados.");
+        }
+    });
+}
+
+// Chamar a configuração quando o DOM carregar
+document.addEventListener('DOMContentLoaded', configurarDragAndDropEstudio);
+
+function atualizarInterfaceEstudio() {
+    try {
+        const lista = document.getElementById('estudio-lista-arquivos');
+        const btnPdf = document.getElementById('btn-gerar-pdf-estudio');
+        const btnTxt = document.getElementById('btn-gerar-txt-estudio');
+
+        lista.innerHTML = '';
+
+        if (filaArquivosEstudio.length === 0) {
+            lista.innerHTML = '<li class="text-xs text-slate-500 italic text-center py-4">Nenhum arquivo na fila. Arraste arquivos para começar.</li>';
+            btnPdf.disabled = true;
+            btnTxt.disabled = true;
+            return;
+        }
+
+        btnPdf.disabled = false;
+        btnTxt.disabled = false;
+
+        filaArquivosEstudio.forEach((file, index) => {
+            const li = document.createElement('li');
+            li.className = 'flex items-center justify-between p-2 bg-slate-900 border border-slate-800 rounded-lg group';
+
+            let icone = '📄';
+            if (file.type.includes('pdf')) icone = '📕';
+            else if (file.type.includes('image')) icone = '🖼️';
+            else if (file.type.includes('text') || file.name.endsWith('.csv')) icone = '📝';
+
+            // Limitando o nome para não quebrar o layout
+            let displayName = file.name;
+            if (displayName.length > 30) {
+                displayName = displayName.substring(0, 27) + '...';
+            }
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'flex items-center gap-2 overflow-hidden';
+            infoDiv.innerHTML = `<span class="icon">${icone}</span><span class="text-xs text-slate-200 truncate" title="${file.name}">${displayName}</span>`;
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity';
+
+            const btnUp = document.createElement('button');
+            btnUp.className = 'p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-slate-200';
+            btnUp.innerHTML = '↑';
+            btnUp.onclick = () => moverArquivoEstudio(index, -1);
+            btnUp.disabled = index === 0;
+            if(index === 0) btnUp.classList.add('cursor-not-allowed', 'opacity-30');
+
+            const btnDown = document.createElement('button');
+            btnDown.className = 'p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-slate-200';
+            btnDown.innerHTML = '↓';
+            btnDown.onclick = () => moverArquivoEstudio(index, 1);
+            btnDown.disabled = index === filaArquivosEstudio.length - 1;
+            if(index === filaArquivosEstudio.length - 1) btnDown.classList.add('cursor-not-allowed', 'opacity-30');
+
+            const btnDel = document.createElement('button');
+            btnDel.className = 'p-1 hover:bg-rose-900 rounded text-rose-500 hover:text-rose-300 ml-2';
+            btnDel.innerHTML = '✕';
+            btnDel.onclick = () => removerArquivoEstudio(index);
+
+            actionsDiv.appendChild(btnUp);
+            actionsDiv.appendChild(btnDown);
+            actionsDiv.appendChild(btnDel);
+
+            li.appendChild(infoDiv);
+            li.appendChild(actionsDiv);
+            lista.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Erro ao atualizar interface:", error);
+    }
+}
+
+function moverArquivoEstudio(index, direcao) {
+    try {
+        if (index + direcao < 0 || index + direcao >= filaArquivosEstudio.length) return;
+
+        const temp = filaArquivosEstudio[index];
+        filaArquivosEstudio[index] = filaArquivosEstudio[index + direcao];
+        filaArquivosEstudio[index + direcao] = temp;
+
+        atualizarInterfaceEstudio();
+    } catch (error) {
+        console.error("Erro ao mover arquivo:", error);
+    }
+}
+
+function removerArquivoEstudio(index) {
+    try {
+        filaArquivosEstudio.splice(index, 1);
+        atualizarInterfaceEstudio();
+    } catch (error) {
+        console.error("Erro ao remover arquivo:", error);
+    }
+}
+
+async function gerarPDFEstudio() {
+    try {
+        if (typeof PDFLib === 'undefined') {
+            alert('A biblioteca pdf-lib não foi carregada corretamente.');
+            return;
+        }
+
+        const btn = document.getElementById('btn-gerar-pdf-estudio');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Processando...</span>';
+        btn.disabled = true;
+
+        const mergedPdf = await PDFLib.PDFDocument.create();
+
+        for (const file of filaArquivosEstudio) {
+            const arrayBuffer = await file.arrayBuffer();
+
+            if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                try {
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                } catch (pdfError) {
+                    console.error(`Erro ao processar PDF ${file.name}:`, pdfError);
+                    alert(`Não foi possível processar o PDF ${file.name}. Ele pode estar corrompido ou protegido por senha.`);
+                }
+            } else if (file.type.startsWith('image/')) {
+                try {
+                    let image;
+                    if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+                        image = await mergedPdf.embedJpg(arrayBuffer);
+                    } else if (file.type === 'image/png') {
+                        image = await mergedPdf.embedPng(arrayBuffer);
+                    } else {
+                        console.warn(`Formato de imagem não suportado diretamente pelo pdf-lib: ${file.name}`);
+                        continue;
+                    }
+
+                    const page = mergedPdf.addPage([image.width, image.height]);
+                    page.drawImage(image, {
+                        x: 0,
+                        y: 0,
+                        width: image.width,
+                        height: image.height,
+                    });
+                } catch (imgError) {
+                    console.error(`Erro ao processar imagem ${file.name}:`, imgError);
+                    alert(`Não foi possível processar a imagem ${file.name}.`);
+                }
+            }
+        }
+
+        const pdfBytes = await mergedPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Evidencias_Mescladas_${new Date().getTime()}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast("PDF gerado com sucesso!");
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    } catch (error) {
+        console.error("Erro ao gerar PDF mesclado:", error);
+        alert("Ocorreu um erro ao gerar o PDF. Verifique o console para mais detalhes.");
+        const btn = document.getElementById('btn-gerar-pdf-estudio');
+        btn.innerHTML = '<span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>';
+        btn.disabled = false;
+    }
+}
+
+async function gerarTXTEstudio() {
+    try {
+        const btn = document.getElementById('btn-gerar-txt-estudio');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Extraindo...</span>';
+        btn.disabled = true;
+
+        let conteudoFinal = '';
+        let processados = 0;
+
+        for (const file of filaArquivosEstudio) {
+            // Verifica se é texto ou csv
+            if (file.type.startsWith('text/') || file.name.toLowerCase().endsWith('.txt') || file.name.toLowerCase().endsWith('.csv')) {
+                try {
+                    const texto = await file.text();
+                    conteudoFinal += `\n\n--- ARQUIVO: ${file.name} ---\n\n`;
+                    conteudoFinal += texto;
+                    processados++;
+                } catch (txtError) {
+                    console.error(`Erro ao ler texto de ${file.name}:`, txtError);
+                }
+            }
+        }
+
+        if (processados === 0) {
+            alert("Nenhum arquivo de texto (TXT/CSV) foi encontrado na fila para extração.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        const blob = new Blob([conteudoFinal], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Evidencias_Texto_${new Date().getTime()}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast("TXT gerado com sucesso!");
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    } catch (error) {
+        console.error("Erro ao gerar TXT:", error);
+        alert("Ocorreu um erro ao gerar o TXT. Verifique o console.");
+        const btn = document.getElementById('btn-gerar-txt-estudio');
+        btn.innerHTML = '<span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>';
+        btn.disabled = false;
+    }
+}

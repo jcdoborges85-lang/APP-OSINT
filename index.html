@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#090d16] text-slate-100 min-h-screen font-sans antialiased selection:bg-[#2563eb] selection:text-white flex flex-col justify-between">
@@ -1340,6 +1341,53 @@
                 </div>
             </div>
         </div>
+        <button onclick="switchTab('estudio')" id="btn-estudio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.42s">
+            <span class="icon w-4 h-4">🛠️</span><span>Estúdio de Evidências (PDF & TXT)</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <div id="tab-estudio" class="tab-content accordion-panel space-y-6 hidden">
+            <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+                    <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl border border-purple-500/20">
+                        <span class="icon w-6 h-6">🛠️</span>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-100">Estúdio de Evidências (PDF & TXT)</h2>
+                        <p class="text-xs text-slate-400">Mescle, converta e organize evidências locais de forma 100% offline</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4 lg:col-span-1">
+                        <div id="estudio-dropzone" class="border-2 border-dashed border-slate-700 hover:border-purple-500 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-900/50" onclick="document.getElementById('estudio-input').click()">
+                            <span class="icon text-3xl mb-2 block">📁</span>
+                            <p class="text-sm text-slate-300 font-bold">Arraste arquivos ou clique</p>
+                            <p class="text-xs text-slate-500 mt-1">PDF, JPG, PNG, TXT, CSV</p>
+                        </div>
+                        <input type="file" id="estudio-input" multiple accept=".pdf, image/*, .txt, .csv" class="hidden" onchange="adicionarArquivosEstudio(event)">
+
+                        <div class="space-y-2 pt-2">
+                            <button id="btn-gerar-pdf-estudio" class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarPDFEstudio()" disabled>
+                                <span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>
+                            </button>
+                            <button id="btn-gerar-txt-estudio" class="w-full py-2 bg-blue-700 hover:bg-blue-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarTXTEstudio()" disabled>
+                                <span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 lg:col-span-2 flex flex-col">
+                        <h3 class="text-sm font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
+                            <span class="icon w-4 h-4">📋</span> Fila de Processamento
+                        </h3>
+                        <ul id="estudio-lista-arquivos" class="space-y-2 flex-1 overflow-y-auto max-h-64 pr-2">
+                            <li class="text-xs text-slate-500 italic text-center py-4">Nenhum arquivo na fila. Arraste arquivos para começar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <button onclick="switchTab('oficios')" id="btn-oficios" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.44s">
             <span class="icon w-4 h-4">📄</span><span>Gerador de Ofício</span>
             <span class="nav-chevron">›</span>
