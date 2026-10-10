@@ -89,3 +89,33 @@ html.dark { color-scheme: dark; }
     from { opacity: 0; transform: translateY(-8px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* ===== Quill Dark Mode Override ===== */
+.ql-toolbar.ql-snow {
+    border: 1px solid rgba(30, 41, 59, 1);
+    background: #0f172a;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+.ql-container.ql-snow {
+    border: 1px solid rgba(30, 41, 59, 1);
+    background: #0f172a;
+    color: #cbd5e1;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+.ql-snow .ql-stroke { stroke: #cbd5e1; }
+.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill { fill: #cbd5e1; }
+.ql-snow .ql-picker { color: #cbd5e1; }
+.ql-snow .ql-picker-options { background-color: #1e293b; border-color: rgba(30, 41, 59, 1); }
+.ql-snow .ql-picker-item:hover, .ql-snow .ql-picker-item.ql-selected { color: #2563eb; }
+.ql-editor { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+
+/* ===== Template A4 Oculto ===== */
+.template-a4-oculto {
+    position: absolute;
+    left: -9999px;
+    width: 794px; /* A4 width */
+    background: white;
+    color: black;
+    padding: 50px;
+    font-family: 'Times New Roman', serif;
+}

@@ -10,6 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-[#090d16] text-slate-100 min-h-screen font-sans antialiased selection:bg-[#2563eb] selection:text-white flex flex-col justify-between">
@@ -1357,32 +1360,79 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4 lg:col-span-1">
-                        <div id="estudio-dropzone" class="border-2 border-dashed border-slate-700 hover:border-purple-500 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-900/50" onclick="document.getElementById('estudio-input').click()">
-                            <span class="icon text-3xl mb-2 block">📁</span>
-                            <p class="text-sm text-slate-300 font-bold">Arraste arquivos ou clique</p>
-                            <p class="text-xs text-slate-500 mt-1">PDF, JPG, PNG, TXT, CSV</p>
+                <div class="w-full grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4 lg:col-span-3">
+                        <h3 class="text-sm font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2">Informações do Relatório</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Nº do Relatório</label>
+                                <input type="text" id="relatorio-numero" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" placeholder="Ex: RT-001/2026">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Data</label>
+                                <input type="date" id="relatorio-data" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Assunto</label>
+                                <input type="text" id="relatorio-assunto" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" placeholder="Assunto da investigação">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Autoria / Alvo Investigado</label>
+                                <input type="text" id="relatorio-alvo" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" placeholder="Nome do Alvo">
+                            </div>
                         </div>
-                        <input type="file" id="estudio-input" multiple accept=".pdf, image/*, .txt, .csv" class="hidden" onchange="adicionarArquivosEstudio(event)">
 
-                        <div class="space-y-2 pt-2">
-                            <button id="btn-gerar-pdf-estudio" class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarPDFEstudio()" disabled>
-                                <span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>
-                            </button>
-                            <button id="btn-gerar-txt-estudio" class="w-full py-2 bg-blue-700 hover:bg-blue-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarTXTEstudio()" disabled>
-                                <span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>
-                            </button>
-                        </div>
+                        <h3 class="text-sm font-bold text-slate-300 mt-6 mb-3 border-b border-slate-800 pb-2">Conteúdo do Relatório</h3>
+                        <div id="editor-container" class="h-[400px]"></div>
                     </div>
 
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 lg:col-span-2 flex flex-col">
-                        <h3 class="text-sm font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
-                            <span class="icon w-4 h-4">📋</span> Fila de Processamento
-                        </h3>
-                        <ul id="estudio-lista-arquivos" class="space-y-2 flex-1 overflow-y-auto max-h-64 pr-2">
-                            <li class="text-xs text-slate-500 italic text-center py-4">Nenhum arquivo na fila. Arraste arquivos para começar.</li>
-                        </ul>
+                    <div class="lg:col-span-1 space-y-4 flex flex-col">
+                        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+                            <div id="estudio-dropzone" class="border-2 border-dashed border-slate-700 hover:border-purple-500 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-900/50" onclick="document.getElementById('estudio-input').click()">
+                                <span class="icon text-3xl mb-2 block">📁</span>
+                                <p class="text-sm text-slate-300 font-bold">Arraste arquivos</p>
+                                <p class="text-xs text-slate-500 mt-1">PDF, JPG, PNG, TXT</p>
+                            </div>
+                            <input type="file" id="estudio-input" multiple accept=".pdf, image/*, .txt, .csv" class="hidden" onchange="adicionarArquivosEstudio(event)">
+
+                            <div class="space-y-2 pt-2">
+                                <button id="btn-gerar-pdf-estudio" class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarPDFEstudio()" disabled>
+                                    <span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>
+                                </button>
+                                <button id="btn-gerar-txt-estudio" class="w-full py-2 bg-blue-700 hover:bg-blue-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarTXTEstudio()" disabled>
+                                    <span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 flex flex-col flex-1">
+                            <h3 class="text-sm font-bold text-slate-300 mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
+                                <span class="icon w-4 h-4">📋</span> Fila de Anexos
+                            </h3>
+                            <ul id="estudio-lista-arquivos" class="space-y-2 flex-1 overflow-y-auto max-h-48 pr-2">
+                                <li class="text-xs text-slate-500 italic text-center py-4">Nenhum arquivo na fila.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template A4 Oculto -->
+                <div id="template-a4-oculto" class="template-a4-oculto">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0; font-size: 16pt; font-weight: bold;">POLÍCIA CIVIL DO ESTADO DO CEARÁ</h2>
+                        <h3 style="margin: 5px 0; font-size: 14pt;">DEPARTAMENTO DE INTELIGÊNCIA</h3>
+                        <h4 style="margin: 5px 0; font-size: 12pt; text-decoration: underline;">RELATÓRIO TÉCNICO DE INVESTIGAÇÃO</h4>
+                    </div>
+
+                    <div style="margin-bottom: 30px; font-size: 12pt; line-height: 1.5;">
+                        <p><strong>Nº do Relatório:</strong> <span id="tpl-numero"></span></p>
+                        <p><strong>Data:</strong> <span id="tpl-data"></span></p>
+                        <p><strong>Assunto:</strong> <span id="tpl-assunto"></span></p>
+                        <p><strong>Autoria/Alvo:</strong> <span id="tpl-alvo"></span></p>
+                    </div>
+
+                    <div id="tpl-conteudo" style="font-size: 12pt; line-height: 1.5;">
+                        <!-- Conteúdo do Quill será injetado aqui -->
                     </div>
                 </div>
             </div>
