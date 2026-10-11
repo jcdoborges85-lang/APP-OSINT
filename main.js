@@ -1927,20 +1927,13 @@ document.addEventListener('DOMContentLoaded', configurarDragAndDropEstudio);
 function atualizarInterfaceEstudio() {
     try {
         const lista = document.getElementById('estudio-lista-arquivos');
-        const btnPdf = document.getElementById('btn-gerar-pdf-estudio');
-        const btnTxt = document.getElementById('btn-gerar-txt-estudio');
 
         lista.innerHTML = '';
 
         if (filaArquivosEstudio.length === 0) {
             lista.innerHTML = '<li class="text-xs text-slate-500 italic text-center py-4">Nenhum arquivo na fila. Arraste arquivos para começar.</li>';
-            btnPdf.disabled = true;
-            btnTxt.disabled = true;
             return;
         }
-
-        btnPdf.disabled = false;
-        btnTxt.disabled = false;
 
         filaArquivosEstudio.forEach((file, index) => {
             const li = document.createElement('li');
@@ -2019,19 +2012,20 @@ function removerArquivoEstudio(index) {
     }
 }
 
-async function gerarPDFEstudio() {
+
+async function gerarDossieCompleto() {
     try {
         if (typeof PDFLib === 'undefined' || typeof html2pdf === 'undefined') {
             alert('As bibliotecas necessárias (pdf-lib, html2pdf) não foram carregadas corretamente.');
             return;
         }
 
-        const btn = document.getElementById('btn-gerar-pdf-estudio');
+        const btn = document.getElementById('btnGerar');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Processando...</span>';
+        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Gerando...</span>';
         btn.disabled = true;
 
-        // Etapa A: Capture os valores dos inputs e o HTML do Quill
+        // Captura de Dados
         const relNumero = document.getElementById('relatorio-numero').value || 'S/N';
         const relData = document.getElementById('relatorio-data').value || new Date().toLocaleDateString('pt-BR');
         const relAssunto = document.getElementById('relatorio-assunto').value || 'Não informado';
@@ -2042,24 +2036,24 @@ async function gerarPDFEstudio() {
         document.getElementById('tpl-data').textContent = relData;
         document.getElementById('tpl-assunto').textContent = relAssunto;
         document.getElementById('tpl-alvo').textContent = relAlvo;
-        document.getElementById('tpl-conteudo').innerHTML = quillHtml;
+        document.getElementById('tpl-content').innerHTML = quillHtml;
 
-        // Etapa B: html2pdf converter o Template A4 Oculto num PDF (arraybuffer)
-        const element = document.getElementById('template-a4-oculto');
+        // Geração do Relatório Escrito
+        const element = document.getElementById('pdf-template-container');
         const opt = {
-            margin:       0,
-            filename:     'report.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            margin: [20, 20, 20, 20],
+            filename: 'relatorio.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        const reportBytes = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
+        const reportPdfBytes = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
 
-        // Etapa C: Instancie o PDFLib
-        const finalPdfDoc = await PDFLib.PDFDocument.load(reportBytes);
+        // Carregamento da Base
+        const finalPdfDoc = await PDFLib.PDFDocument.load(reportPdfBytes);
 
-        // Etapa D: Loop para a filaArquivos
+        // Anexação das Evidências (O loop na filaArquivos)
         for (const file of filaArquivosEstudio) {
             const arrayBuffer = await file.arrayBuffer();
 
@@ -2084,12 +2078,31 @@ async function gerarPDFEstudio() {
                         continue;
                     }
 
-                    const page = finalPdfDoc.addPage([image.width, image.height]);
+                    // Calculate dimensions to fit A4 (595.28 x 841.89 points) with 20mm (~56.69 points) margin
+                    // Drawable area: 595.28 - 2*56.69 = 481.9 points width, 841.89 - 2*56.69 = 728.51 points height
+                    const MAX_WIDTH = 481.9;
+                    const MAX_HEIGHT = 728.51;
+
+                    let width = image.width;
+                    let height = image.height;
+
+                    if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+                        const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+                        width = width * ratio;
+                        height = height * ratio;
+                    }
+
+                    const page = finalPdfDoc.addPage([595.28, 841.89]);
+
+                    // Center the image
+                    const x = (595.28 - width) / 2;
+                    const y = (841.89 - height) / 2;
+
                     page.drawImage(image, {
-                        x: 0,
-                        y: 0,
-                        width: image.width,
-                        height: image.height,
+                        x: x,
+                        y: y,
+                        width: width,
+                        height: height,
                     });
                 } catch (imgError) {
                     console.error(`Erro ao processar imagem ${file.name}:`, imgError);
@@ -2098,84 +2111,29 @@ async function gerarPDFEstudio() {
             }
         }
 
-        // Etapa E: Salve e dispare o download
-        const pdfBytes = await finalPdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        // Exportação Final
+        const finalBytes = await finalPdfDoc.save();
+        const blob = new Blob([finalBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
         const dataStr = relData.replace(/\//g, '-');
-        a.download = `Relatorio_Tecnico_${dataStr}.pdf`;
+        a.download = `Relatorio_Oficial_${dataStr}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        showToast("PDF gerado com sucesso!");
+        showToast("Dossiê gerado com sucesso!");
 
         btn.innerHTML = originalText;
         btn.disabled = false;
     } catch (error) {
-        console.error("Erro ao gerar PDF mesclado:", error);
-        alert("Ocorreu um erro ao gerar o PDF. Verifique o console para mais detalhes.");
-        const btn = document.getElementById('btn-gerar-pdf-estudio');
-        btn.innerHTML = '<span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>';
-        btn.disabled = false;
-    }
-}
-
-async function gerarTXTEstudio() {
-    try {
-        const btn = document.getElementById('btn-gerar-txt-estudio');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Extraindo...</span>';
-        btn.disabled = true;
-
-        let conteudoFinal = '';
-        let processados = 0;
-
-        for (const file of filaArquivosEstudio) {
-            // Verifica se é texto ou csv
-            if (file.type.startsWith('text/') || file.name.toLowerCase().endsWith('.txt') || file.name.toLowerCase().endsWith('.csv')) {
-                try {
-                    const texto = await file.text();
-                    conteudoFinal += `\n\n--- ARQUIVO: ${file.name} ---\n\n`;
-                    conteudoFinal += texto;
-                    processados++;
-                } catch (txtError) {
-                    console.error(`Erro ao ler texto de ${file.name}:`, txtError);
-                }
-            }
-        }
-
-        if (processados === 0) {
-            alert("Nenhum arquivo de texto (TXT/CSV) foi encontrado na fila para extração.");
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            return;
-        }
-
-        const blob = new Blob([conteudoFinal], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Evidencias_Texto_${new Date().getTime()}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        showToast("TXT gerado com sucesso!");
-
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    } catch (error) {
-        console.error("Erro ao gerar TXT:", error);
-        alert("Ocorreu um erro ao gerar o TXT. Verifique o console.");
-        const btn = document.getElementById('btn-gerar-txt-estudio');
-        btn.innerHTML = '<span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>';
+        console.error("Erro ao gerar dossiê:", error);
+        alert("Ocorreu um erro ao gerar o dossiê. Verifique o console para mais detalhes.");
+        const btn = document.getElementById('btnGerar');
+        btn.innerHTML = '<i class="fa-solid fa-file-pdf mr-2 text-lg"></i> GERAR DOSSIÊ OFICIAL';
         btn.disabled = false;
     }
 }
