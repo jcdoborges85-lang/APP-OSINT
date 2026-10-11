@@ -1,3 +1,32 @@
+let quillEditor;
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Quill
+    quillEditor = new Quill('#editor-container', {
+        theme: 'snow',
+        placeholder: 'Escreva o relatório aqui...',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'color': [] }, { 'background': [] }],
+                ['clean']
+            ]
+        }
+    });
+
+    // Default text
+    quillEditor.clipboard.dangerouslyPasteHTML(`
+        <ol>
+            <li><strong>OBJETO DA INVESTIGAÇÃO</strong><br><br></li>
+            <li><strong>HISTÓRICO FACTUAL</strong><br><br></li>
+            <li><strong>ANÁLISE INVESTIGATIVA</strong><br><br></li>
+            <li><strong>CONCLUSÃO</strong><br><br></li>
+        </ol>
+    `);
+});
+
 async function calcularHashBuffer(buffer, algoritmo) {
             const hashBuffer = await crypto.subtle.digest(algoritmo, buffer);
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -1992,8 +2021,8 @@ function removerArquivoEstudio(index) {
 
 async function gerarPDFEstudio() {
     try {
-        if (typeof PDFLib === 'undefined') {
-            alert('A biblioteca pdf-lib não foi carregada corretamente.');
+        if (typeof PDFLib === 'undefined' || typeof html2pdf === 'undefined') {
+            alert('As bibliotecas necessárias (pdf-lib, html2pdf) não foram carregadas corretamente.');
             return;
         }
 
@@ -2002,16 +2031,43 @@ async function gerarPDFEstudio() {
         btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Processando...</span>';
         btn.disabled = true;
 
-        const mergedPdf = await PDFLib.PDFDocument.create();
+        // Etapa A: Capture os valores dos inputs e o HTML do Quill
+        const relNumero = document.getElementById('relatorio-numero').value || 'S/N';
+        const relData = document.getElementById('relatorio-data').value || new Date().toLocaleDateString('pt-BR');
+        const relAssunto = document.getElementById('relatorio-assunto').value || 'Não informado';
+        const relAlvo = document.getElementById('relatorio-alvo').value || 'Não informado';
+        const quillHtml = quillEditor.root.innerHTML;
 
+        document.getElementById('tpl-numero').textContent = relNumero;
+        document.getElementById('tpl-data').textContent = relData;
+        document.getElementById('tpl-assunto').textContent = relAssunto;
+        document.getElementById('tpl-alvo').textContent = relAlvo;
+        document.getElementById('tpl-conteudo').innerHTML = quillHtml;
+
+        // Etapa B: html2pdf converter o Template A4 Oculto num PDF (arraybuffer)
+        const element = document.getElementById('template-a4-oculto');
+        const opt = {
+            margin:       0,
+            filename:     'report.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        const reportBytes = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
+
+        // Etapa C: Instancie o PDFLib
+        const finalPdfDoc = await PDFLib.PDFDocument.load(reportBytes);
+
+        // Etapa D: Loop para a filaArquivos
         for (const file of filaArquivosEstudio) {
             const arrayBuffer = await file.arrayBuffer();
 
             if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
                 try {
                     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
-                    const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                    const copiedPages = await finalPdfDoc.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                    copiedPages.forEach((page) => finalPdfDoc.addPage(page));
                 } catch (pdfError) {
                     console.error(`Erro ao processar PDF ${file.name}:`, pdfError);
                     alert(`Não foi possível processar o PDF ${file.name}. Ele pode estar corrompido ou protegido por senha.`);
@@ -2020,15 +2076,15 @@ async function gerarPDFEstudio() {
                 try {
                     let image;
                     if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-                        image = await mergedPdf.embedJpg(arrayBuffer);
+                        image = await finalPdfDoc.embedJpg(arrayBuffer);
                     } else if (file.type === 'image/png') {
-                        image = await mergedPdf.embedPng(arrayBuffer);
+                        image = await finalPdfDoc.embedPng(arrayBuffer);
                     } else {
                         console.warn(`Formato de imagem não suportado diretamente pelo pdf-lib: ${file.name}`);
                         continue;
                     }
 
-                    const page = mergedPdf.addPage([image.width, image.height]);
+                    const page = finalPdfDoc.addPage([image.width, image.height]);
                     page.drawImage(image, {
                         x: 0,
                         y: 0,
@@ -2042,13 +2098,15 @@ async function gerarPDFEstudio() {
             }
         }
 
-        const pdfBytes = await mergedPdf.save();
+        // Etapa E: Salve e dispare o download
+        const pdfBytes = await finalPdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Evidencias_Mescladas_${new Date().getTime()}.pdf`;
+        const dataStr = relData.replace(/\//g, '-');
+        a.download = `Relatorio_Tecnico_${dataStr}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
