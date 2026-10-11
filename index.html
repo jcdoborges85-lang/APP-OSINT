@@ -1396,11 +1396,8 @@
                             <input type="file" id="estudio-input" multiple accept=".pdf, image/*, .txt, .csv" class="hidden" onchange="adicionarArquivosEstudio(event)">
 
                             <div class="space-y-2 pt-2">
-                                <button id="btn-gerar-pdf-estudio" class="w-full py-2 bg-rose-700 hover:bg-rose-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarPDFEstudio()" disabled>
-                                    <span class="icon w-4 h-4">📄</span><span>Gerar PDF Único</span>
-                                </button>
-                                <button id="btn-gerar-txt-estudio" class="w-full py-2 bg-blue-700 hover:bg-blue-600 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed" onclick="gerarTXTEstudio()" disabled>
-                                    <span class="icon w-4 h-4">📝</span><span>Extrair TXT Único</span>
+                                <button onclick="gerarDossieCompleto()" id="btnGerar" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-4 px-4 rounded shadow-[0_0_15px_rgba(37,99,235,0.5)] transition flex justify-center items-center">
+                                    <i class="fa-solid fa-file-pdf mr-2 text-lg"></i> GERAR DOSSIÊ OFICIAL
                                 </button>
                             </div>
                         </div>
@@ -1417,7 +1414,7 @@
                 </div>
 
                 <!-- Template A4 Oculto -->
-                <div id="template-a4-oculto" class="template-a4-oculto">
+                <div id="pdf-template-container" class="template-a4-oculto">
                     <div style="text-align: center; margin-bottom: 20px;">
                         <h2 style="margin: 0; font-size: 16pt; font-weight: bold;">POLÍCIA CIVIL DO ESTADO DO CEARÁ</h2>
                         <h3 style="margin: 5px 0; font-size: 14pt;">DEPARTAMENTO DE INTELIGÊNCIA</h3>
@@ -1431,7 +1428,7 @@
                         <p><strong>Autoria/Alvo:</strong> <span id="tpl-alvo"></span></p>
                     </div>
 
-                    <div id="tpl-conteudo" style="font-size: 12pt; line-height: 1.5;">
+                    <div id="tpl-content" style="font-size: 12pt; line-height: 1.5;">
                         <!-- Conteúdo do Quill será injetado aqui -->
                     </div>
                 </div>
