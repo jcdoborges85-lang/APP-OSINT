@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estúdio de Evidências Forenses</title>
+    <title>Mesclador de Evidências Forenses</title>
 
     <!-- Tailwind & Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Bibliotecas Forenses -->
+    <!-- PDF-Lib: Motor 100% offline para manipular PDFs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -21,194 +18,110 @@
         .file-item { transition: all 0.2s ease-in-out; }
         .file-item:hover { background-color: #1e293b; }
 
-        /* Estilização do Editor de Texto para Dark Mode */
-        .ql-toolbar { background-color: #1e293b; border-color: #334155 !important; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem; }
-        .ql-container { border-color: #334155 !important; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; background-color: #0f172a; font-family: 'Inter', sans-serif; font-size: 0.9rem; }
-        .ql-editor { min-height: 400px; color: #cbd5e1; }
-        .ql-stroke { stroke: #cbd5e1 !important; }
-        .ql-fill { fill: #cbd5e1 !important; }
-        .ql-picker { color: #cbd5e1 !important; }
-
-        /* Template A4 Escondido (Usado APENAS para gerar o PDF final do texto) */
-        #pdf-template-container {
-            position: absolute; left: -9999px; top: 0;
-            width: 794px; /* Largura A4 a 96 DPI */
-            background-color: white; color: black;
-            padding: 50px; font-family: 'Times New Roman', Times, serif;
-        }
-        .a4-header { text-align: center; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 20px; }
-        .a4-header h2, .a4-header h3 { margin: 2px 0; font-size: 16px; text-transform: uppercase; }
-        .a4-meta p { margin: 5px 0; font-size: 14px; }
-        .a4-content { margin-top: 30px; font-size: 14px; line-height: 1.6; text-align: justify; }
-        .a4-signature { margin-top: 80px; text-align: center; font-size: 14px; }
+        /* Custom Scrollbar para a lista de arquivos */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-300 antialiased p-4 md:p-6 min-h-screen flex flex-col items-center">
+<body class="bg-slate-950 text-slate-300 antialiased p-4 md:p-8 min-h-screen flex flex-col items-center">
 
-    <div class="w-full max-w-7xl mb-6 border-b border-slate-800 pb-4">
-        <h2 class="text-3xl font-bold text-white flex items-center">
-            <i class="fa-solid fa-file-shield text-blue-500 mr-3"></i>
-            Estúdio de Relatórios Forenses & Evidências
+    <div class="w-full max-w-5xl mb-8 border-b border-slate-800 pb-4 text-center md:text-left">
+        <h2 class="text-3xl font-bold text-white flex items-center justify-center md:justify-start">
+            <i class="fa-solid fa-layer-group text-blue-500 mr-3"></i>
+            Mesclador de Evidências (PDF, Imagens e TXT)
         </h2>
-        <p class="text-sm text-slate-400 mt-2">Redija o relatório oficial, aplique inteligência artificial e anexe mídias. O sistema mesclará tudo num Dossiê PDF 100% Offline.</p>
+        <p class="text-sm text-slate-400 mt-2">Junte diversos arquivos, defina a ordem exata e converta-os em um único documento 100% offline.</p>
     </div>
 
-    <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <!-- COLUNA ESQUERDA: EDITOR E IA -->
-        <div class="lg:col-span-3 flex flex-col gap-4">
+        <!-- COLUNA ESQUERDA: Upload e Controles -->
+        <div class="flex flex-col gap-4">
 
-            <!-- Barra de IA (Copiloto) -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 shadow-lg flex flex-col md:flex-row gap-3 items-center justify-between">
-                <div class="flex items-center gap-2 flex-1 w-full">
-                    <i class="fa-solid fa-wand-magic-sparkles text-purple-500 text-lg"></i>
-                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wide hidden md:block">Copiloto IA:</span>
-                    <input type="password" id="apiKeyInput" placeholder="Sua Chave API (OpenAI)..." class="w-full max-w-xs bg-slate-950 border border-slate-700 rounded p-2 text-white text-xs focus:border-purple-500 outline-none">
-                    <button onclick="salvarChave()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded text-xs transition" title="Salvar Chave no Navegador"><i class="fa-solid fa-save"></i></button>
+            <!-- Zona de Upload -->
+            <div id="dropzone" class="bg-slate-900 border-2 border-dashed border-slate-600 rounded-xl p-8 text-center flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-slate-800/50 transition-all h-64 shadow-lg">
+                <div class="bg-slate-800 p-4 rounded-full mb-4">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-blue-400"></i>
                 </div>
-                <button onclick="melhorarTextoIA()" id="btnIA" class="w-full md:w-auto bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold py-2 px-4 rounded transition flex items-center justify-center whitespace-nowrap">
-                    ✨ Melhorar Redação Técnica
+                <span class="text-base font-bold text-white mb-1">Arraste os arquivos para cá</span>
+                <span class="text-xs text-slate-400">ou clique para selecionar</span>
+                <div class="mt-4 flex gap-2 justify-center flex-wrap">
+                    <span class="text-[10px] bg-slate-950 px-2 py-1 rounded text-slate-500 border border-slate-800">.PDF</span>
+                    <span class="text-[10px] bg-slate-950 px-2 py-1 rounded text-slate-500 border border-slate-800">.JPG / .PNG</span>
+                    <span class="text-[10px] bg-slate-950 px-2 py-1 rounded text-slate-500 border border-slate-800">.TXT / .CSV</span>
+                </div>
+                <input type="file" id="fileInput" multiple accept=".pdf, image/jpeg, image/png, .txt, .csv" class="hidden">
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="grid grid-cols-2 gap-3 mt-2">
+                <button onclick="gerarPDF()" id="btnPdf" class="bg-red-600 hover:bg-red-500 text-white text-sm font-bold py-3 px-4 rounded shadow-lg transition flex flex-col items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i class="fa-solid fa-file-pdf text-xl"></i>
+                    <span>Gerar PDF Único</span>
+                </button>
+                <button onclick="gerarTXT()" id="btnTxt" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-3 px-4 rounded shadow-lg transition flex flex-col items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i class="fa-solid fa-file-lines text-xl"></i>
+                    <span>Extrair TXT Único</span>
                 </button>
             </div>
 
-            <!-- Cabeçalho Oficial do Formulário -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
-                <h3 class="text-sm font-bold text-white mb-4 uppercase tracking-wide border-b border-slate-800 pb-2">
-                    <i class="fa-solid fa-building-shield mr-2"></i> Dados Institucionais
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">Nº do Relatório / Unidade</label>
-                        <input type="text" id="inputNumRelatorio" placeholder="Ex: 13/2026 1ª SECCIONAL/DPJM/PCCE" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white text-sm focus:border-blue-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-500 mb-1">Data</label>
-                        <input type="date" id="inputData" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white text-sm focus:border-blue-500 outline-none">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs text-slate-500 mb-1">Assunto da Investigação</label>
-                        <input type="text" id="inputAssunto" placeholder="Ex: Investigação preliminar a respeito de conduta criminal..." class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white text-sm focus:border-blue-500 outline-none">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-xs text-slate-500 mb-1">Autoria / Alvo Investigado</label>
-                        <input type="text" id="inputAlvo" placeholder="Ex: WAYNER MARCOS RIBEIRO" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white text-sm focus:border-blue-500 outline-none uppercase font-bold text-red-400">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Editor Quill.js -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex-1 flex flex-col">
-                <h3 class="text-sm font-bold text-white mb-2 uppercase tracking-wide flex justify-between items-center">
-                    <span><i class="fa-solid fa-pen-nib mr-2"></i> Corpo do Relatório</span>
-                    <button onclick="limparEditor()" class="text-xs text-slate-500 hover:text-red-400 font-normal"><i class="fa-solid fa-eraser"></i> Limpar Tudo</button>
-                </h3>
-                <div id="editor-container" class="flex-1"></div>
-            </div>
-
+            <div id="statusBox" class="hidden text-xs text-center p-3 rounded font-mono shadow-inner"></div>
         </div>
 
-        <!-- COLUNA DIREITA: EVIDÊNCIAS -->
-        <div class="lg:col-span-1 flex flex-col gap-4">
-
-            <div id="dropzone" class="bg-slate-900 border-2 border-dashed border-slate-700 rounded-xl p-6 text-center flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors h-40">
-                <i class="fa-solid fa-paperclip text-3xl text-slate-500 mb-2"></i>
-                <span class="text-xs font-semibold text-slate-300">Anexar Provas (Imagens/PDF)</span>
-                <span class="text-[10px] text-slate-500 mt-1">Serão apensadas ao final do PDF</span>
-                <input type="file" id="fileInput" multiple accept=".pdf, image/jpeg, image/png" class="hidden">
+        <!-- COLUNA DIREITA: Fila e Ordenação -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl flex flex-col shadow-lg h-[400px] md:h-auto">
+            <div class="p-4 border-b border-slate-800 bg-slate-950/50 rounded-t-xl flex justify-between items-center">
+                <span class="font-bold text-white text-sm"><i class="fa-solid fa-list-ol mr-2 text-blue-400"></i> Ordem de Processamento</span>
+                <span class="text-xs bg-blue-900/30 text-blue-400 border border-blue-800/50 px-3 py-1 rounded-full font-mono" id="fileCount">0 arquivos</span>
             </div>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-xl flex flex-col flex-1 max-h-[350px]">
-                <div class="p-3 border-b border-slate-800 bg-slate-950/50 rounded-t-xl flex justify-between items-center">
-                    <span class="font-bold text-white text-xs"><i class="fa-solid fa-list-ol mr-2"></i> Fila de Anexos</span>
-                    <span class="text-[10px] bg-slate-800 px-2 py-1 rounded text-slate-400" id="fileCount">0 anexos</span>
+            <!-- Lista -->
+            <ul id="fileList" class="flex-1 overflow-y-auto p-3 space-y-2">
+                <div class="h-full flex flex-col items-center justify-center text-slate-600">
+                    <i class="fa-solid fa-folder-open text-4xl mb-3 opacity-50"></i>
+                    <p class="text-sm text-center">A fila está vazia.</p>
+                    <p class="text-xs text-center mt-1 opacity-70">Adicione arquivos para organizá-los.</p>
                 </div>
-                <ul id="fileList" class="flex-1 overflow-y-auto p-2 space-y-2">
-                    <div class="h-full flex flex-col items-center justify-center text-slate-600">
-                        <i class="fa-solid fa-folder-open text-2xl mb-1"></i>
-                        <p class="text-xs text-center mt-2">Nenhuma prova anexada.</p>
-                    </div>
-                </ul>
-            </div>
+            </ul>
 
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 shadow-lg">
-                <button onclick="gerarDossieCompleto()" id="btnGerar" class="w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-4 px-4 rounded shadow-[0_0_15px_rgba(37,99,235,0.5)] transition flex justify-center items-center">
-                    <i class="fa-solid fa-file-pdf mr-2 text-lg"></i> GERAR DOSSIÊ OFICIAL
+            <!-- Ações em Massa -->
+            <div class="p-3 border-t border-slate-800 bg-slate-950/50 rounded-b-xl flex justify-end">
+                <button onclick="limparTudo()" id="btnLimpar" class="text-xs text-slate-500 hover:text-red-400 transition flex items-center disabled:opacity-30" disabled>
+                    <i class="fa-solid fa-trash-can mr-2"></i> Limpar Fila
                 </button>
-                <div id="statusBox" class="hidden mt-3 text-xs text-center p-2 rounded font-mono"></div>
             </div>
-
         </div>
 
     </div>
 
-    <!-- TEMPLATE A4 OCULTO -->
-    <div id="pdf-template-container">
-        <div class="a4-header">
-            <h2>POLÍCIA CIVIL DO ESTADO DO CEARÁ</h2>
-            <h3>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</h3>
-            <p style="font-size: 12px; margin-top: 5px;">Relatório Produzido Digitalmente (OSINT Hub)</p>
-        </div>
-        <div class="a4-meta">
-            <p><strong>Relatório Técnico Nº:</strong> <span id="tpl-num"></span></p>
-            <p><strong>Data:</strong> <span id="tpl-data"></span></p>
-            <p><strong>Assunto:</strong> <span id="tpl-assunto"></span></p>
-            <p><strong>Autoria/Alvo:</strong> <span id="tpl-alvo"></span></p>
-        </div>
-        <hr style="margin: 20px 0; border-top: 1px solid black;">
-
-        <div class="a4-content" id="tpl-content"></div>
-
-        <div class="a4-signature">
-            <p>_________________________________________________</p>
-            <p><strong>OFICIAL INVESTIGADOR DE POLÍCIA</strong></p>
-            <p>Polícia Civil do Estado do Ceará</p>
-        </div>
-    </div>
-
+    <!-- Script de Lógica Forense 100% Offline -->
     <script>
         let filaArquivos = [];
-        let quill;
 
+        // Elementos DOM
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('fileInput');
         const fileListUI = document.getElementById('fileList');
         const fileCount = document.getElementById('fileCount');
         const statusBox = document.getElementById('statusBox');
+        const btnPdf = document.getElementById('btnPdf');
+        const btnTxt = document.getElementById('btnTxt');
+        const btnLimpar = document.getElementById('btnLimpar');
 
-        const textoPadraoApostila = `
-<p><strong>1. OBJETO DA INVESTIGAÇÃO</strong></p>
-<p>O presente Relatório Técnico de Informações Policiais tem por finalidade...</p><br>
-<p><strong>2. HISTÓRICO FACTUAL</strong></p>
-<p>[Descreva aqui as anotações ou utilize o Botão Mágico da IA para redigir...]</p><br>
-<p><strong>3. ANÁLISE INVESTIGATIVA</strong></p>
-<p>Conforme informações obtidas e análise de vínculos...</p><br>
-<p><strong>4. CONCLUSÃO</strong></p>
-<p>Diante de todo o contexto fático apresentado...</p>
-`;
-
-        window.onload = function() {
-            document.getElementById('inputData').valueAsDate = new Date();
-            const savedKey = localStorage.getItem('openai_key');
-            if(savedKey) document.getElementById('apiKeyInput').value = savedKey;
-
-            quill = new Quill('#editor-container', {
-                theme: 'snow',
-                placeholder: 'Escreva o relatório aqui ou use a Inteligência Artificial...',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        ['clean']
-                    ]
-                }
-            });
-            quill.clipboard.dangerouslyPasteHTML(textoPadraoApostila);
-        };
-
+        // --- SISTEMA DE ARQUIVOS (DRAG & DROP) ---
         dropzone.addEventListener('click', () => fileInput.click());
-        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dragover');
+        });
+
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.classList.remove('dragover');
@@ -217,17 +130,27 @@
 
         fileInput.addEventListener('change', (e) => {
             adicionarArquivos(e.target.files);
-            fileInput.value = '';
+            fileInput.value = ''; // Reseta o input
         });
 
         function adicionarArquivos(files) {
-            for (let i = 0; i < files.length; i++) { filaArquivos.push(files[i]); }
+            for (let i = 0; i < files.length; i++) {
+                filaArquivos.push(files[i]);
+            }
             atualizarInterface();
         }
 
         function removerArquivo(index) {
             filaArquivos.splice(index, 1);
             atualizarInterface();
+        }
+
+        function limparTudo() {
+            if(confirm("Deseja remover todos os arquivos da fila?")) {
+                filaArquivos = [];
+                atualizarInterface();
+                statusBox.classList.add('hidden');
+            }
         }
 
         function mover(index, direcao) {
@@ -240,139 +163,98 @@
         }
 
         function atualizarInterface() {
-            fileCount.innerText = `${filaArquivos.length} anexo(s)`;
-            if (filaArquivos.length === 0) {
-                fileListUI.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-slate-600"><i class="fa-solid fa-folder-open text-2xl mb-1"></i><p class="text-xs text-center mt-2">Nenhuma prova anexada.</p></div>`;
+            fileCount.innerText = `${filaArquivos.length} arquivo(s)`;
+
+            // Controle de Botões
+            const temArquivos = filaArquivos.length > 0;
+            btnPdf.disabled = !temArquivos;
+            btnTxt.disabled = !temArquivos;
+            btnLimpar.disabled = !temArquivos;
+
+            if (!temArquivos) {
+                fileListUI.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-slate-600">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3 opacity-50"></i>
+                        <p class="text-sm text-center">A fila está vazia.</p>
+                        <p class="text-xs text-center mt-1 opacity-70">Adicione arquivos para organizá-los.</p>
+                    </div>`;
                 return;
             }
 
             fileListUI.innerHTML = '';
             filaArquivos.forEach((file, index) => {
-                let icone = 'fa-file-image'; let corIcone = 'text-emerald-400';
+                let icone = 'fa-file';
+                let corIcone = 'text-slate-400';
+
                 if (file.type.includes('pdf')) { icone = 'fa-file-pdf'; corIcone = 'text-red-400'; }
+                else if (file.type.includes('image')) { icone = 'fa-file-image'; corIcone = 'text-emerald-400'; }
+                else if (file.type.includes('text') || file.name.endsWith('.csv')) { icone = 'fa-file-lines'; corIcone = 'text-blue-400'; }
+
+                // Calcula tamanho
+                let sizeStr = (file.size / 1024).toFixed(1) + ' KB';
+                if (file.size > 1024 * 1024) sizeStr = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
 
                 const li = document.createElement('li');
-                li.className = "file-item flex items-center justify-between p-2 bg-slate-950 border border-slate-800 rounded";
+                li.className = "file-item flex items-center justify-between p-3 bg-slate-950 border border-slate-800 rounded-lg shadow-sm";
                 li.innerHTML = `
-                    <div class="flex items-center gap-2 overflow-hidden">
-                        <span class="font-bold text-slate-600 text-xs w-3">${index + 1}.</span>
-                        <i class="fa-solid ${icone} ${corIcone} text-sm"></i>
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        <span class="font-mono text-slate-500 text-xs w-4 text-right">${index + 1}.</span>
+                        <i class="fa-solid ${icone} ${corIcone} text-lg w-5 text-center"></i>
                         <div class="flex flex-col overflow-hidden">
-                            <span class="text-[11px] font-semibold text-white truncate max-w-[120px]">${file.name}</span>
+                            <span class="text-sm font-semibold text-white truncate max-w-[200px] md:max-w-[250px]" title="${file.name}">${file.name}</span>
+                            <span class="text-[10px] text-slate-500 font-mono">${sizeStr}</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="mover(${index}, 'up')" class="text-slate-400 hover:text-white" title="Subir"><i class="fa-solid fa-caret-up"></i></button>
-                        <button onclick="mover(${index}, 'down')" class="text-slate-400 hover:text-white" title="Descer"><i class="fa-solid fa-caret-down"></i></button>
-                        <button onclick="removerArquivo(${index})" class="text-red-400 hover:text-red-300 ml-1" title="Remover"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="flex items-center gap-1 bg-slate-900 rounded p-1 border border-slate-800">
+                        <button onclick="mover(${index}, 'up')" class="p-1 text-slate-400 hover:text-white transition" title="Mover para cima"><i class="fa-solid fa-arrow-up"></i></button>
+                        <button onclick="mover(${index}, 'down')" class="p-1 text-slate-400 hover:text-white transition" title="Mover para baixo"><i class="fa-solid fa-arrow-down"></i></button>
+                        <div class="w-px h-4 bg-slate-700 mx-1"></div>
+                        <button onclick="removerArquivo(${index})" class="p-1 text-red-500 hover:text-red-400 transition" title="Remover da fila"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
                 fileListUI.appendChild(li);
             });
         }
 
-        function salvarChave() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if(key) {
-                localStorage.setItem('openai_key', key);
-                alert('Chave de API salva com sucesso no seu navegador!');
-            }
-        }
-
-        async function melhorarTextoIA() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if(!key) { alert('Por favor, insira sua Chave de API da OpenAI (ChatGPT).'); return; }
-
-            const textoBruto = quill.getText().trim();
-            if(textoBruto.length < 15) { alert('Digite um pouco mais de texto no relatório para a IA poder melhorar.'); return; }
-
-            const btnIA = document.getElementById('btnIA');
-            const originalText = btnIA.innerHTML;
-            btnIA.innerHTML = "<i class='fa-solid fa-spinner fa-spin mr-2'></i> Processando texto...";
-            btnIA.disabled = true;
-            btnIA.classList.add('opacity-50');
-
-            try {
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-                    body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
-                        messages: [
-                            { role: 'system', content: 'Você é um Oficial Investigador da Polícia Civil do Estado do Ceará. Sua missão é reescrever o texto do usuário, transformando anotações brutas em um Relatório Técnico Policial. Utilize padrão culto, impessoalidade e jargões. Formate a saída em HTML (tags p, br, strong, ul, li) para o Quill.js. Estruture em: 1. OBJETO DA INVESTIGAÇÃO, 2. HISTÓRICO FACTUAL, 3. ANÁLISE INVESTIGATIVA, 4. CONCLUSÃO. NÃO INVENTE FATOS.' },
-                            { role: 'user', content: textoBruto }
-                        ],
-                        temperature: 0.3
-                    })
-                });
-
-                if(!response.ok) throw new Error('Erro na API. Verifique se sua chave está correta.');
-
-                const data = await response.json();
-                quill.clipboard.dangerouslyPasteHTML(data.choices[0].message.content);
-
-            } catch(error) {
-                console.error(error);
-                alert('Falha na IA: ' + error.message);
-            } finally {
-                btnIA.innerHTML = originalText;
-                btnIA.disabled = false;
-                btnIA.classList.remove('opacity-50');
-            }
-        }
-
-        function limparEditor() {
-            if(confirm("Tem certeza que deseja apagar todo o texto do relatório?")) quill.setContents([]);
-        }
-
-        function showStatus(msg, isError = false) {
+        function showStatus(msg, tipo = 'info') {
             statusBox.innerHTML = msg;
-            statusBox.className = `mt-3 text-xs text-center p-2 rounded font-mono block ${isError ? 'bg-red-900/50 text-red-300 border border-red-800' : 'bg-blue-900/50 text-blue-300 border border-blue-800'}`;
+            statusBox.classList.remove('hidden', 'bg-blue-900/50', 'text-blue-300', 'border-blue-800', 'bg-red-900/50', 'text-red-300', 'border-red-800', 'bg-emerald-900/50', 'text-emerald-300', 'border-emerald-800');
+
+            if (tipo === 'info') statusBox.classList.add('bg-blue-900/50', 'text-blue-300', 'border', 'border-blue-800', 'block');
+            else if (tipo === 'erro') statusBox.classList.add('bg-red-900/50', 'text-red-300', 'border', 'border-red-800', 'block');
+            else if (tipo === 'sucesso') statusBox.classList.add('bg-emerald-900/50', 'text-emerald-300', 'border', 'border-emerald-800', 'block');
         }
 
-        async function gerarDossieCompleto() {
-            const btn = document.getElementById('btnGerar');
-            btn.disabled = true;
-            btn.classList.add('opacity-50');
-            showStatus("<i class='fa-solid fa-spinner fa-spin'></i> Construindo Dossiê Oficial. Por favor, aguarde...");
+        // --- MOTOR 1: GERAR PDF ÚNICO ---
+        async function gerarPDF() {
+            btnPdf.disabled = true;
+            btnTxt.disabled = true;
+            showStatus("<i class='fa-solid fa-spinner fa-spin mr-2'></i> Processando PDF... (100% Offline)", 'info');
 
             try {
-                document.getElementById('tpl-num').innerText = document.getElementById('inputNumRelatorio').value || 'S/N';
-                document.getElementById('tpl-data').innerText = document.getElementById('inputData').value.split('-').reverse().join('/') || 'Não informada';
-                document.getElementById('tpl-assunto').innerText = document.getElementById('inputAssunto').value || 'Não informado';
-                document.getElementById('tpl-alvo').innerText = document.getElementById('inputAlvo').value || 'Não identificado';
-                document.getElementById('tpl-content').innerHTML = quill.root.innerHTML;
-
-                const element = document.getElementById('pdf-template-container');
-                const opt = {
-                    margin:       [20, 20, 20, 20],
-                    filename:     'relatorio_base.pdf',
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-                const reportPdfBytes = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
-
-                const finalPdfDoc = await PDFLib.PDFDocument.load(reportPdfBytes);
-
-                if(filaArquivos.length > 0) {
-                    showStatus("<i class='fa-solid fa-spinner fa-spin'></i> Mesclando anexos probatórios...");
-                }
+                // Cria um novo documento em branco
+                const pdfDoc = await PDFLib.PDFDocument.create();
+                let processouAlgo = false;
 
                 for (const file of filaArquivos) {
                     const arrayBuffer = await file.arrayBuffer();
 
+                    // Se for PDF, copia as páginas
                     if (file.type === 'application/pdf') {
                         const attachedPdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                        const copiedPages = await finalPdfDoc.copyPages(attachedPdf, attachedPdf.getPageIndices());
-                        copiedPages.forEach((page) => finalPdfDoc.addPage(page));
+                        const copiedPages = await pdfDoc.copyPages(attachedPdf, attachedPdf.getPageIndices());
+                        copiedPages.forEach((page) => pdfDoc.addPage(page));
+                        processouAlgo = true;
                     }
+                    // Se for Imagem, centraliza em uma página A4
                     else if (file.type === 'image/jpeg' || file.type === 'image/png') {
-                        let image = file.type === 'image/jpeg' ? await finalPdfDoc.embedJpg(arrayBuffer) : await finalPdfDoc.embedPng(arrayBuffer);
-                        const page = finalPdfDoc.addPage(PDFLib.PageSizes.A4);
+                        let image = file.type === 'image/jpeg' ? await pdfDoc.embedJpg(arrayBuffer) : await pdfDoc.embedPng(arrayBuffer);
+
+                        const page = pdfDoc.addPage(PDFLib.PageSizes.A4);
                         const { width, height } = page.getSize();
 
-                        const margin = 20;
+                        // Margem e cálculo de escala para não cortar a imagem
+                        const margin = 30;
                         const maxWidth = width - (margin * 2);
                         const maxHeight = height - (margin * 2);
                         const scale = Math.min(maxWidth / image.width, maxHeight / image.height);
@@ -383,26 +265,83 @@
                         const y = (height / 2) - (imgHeight / 2);
 
                         page.drawImage(image, { x, y, width: imgWidth, height: imgHeight });
+                        processouAlgo = true;
                     }
                 }
 
-                const finalBytes = await finalPdfDoc.save();
-                const blob = new Blob([finalBytes], { type: 'application/pdf' });
+                if (!processouAlgo) {
+                    throw new Error("Nenhum PDF ou Imagem válida na fila para mesclar.");
+                }
+
+                // Salva e Baixa
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `Relatorio_Tecnico_PC_${Date.now()}.pdf`;
+                link.download = `Evidencias_Mescladas_${Date.now()}.pdf`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
 
-                showStatus("<i class='fa-solid fa-check'></i> Dossiê Policial Gerado com Sucesso!");
+                showStatus("<i class='fa-solid fa-check mr-2'></i> Arquivo PDF gerado e baixado com sucesso!", 'sucesso');
 
             } catch (error) {
                 console.error(error);
-                showStatus("<i class='fa-solid fa-triangle-exclamation'></i> Erro ao compilar relatório. Verifique os anexos.", true);
+                showStatus(`<i class='fa-solid fa-triangle-exclamation mr-2'></i> Erro: ${error.message}`, 'erro');
             } finally {
-                btn.disabled = false;
-                btn.classList.remove('opacity-50');
+                btnPdf.disabled = false;
+                btnTxt.disabled = false;
+            }
+        }
+
+        // --- MOTOR 2: EXTRAIR E MESCLAR TXT ---
+        async function gerarTXT() {
+            btnPdf.disabled = true;
+            btnTxt.disabled = true;
+            showStatus("<i class='fa-solid fa-spinner fa-spin mr-2'></i> Processando textos...", 'info');
+
+            try {
+                let textoFinal = "=========================================================\n";
+                textoFinal += "   DOSSIÊ DE TEXTOS EXTRAÍDOS - OSINT HUB\n";
+                textoFinal += `   Data de Geração: ${new Date().toLocaleString()}\n`;
+                textoFinal += "=========================================================\n\n";
+
+                let processouAlgo = false;
+
+                for (const file of filaArquivos) {
+                    // Filtra apenas arquivos de texto/csv
+                    if (file.type.includes('text') || file.name.endsWith('.csv') || file.name.endsWith('.txt')) {
+                        const conteudo = await file.text();
+                        textoFinal += `\n>>> INÍCIO DO ARQUIVO: [${file.name}] <<<\n`;
+                        textoFinal += "---------------------------------------------------------\n";
+                        textoFinal += conteudo + "\n";
+                        textoFinal += "---------------------------------------------------------\n";
+                        textoFinal += `>>> FIM DO ARQUIVO: [${file.name}] <<<\n\n`;
+                        processouAlgo = true;
+                    }
+                }
+
+                if (!processouAlgo) {
+                    throw new Error("Não há arquivos de texto (.txt, .csv) na fila para mesclar.");
+                }
+
+                // Salva e Baixa
+                const blob = new Blob([textoFinal], { type: 'text/plain;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `Textos_Extraidos_${Date.now()}.txt`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showStatus("<i class='fa-solid fa-check mr-2'></i> Arquivo TXT unificado baixado com sucesso!", 'sucesso');
+
+            } catch (error) {
+                console.error(error);
+                showStatus(`<i class='fa-solid fa-triangle-exclamation mr-2'></i> Erro: ${error.message}`, 'erro');
+            } finally {
+                btnPdf.disabled = false;
+                btnTxt.disabled = false;
             }
         }
     </script>
