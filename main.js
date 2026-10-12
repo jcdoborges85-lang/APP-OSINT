@@ -1,32 +1,3 @@
-let quillEditor;
-
-document.addEventListener("DOMContentLoaded", () => {
-    // Initialize Quill
-    quillEditor = new Quill('#editor-container', {
-        theme: 'snow',
-        placeholder: 'Escreva o relatório aqui...',
-        modules: {
-            toolbar: [
-                [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'color': [] }, { 'background': [] }],
-                ['clean']
-            ]
-        }
-    });
-
-    // Default text
-    quillEditor.clipboard.dangerouslyPasteHTML(`
-        <ol>
-            <li><strong>OBJETO DA INVESTIGAÇÃO</strong><br><br></li>
-            <li><strong>HISTÓRICO FACTUAL</strong><br><br></li>
-            <li><strong>ANÁLISE INVESTIGATIVA</strong><br><br></li>
-            <li><strong>CONCLUSÃO</strong><br><br></li>
-        </ol>
-    `);
-});
-
 async function calcularHashBuffer(buffer, algoritmo) {
             const hashBuffer = await crypto.subtle.digest(algoritmo, buffer);
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -1959,21 +1930,21 @@ function atualizarInterfaceEstudio() {
 
             const btnUp = document.createElement('button');
             btnUp.className = 'p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-slate-200';
-            btnUp.innerHTML = '↑';
+            btnUp.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
             btnUp.onclick = () => moverArquivoEstudio(index, -1);
             btnUp.disabled = index === 0;
             if(index === 0) btnUp.classList.add('cursor-not-allowed', 'opacity-30');
 
             const btnDown = document.createElement('button');
             btnDown.className = 'p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-slate-200';
-            btnDown.innerHTML = '↓';
+            btnDown.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
             btnDown.onclick = () => moverArquivoEstudio(index, 1);
             btnDown.disabled = index === filaArquivosEstudio.length - 1;
             if(index === filaArquivosEstudio.length - 1) btnDown.classList.add('cursor-not-allowed', 'opacity-30');
 
             const btnDel = document.createElement('button');
             btnDel.className = 'p-1 hover:bg-rose-900 rounded text-rose-500 hover:text-rose-300 ml-2';
-            btnDel.innerHTML = '✕';
+            btnDel.innerHTML = '<i class="fa-solid fa-trash"></i>';
             btnDel.onclick = () => removerArquivoEstudio(index);
 
             actionsDiv.appendChild(btnUp);
@@ -2013,47 +1984,23 @@ function removerArquivoEstudio(index) {
 }
 
 
-async function gerarDossieCompleto() {
+async function gerarPDF() {
+    const btn = document.getElementById('btnPdf');
+    if (!btn) return;
+
+    if (filaArquivosEstudio.length === 0) {
+        showToast("Fila vazia. Adicione arquivos primeiro.");
+        return;
+    }
+
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Gerando...';
+    btn.disabled = true;
+
     try {
-        if (typeof PDFLib === 'undefined' || typeof html2pdf === 'undefined') {
-            alert('As bibliotecas necessárias (pdf-lib, html2pdf) não foram carregadas corretamente.');
-            return;
-        }
+        const finalPdfDoc = await PDFLib.PDFDocument.create();
+        let addedSomething = false;
 
-        const btn = document.getElementById('btnGerar');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span class="icon animate-spin">⏳</span><span>Gerando...</span>';
-        btn.disabled = true;
-
-        // Captura de Dados
-        const relNumero = document.getElementById('relatorio-numero').value || 'S/N';
-        const relData = document.getElementById('relatorio-data').value || new Date().toLocaleDateString('pt-BR');
-        const relAssunto = document.getElementById('relatorio-assunto').value || 'Não informado';
-        const relAlvo = document.getElementById('relatorio-alvo').value || 'Não informado';
-        const quillHtml = quillEditor.root.innerHTML;
-
-        document.getElementById('tpl-numero').textContent = relNumero;
-        document.getElementById('tpl-data').textContent = relData;
-        document.getElementById('tpl-assunto').textContent = relAssunto;
-        document.getElementById('tpl-alvo').textContent = relAlvo;
-        document.getElementById('tpl-content').innerHTML = quillHtml;
-
-        // Geração do Relatório Escrito
-        const element = document.getElementById('pdf-template-container');
-        const opt = {
-            margin: [20, 20, 20, 20],
-            filename: 'relatorio.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        const reportPdfBytes = await html2pdf().set(opt).from(element).outputPdf('arraybuffer');
-
-        // Carregamento da Base
-        const finalPdfDoc = await PDFLib.PDFDocument.load(reportPdfBytes);
-
-        // Anexação das Evidências (O loop na filaArquivos)
         for (const file of filaArquivosEstudio) {
             const arrayBuffer = await file.arrayBuffer();
 
@@ -2062,9 +2009,10 @@ async function gerarDossieCompleto() {
                     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
                     const copiedPages = await finalPdfDoc.copyPages(pdfDoc, pdfDoc.getPageIndices());
                     copiedPages.forEach((page) => finalPdfDoc.addPage(page));
+                    addedSomething = true;
                 } catch (pdfError) {
                     console.error(`Erro ao processar PDF ${file.name}:`, pdfError);
-                    alert(`Não foi possível processar o PDF ${file.name}. Ele pode estar corrompido ou protegido por senha.`);
+                    showToast(`Não foi possível processar o PDF ${file.name}.`);
                 }
             } else if (file.type.startsWith('image/')) {
                 try {
@@ -2074,14 +2022,12 @@ async function gerarDossieCompleto() {
                     } else if (file.type === 'image/png') {
                         image = await finalPdfDoc.embedPng(arrayBuffer);
                     } else {
-                        console.warn(`Formato de imagem não suportado diretamente pelo pdf-lib: ${file.name}`);
+                        console.warn(`Formato de imagem não suportado: ${file.name}`);
                         continue;
                     }
 
-                    // Calculate dimensions to fit A4 (595.28 x 841.89 points) with 20mm (~56.69 points) margin
-                    // Drawable area: 595.28 - 2*56.69 = 481.9 points width, 841.89 - 2*56.69 = 728.51 points height
-                    const MAX_WIDTH = 481.9;
-                    const MAX_HEIGHT = 728.51;
+                    const MAX_WIDTH = 595.28 - 40; // A4 width minus margin
+                    const MAX_HEIGHT = 841.89 - 40; // A4 height minus margin
 
                     let width = image.width;
                     let height = image.height;
@@ -2093,47 +2039,104 @@ async function gerarDossieCompleto() {
                     }
 
                     const page = finalPdfDoc.addPage([595.28, 841.89]);
-
-                    // Center the image
                     const x = (595.28 - width) / 2;
                     const y = (841.89 - height) / 2;
 
-                    page.drawImage(image, {
-                        x: x,
-                        y: y,
-                        width: width,
-                        height: height,
-                    });
+                    page.drawImage(image, { x, y, width, height });
+                    addedSomething = true;
                 } catch (imgError) {
                     console.error(`Erro ao processar imagem ${file.name}:`, imgError);
-                    alert(`Não foi possível processar a imagem ${file.name}.`);
+                    showToast(`Não foi possível processar a imagem ${file.name}.`);
                 }
             }
         }
 
-        // Exportação Final
+        if (!addedSomething) {
+            showToast("Nenhum PDF ou imagem compatível processada.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+        }
+
         const finalBytes = await finalPdfDoc.save();
         const blob = new Blob([finalBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        const dataStr = relData.replace(/\//g, '-');
-        a.download = `Relatorio_Oficial_${dataStr}.pdf`;
+        a.download = `Evidencias_Mescladas_${Date.now()}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        showToast("Dossiê gerado com sucesso!");
-
+        showToast("PDF gerado com sucesso!");
+    } catch (error) {
+        console.error("Erro ao gerar PDF:", error);
+        showToast("Erro ao gerar o PDF.");
+    } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
+    }
+}
+
+async function gerarTXT() {
+    const btn = document.getElementById('btnTxt');
+    if (!btn) return;
+
+    if (filaArquivosEstudio.length === 0) {
+        showToast("Fila vazia. Adicione arquivos primeiro.");
+        return;
+    }
+
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Extraindo...';
+    btn.disabled = true;
+
+    try {
+        let textoFinal = "=========================================================\n";
+        textoFinal += "   DOSSIÊ DE TEXTOS EXTRAÍDOS - OSINT HUB\n";
+        textoFinal += `   Data de Geração: ${new Date().toLocaleString()}\n`;
+        textoFinal += "=========================================================\n\n";
+
+        let processouAlgo = false;
+
+        for (const file of filaArquivosEstudio) {
+            if (file.type.includes('text') || file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt')) {
+                const conteudo = await file.text();
+                textoFinal += `\n>>> INÍCIO DO ARQUIVO: [${file.name}] <<<\n`;
+                textoFinal += "---------------------------------------------------------\n";
+                textoFinal += conteudo + "\n";
+                textoFinal += "---------------------------------------------------------\n";
+                textoFinal += `>>> FIM DO ARQUIVO: [${file.name}] <<<\n\n`;
+                processouAlgo = true;
+            }
+        }
+
+        if (!processouAlgo) {
+            showToast("Não há arquivos de texto ou CSV na fila.");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        const blob = new Blob([textoFinal], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Textos_Extraidos_${Date.now()}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast("Arquivo TXT unificado baixado com sucesso!");
     } catch (error) {
-        console.error("Erro ao gerar dossiê:", error);
-        alert("Ocorreu um erro ao gerar o dossiê. Verifique o console para mais detalhes.");
-        const btn = document.getElementById('btnGerar');
-        btn.innerHTML = '<i class="fa-solid fa-file-pdf mr-2 text-lg"></i> GERAR DOSSIÊ OFICIAL';
+        console.error("Erro ao extrair textos:", error);
+        showToast("Erro ao extrair os textos.");
+    } finally {
+        btn.innerHTML = originalText;
         btn.disabled = false;
     }
 }
