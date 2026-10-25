@@ -98,6 +98,8 @@
 
     <!-- Script de Lógica Forense 100% Offline -->
     <script>
+        function escapeHTML(str) { return String(str ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]); }
+
         let filaArquivos = [];
 
         // Elementos DOM
@@ -201,7 +203,7 @@
                         <span class="font-mono text-slate-500 text-xs w-4 text-right">${index + 1}.</span>
                         <i class="fa-solid ${icone} ${corIcone} text-lg w-5 text-center"></i>
                         <div class="flex flex-col overflow-hidden">
-                            <span class="text-sm font-semibold text-white truncate max-w-[200px] md:max-w-[250px]" title="${file.name}">${file.name}</span>
+                            <span class="text-sm font-semibold text-white truncate max-w-[200px] md:max-w-[250px]" title="${escapeHTML(file.name)}">${escapeHTML(file.name)}</span>
                             <span class="text-[10px] text-slate-500 font-mono">${sizeStr}</span>
                         </div>
                     </div>

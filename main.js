@@ -1,3 +1,5 @@
+function escapeHTML(str) { return String(str ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]); }
+
 async function calcularHashBuffer(buffer, algoritmo) {
             const hashBuffer = await crypto.subtle.digest(algoritmo, buffer);
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -1665,7 +1667,7 @@ function renderizarCardsExtrator() {
 
         let botoesHtml = entidades.map(ent => `
             <button onclick="mostrarContextoCorrelacao('${ent.replace(/'/g, "\\'")}')" class="w-full text-left px-2 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded text-xs font-mono text-slate-300 break-all transition-colors">
-                ${ent}
+                ${escapeHTML(ent)}
             </button>
         `).join('');
 
@@ -1916,7 +1918,7 @@ function atualizarInterfaceEstudio() {
             else if (file.type.includes('text') || file.name.endsWith('.csv')) icone = '📝';
 
             // Limitando o nome para não quebrar o layout
-            let displayName = file.name;
+            let displayName = escapeHTML(file.name);
             if (displayName.length > 30) {
                 displayName = displayName.substring(0, 27) + '...';
             }
