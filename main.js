@@ -2140,3 +2140,70 @@ async function gerarTXT() {
         btn.disabled = false;
     }
 }
+
+
+// Segurança Operacional (OPSEC): Expurgo Rápido
+function expurgarSessao() {
+    try {
+        // 1. Limpar todos os inputs de texto, busca, arquivo e textareas (ignorando date e config fixas, o que type=text não pega)
+        const inputs = document.querySelectorAll('input[type="text"], input[type="search"], input[type="file"], textarea');
+        inputs.forEach(el => {
+            if (el && typeof el.value !== 'undefined') {
+                el.value = '';
+            }
+        });
+
+        // 2. Limpar a fila de arquivos do Estúdio de Evidências, se existir
+        if (typeof filaArquivosEstudio !== 'undefined' && Array.isArray(filaArquivosEstudio)) {
+            filaArquivosEstudio.length = 0;
+            if (typeof atualizarInterfaceEstudio === 'function') {
+                atualizarInterfaceEstudio();
+            }
+        }
+
+        // 3. Limpar e esconder containers de resultados do Extrator e dos Validadores Forenses
+        const extratorResultados = document.getElementById('extratorResultados');
+        if (extratorResultados) {
+            extratorResultados.classList.add('hidden');
+        }
+
+        const extratorCards = document.getElementById('extratorCards');
+        if (extratorCards) {
+            extratorCards.innerHTML = '';
+        }
+
+        // Limpar resultados dos Validadores Forenses
+        const validadoresContainers = document.querySelectorAll('#tab-validadores .mt-4.pt-4.border-t.border-slate-800');
+        validadoresContainers.forEach(container => {
+            if (container) {
+                container.classList.add('hidden');
+            }
+        });
+
+        // Resetar conteúdos dinâmicos que possam ter ficado, usando verificação segura
+        const ipWarningText = document.getElementById('ipWarningText');
+        if (ipWarningText) ipWarningText.classList.add('hidden');
+
+        const ipDynamicLinks = document.getElementById('ipDynamicLinks');
+        if (ipDynamicLinks) ipDynamicLinks.innerHTML = '';
+
+        const imeiDynamicLink = document.getElementById('imeiDynamicLink');
+        if (imeiDynamicLink) imeiDynamicLink.innerHTML = '';
+
+        // Opcional: chamar as funções que resetam os valores baseados nos inputs vazios (mas a UI já está hidden)
+        // se necessário, podemos chamar a atualização dos validadores caso eles rodem sem a classe hidden em outro momento
+        // if (typeof analisarIP === 'function') analisarIP();
+        // if (typeof validarIMEI === 'function') validarIMEI();
+        // if (typeof analisarPix === 'function') analisarPix();
+
+        // 4. Exibir toast confirmando
+        if (typeof showToast === 'function') {
+            showToast('Sessão expurgada com sucesso');
+        } else if (typeof mostrarToast === 'function') {
+            mostrarToast('Sessão expurgada com sucesso');
+        }
+
+    } catch (e) {
+        console.error("Erro durante o expurgo da sessão:", e);
+    }
+}
