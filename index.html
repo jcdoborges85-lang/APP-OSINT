@@ -1015,6 +1015,68 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- Coluna 4: Validador de CPF / CNPJ & Região Fiscal -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col space-y-4">
+                        <h3 class="text-sm font-semibold text-purple-400 flex items-center mb-2">
+                            <span class="icon w-4 h-4 mr-2">📄</span> CPF / CNPJ & Região Fiscal
+                        </h3>
+
+                        <div class="flex-1 space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">CPF ou CNPJ</label>
+                                <input class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="docInput" type="text" placeholder="Digite o CPF ou CNPJ..."/>
+                            </div>
+                            <button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700 flex items-center justify-center space-x-2 transition-all" onclick="validarDocForense()">
+                                <span>Validar Documento</span>
+                            </button>
+                        </div>
+
+                        <div id="docResultArea" class="mt-4 pt-4 border-t border-slate-800 flex-col flex space-y-3 hidden">
+                            <div class="space-y-2 text-xs">
+                                <p class="flex items-center justify-between">
+                                    <strong class="text-slate-400">Tipo:</strong>
+                                    <span class="text-slate-100 font-mono" id="docTipoText">-</span>
+                                </p>
+                                <p class="flex items-center justify-between">
+                                    <strong class="text-slate-400">Status:</strong>
+                                    <span class="text-[10px] font-bold px-2 py-1 rounded-full badge-ok" id="docStatusText">VÁLIDO</span>
+                                </p>
+                                <p class="flex flex-col"><strong class="text-slate-400 mb-1">Região Fiscal (UF):</strong> <span class="text-[#2563eb] font-mono break-all" id="docRegiaoText">-</span></p>
+                            </div>
+                            <button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs flex items-center justify-center space-x-2 border border-slate-700 transition-all mt-auto" onclick="copiarResumoDoc()">
+                                <span class="icon w-4 h-4">📋</span><span>Copiar Resumo OSINT</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna 5: Conversor Forense de Fuso Horário -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg flex flex-col space-y-4">
+                        <h3 class="text-sm font-semibold text-rose-400 flex items-center mb-2">
+                            <span class="icon w-4 h-4 mr-2">⏳</span> Fuso Horário (UTC → BRT)
+                        </h3>
+
+                        <div class="flex-1 space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-1">Data/Hora (UTC) ou Timestamp</label>
+                                <input class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="fusoConverterInput" type="text" placeholder="Ex: 2026-10-25 14:30:00 ou Timestamp..."/>
+                                <p class="text-[10px] text-slate-500 mt-1">Converte estritamente de UTC+0 para UTC-3.</p>
+                            </div>
+                            <button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs border border-slate-700 flex items-center justify-center space-x-2 transition-all" onclick="converterFusoForense()">
+                                <span>Converter para BRT (UTC-3)</span>
+                            </button>
+                        </div>
+
+                        <div class="mt-4 pt-4 border-t border-slate-800 flex-col flex space-y-3">
+                            <div class="space-y-2 text-xs">
+                                <p class="flex flex-col"><strong class="text-slate-400 mb-1">Horário Convertido:</strong> <span class="text-[#2563eb] font-mono font-bold break-all" id="fusoResultArea">-</span></p>
+                            </div>
+                            <button class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded-lg text-xs flex items-center justify-center space-x-2 border border-slate-700 transition-all mt-auto" onclick="copiarTexto('fusoResultArea', 'Horário copiado!')">
+                                <span class="icon w-4 h-4">📋</span><span>Copiar Resultado</span>
+                            </button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
