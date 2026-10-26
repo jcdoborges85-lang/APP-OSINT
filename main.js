@@ -1409,6 +1409,149 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             showToast('PIX exportado!');
         }
 
+        // ===================== CPF / CNPJ Forense =====================
+        function validarDocForense() {
+            let doc = document.getElementById('docInput').value.replace(/\D/g, '');
+            document.getElementById('docInput').value = doc;
+
+            const docResultArea = document.getElementById('docResultArea');
+            const docTipoText = document.getElementById('docTipoText');
+            const docStatusText = document.getElementById('docStatusText');
+            const docRegiaoText = document.getElementById('docRegiaoText');
+
+            docResultArea.classList.remove('hidden');
+
+            if (!doc) {
+                docTipoText.innerText = '-';
+                docStatusText.innerText = 'VAZIO';
+                docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-warn';
+                docRegiaoText.innerText = '-';
+                return;
+            }
+
+            // Reject all identical digits immediately
+            if (/^(\d)\1+$/.test(doc)) {
+                docTipoText.innerText = 'DESCONHECIDO';
+                docStatusText.innerText = 'INVÁLIDO (Falso Positivo)';
+                docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-err';
+                docRegiaoText.innerText = '-';
+                return;
+            }
+
+            if (doc.length === 11) {
+                docTipoText.innerText = 'CPF';
+                const isValid = window.validarCPF ? validarCPF(doc) : false; // Use global function
+
+                if (isValid) {
+                    docStatusText.innerText = 'MATEMATICAMENTE VÁLIDO';
+                    docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-ok';
+
+                    const regioes = {
+                        '1': 'DF, GO, MS, MT, TO',
+                        '2': 'AC, AM, AP, PA, RO, RR',
+                        '3': 'CE, MA, PI',
+                        '4': 'AL, PB, PE, RN',
+                        '5': 'BA, SE',
+                        '6': 'MG',
+                        '7': 'ES, RJ',
+                        '8': 'SP',
+                        '9': 'PR, SC',
+                        '0': 'RS'
+                    };
+                    const regiaoNum = doc.charAt(8);
+                    docRegiaoText.innerText = `${regiaoNum} - ${regioes[regiaoNum]}`;
+                } else {
+                    docStatusText.innerText = 'INVÁLIDO / ADULTERADO';
+                    docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-err';
+                    docRegiaoText.innerText = '-';
+                }
+            } else if (doc.length === 14) {
+                docTipoText.innerText = 'CNPJ';
+                const isValid = window.validarCNPJ ? validarCNPJ(doc) : false;
+
+                if (isValid) {
+                    docStatusText.innerText = 'MATEMATICAMENTE VÁLIDO';
+                    docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-ok';
+                } else {
+                    docStatusText.innerText = 'INVÁLIDO / ADULTERADO';
+                    docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-err';
+                }
+                docRegiaoText.innerText = 'N/A (Não aplicável a CNPJ)';
+            } else {
+                docTipoText.innerText = 'DESCONHECIDO';
+                docStatusText.innerText = `INVÁLIDO (${doc.length} dígitos)`;
+                docStatusText.className = 'text-[10px] font-bold px-2 py-1 rounded-full badge-err';
+                docRegiaoText.innerText = '-';
+            }
+        }
+
+        function copiarResumoDoc() {
+            const doc = document.getElementById('docInput').value.replace(/\D/g, '');
+            const tipo = document.getElementById('docTipoText').innerText;
+            const status = document.getElementById('docStatusText').innerText;
+            const regiao = document.getElementById('docRegiaoText').innerText;
+
+            if (!doc) {
+                showToast("Nenhum documento para copiar.");
+                return;
+            }
+
+            const resumo = `[OSINT-TOOL] Documento: ${doc} | Tipo: ${tipo} | Status: ${status} | Região: ${regiao}`;
+            copiarDirect(resumo);
+        }
+
+        function converterFusoForense() {
+            let input = document.getElementById('fusoConverterInput').value.trim();
+            const fusoResultArea = document.getElementById('fusoResultArea');
+
+            if (!input) {
+                fusoResultArea.innerText = '-';
+                return;
+            }
+
+            let dateObj;
+
+            // Se a entrada contiver apenas números (10 ou 13 dígitos), trata como Timestamp
+            if (/^\d{10}$/.test(input)) {
+                dateObj = new Date(parseInt(input) * 1000);
+            } else if (/^\d{13}$/.test(input)) {
+                dateObj = new Date(parseInt(input));
+            } else {
+                // String de data/hora (ex: 2026-10-25 14:30:00)
+                // Regra Crítica: forçar UTC+0 se não tiver Z nem offset
+                if (!input.endsWith('Z') && !input.includes('+') && !input.match(/-\d{2}:\d{2}$/)) {
+                    input = input.replace(' ', 'T') + 'Z';
+                }
+                dateObj = new Date(input);
+            }
+
+            if (isNaN(dateObj.getTime())) {
+                fusoResultArea.innerText = 'Data/hora ou Timestamp inválido';
+                return;
+            }
+
+            // Formatar para America/Sao_Paulo
+            const options = {
+                timeZone: 'America/Sao_Paulo',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+
+            const formatter = new Intl.DateTimeFormat('pt-BR', options);
+            const formattedParts = formatter.formatToParts(dateObj);
+
+            const partMap = {};
+            formattedParts.forEach(p => partMap[p.type] = p.value);
+
+            const resultStr = `${partMap.day}/${partMap.month}/${partMap.year} às ${partMap.hour}:${partMap.minute}:${partMap.second} (Horário de Brasília - UTC-3)`;
+            fusoResultArea.innerText = resultStr;
+        }
+
         // ===================== TEMPO / UTC =====================
         function converterFuso() {
             const localVal = document.getElementById('timeLocalInput').value;
@@ -1484,7 +1627,7 @@ Data: ${new Date().toLocaleDateString('pt-BR')}.`;
         const SESSAO_CAMPOS_IDS = [
             'peritoNome', 'peritoMatricula', 'peritoOrgao',
             'ipInput', 'portaInput', 'fusoInput', 'provedorInput', 'fonteInput',
-            'imeiInput', 'pixInput',
+            'imeiInput', 'pixInput', 'docInput', 'fusoConverterInput',
             'preservUrl', 'preservDescricao',
             'dorkSite', 'dorkTermo', 'dorkIntext', 'dorkIntitle', 'dorkExcluir', 'dorkFiletype',
             'dmsGraus', 'dmsMinutos', 'dmsSegundos', 'dmsDirecao', 'ddInput',
@@ -1654,6 +1797,9 @@ window.filtrarConteudoGlobal = filtrarConteudoGlobal;
 window.enviarPreservacaoParaOficio = enviarPreservacaoParaOficio;
 window.baixarArquivo = baixarArquivo;
 window.atualizarIdentificacaoPerito = atualizarIdentificacaoPerito;
+window.validarDocForense = validarDocForense;
+window.copiarResumoDoc = copiarResumoDoc;
+window.converterFusoForense = converterFusoForense;
 
 // --- NOVO MODULO: Extrator Automático & Correlacionador ---
 
