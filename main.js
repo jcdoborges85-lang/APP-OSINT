@@ -5,6 +5,16 @@ async function calcularHashBuffer(buffer, algoritmo) {
             return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
+async function calcularSHA256(buffer) {
+    try {
+        const hashBuffer = await window.crypto.subtle.digest('SHA-256', buffer);
+        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch (error) {
+        console.error("Erro ao calcular SHA-256:", error);
+        return "Erro ao calcular hash";
+    }
+}
+
 function parseExifFromArrayBuffer(buffer) {
             const view = new DataView(buffer);
             if (view.byteLength < 4 || view.getUint16(0) !== 0xFFD8) return null; // nao e JPEG
@@ -2078,6 +2088,20 @@ function adicionarArquivosEstudio(event) {
         const files = Array.from(event.target.files);
         if (files.length === 0) return;
 
+        // Iniciar cálculo do SHA-256 em background
+        files.forEach(async (file) => {
+            file.sha256 = 'Calculando...';
+            atualizarInterfaceEstudio();
+            try {
+                const buf = await file.arrayBuffer();
+                file.sha256 = await calcularSHA256(buf);
+                atualizarInterfaceEstudio();
+            } catch (err) {
+                file.sha256 = 'Erro';
+                atualizarInterfaceEstudio();
+            }
+        });
+
         filaArquivosEstudio = filaArquivosEstudio.concat(files);
         atualizarInterfaceEstudio();
 
@@ -2110,6 +2134,21 @@ function configurarDragAndDropEstudio() {
         try {
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 const files = Array.from(e.dataTransfer.files);
+
+                // Iniciar cálculo do SHA-256 em background
+                files.forEach(async (file) => {
+                    file.sha256 = 'Calculando...';
+                    atualizarInterfaceEstudio();
+                    try {
+                        const buf = await file.arrayBuffer();
+                        file.sha256 = await calcularSHA256(buf);
+                        atualizarInterfaceEstudio();
+                    } catch (err) {
+                        file.sha256 = 'Erro';
+                        atualizarInterfaceEstudio();
+                    }
+                });
+
                 filaArquivosEstudio = filaArquivosEstudio.concat(files);
                 atualizarInterfaceEstudio();
             }
@@ -2150,8 +2189,26 @@ function atualizarInterfaceEstudio() {
             }
 
             const infoDiv = document.createElement('div');
-            infoDiv.className = 'flex items-center gap-2 overflow-hidden';
-            infoDiv.innerHTML = `<span class="icon">${icone}</span><span class="text-xs text-slate-200 truncate" title="${file.name}">${displayName}</span>`;
+            infoDiv.className = 'flex flex-col gap-1 overflow-hidden';
+
+            let hashInfo = '';
+            if (file.sha256) {
+                if (file.sha256 === 'Calculando...') {
+                    hashInfo = `<span class="text-[10px] text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Calculando hash...</span>`;
+                } else if (file.sha256 === 'Erro') {
+                    hashInfo = `<span class="text-[10px] text-red-400"><i class="fa-solid fa-circle-exclamation mr-1"></i> Erro no hash</span>`;
+                } else {
+                    hashInfo = `<span class="text-[10px] text-slate-500 font-mono" title="${file.sha256}">SHA-256: ${file.sha256.substring(0, 8)}...${file.sha256.slice(-8)}</span>`;
+                }
+            }
+
+            infoDiv.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="icon">${icone}</span>
+                    <span class="text-xs text-slate-200 truncate" title="${file.name}">${displayName}</span>
+                </div>
+                ${hashInfo}
+            `;
 
             const actionsDiv = document.createElement('div');
             actionsDiv.className = 'flex items-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity';
@@ -2290,13 +2347,25 @@ async function gerarPDF() {
         const blob = new Blob([finalBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
 
+        const fileName = `Evidencias_Mescladas_${Date.now()}.pdf`;
+
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Evidencias_Mescladas_${Date.now()}.pdf`;
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+
+        // Calcular o hash do arquivo final gerado para a Certidão
+        try {
+            const finalHash = await calcularSHA256(finalBytes);
+            if (typeof exibirCertidaoEstudio === 'function') {
+                exibirCertidaoEstudio(filaArquivosEstudio, fileName, finalHash);
+            }
+        } catch (hashErr) {
+            console.error("Erro ao calcular hash do PDF final:", hashErr);
+        }
 
         showToast("PDF gerado com sucesso!");
     } catch (error) {
@@ -2305,6 +2374,40 @@ async function gerarPDF() {
     } finally {
         btn.innerHTML = originalText;
         btn.disabled = false;
+    }
+}
+
+function exibirCertidaoEstudio(arquivos, nomeArquivoFinal, hashFinal) {
+    const container = document.getElementById('estudio-certidao-container');
+    const textoDiv = document.getElementById('estudio-certidao-texto');
+    if (!container || !textoDiv) return;
+
+    let texto = `CERTIDÃO DE CADEIA DE CUSTÓDIA (Art. 158-A CPP)\n`;
+    texto += `Gerado em: ${new Date().toLocaleString()}\n`;
+    texto += `Ferramenta: OSINT-Hub - Estúdio de Evidências\n`;
+    texto += `=================================================================\n\n`;
+
+    texto += `[ARQUIVOS ORIGINAIS PROCESSADOS]\n`;
+    arquivos.forEach((file, index) => {
+        texto += `Arquivo ${index + 1}: ${file.name}\n`;
+        texto += `Tamanho: ${(file.size / 1024).toFixed(2)} KB\n`;
+        texto += `SHA-256: ${file.sha256 && file.sha256.length === 64 ? file.sha256 : 'Não calculado/Erro'}\n\n`;
+    });
+
+    texto += `=================================================================\n\n`;
+    texto += `[ARQUIVO RESULTANTE (CONSOLIDAÇÃO)]\n`;
+    texto += `Arquivo: ${nomeArquivoFinal}\n`;
+    texto += `SHA-256: ${hashFinal && hashFinal.length === 64 ? hashFinal : 'Não calculado/Erro'}\n`;
+    texto += `=================================================================\n`;
+
+    textoDiv.textContent = texto;
+    container.classList.remove('hidden');
+}
+
+function copiarCertidaoEstudio() {
+    const texto = document.getElementById('estudio-certidao-texto')?.textContent;
+    if (texto) {
+        copiarDirect(texto);
     }
 }
 
@@ -2351,13 +2454,26 @@ async function gerarTXT() {
         const blob = new Blob([textoFinal], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
 
+        const fileName = `Textos_Extraidos_${Date.now()}.txt`;
+
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Textos_Extraidos_${Date.now()}.txt`;
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+
+        // Calcular o hash do arquivo final gerado para a Certidão
+        try {
+            const finalBytes = new TextEncoder().encode(textoFinal);
+            const finalHash = await calcularSHA256(finalBytes);
+            if (typeof exibirCertidaoEstudio === 'function') {
+                exibirCertidaoEstudio(filaArquivosEstudio, fileName, finalHash);
+            }
+        } catch (hashErr) {
+            console.error("Erro ao calcular hash do TXT final:", hashErr);
+        }
 
         showToast("Arquivo TXT unificado baixado com sucesso!");
     } catch (error) {
