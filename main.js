@@ -2551,3 +2551,165 @@ function expurgarSessao() {
         console.error("Erro durante o expurgo da sessão:", e);
     }
 }
+async function baixarOficioPDF() {
+    const textoOficio = document.getElementById('oficioPreviewText').innerText;
+    if (!textoOficio || textoOficio.trim().length === 0) {
+        showToast('Nada para exportar ainda.');
+        return;
+    }
+
+    const unidadePolicial = document.getElementById('oficioAutoridade').value || 'Unidade Policial';
+
+    try {
+        const { PDFDocument, rgb, StandardFonts } = PDFLib;
+        const pdfDoc = await PDFDocument.create();
+        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const helveticaBoldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+        const margin = 50; // Margem padrão (aproximadamente 1.76 cm)
+        const pageWidth = 595.28; // Largura A4 em pontos
+        const pageHeight = 841.89; // Altura A4 em pontos
+
+        let page = pdfDoc.addPage([pageWidth, pageHeight]);
+        let cursorY = pageHeight - margin;
+
+        const drawHeader = (currentPage) => {
+            let headerY = pageHeight - margin;
+            const centerX = pageWidth / 2;
+
+            // Linha 1: GOVERNO DO ESTADO DO CEARÁ
+            const text1 = "GOVERNO DO ESTADO DO CEARÁ";
+            const text1Width = helveticaBoldFont.widthOfTextAtSize(text1, 12);
+            currentPage.drawText(text1, {
+                x: centerX - (text1Width / 2),
+                y: headerY,
+                size: 12,
+                font: helveticaBoldFont,
+                color: rgb(0, 0, 0),
+            });
+            headerY -= 15;
+
+            // Linha 2: SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL
+            const text2 = "SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL";
+            const text2Width = helveticaBoldFont.widthOfTextAtSize(text2, 11);
+            currentPage.drawText(text2, {
+                x: centerX - (text2Width / 2),
+                y: headerY,
+                size: 11,
+                font: helveticaBoldFont,
+                color: rgb(0, 0, 0),
+            });
+            headerY -= 15;
+
+            // Linha 3: POLÍCIA CIVIL DO ESTADO DO CEARÁ
+            const text3 = "POLÍCIA CIVIL DO ESTADO DO CEARÁ";
+            const text3Width = helveticaBoldFont.widthOfTextAtSize(text3, 11);
+            currentPage.drawText(text3, {
+                x: centerX - (text3Width / 2),
+                y: headerY,
+                size: 11,
+                font: helveticaBoldFont,
+                color: rgb(0, 0, 0),
+            });
+            headerY -= 15;
+
+            // Linha 4: Unidade Policial
+            const text4Width = helveticaBoldFont.widthOfTextAtSize(unidadePolicial, 11);
+            currentPage.drawText(unidadePolicial, {
+                x: centerX - (text4Width / 2),
+                y: headerY,
+                size: 11,
+                font: helveticaBoldFont,
+                color: rgb(0, 0, 0),
+            });
+            headerY -= 15;
+
+            // Linha Divisória Horizontal
+            currentPage.drawLine({
+                start: { x: margin, y: headerY },
+                end: { x: pageWidth - margin, y: headerY },
+                thickness: 1,
+                color: rgb(0, 0, 0),
+            });
+
+            return headerY - 25; // Retorna nova posição Y (início do texto)
+        };
+
+        cursorY = drawHeader(page);
+
+        const fontSize = 11;
+        const lineHeight = 15;
+        const maxTextWidth = pageWidth - margin * 2;
+
+        const paragraphs = textoOficio.split('\n');
+
+        const checkPageBreak = (neededHeight) => {
+            if (cursorY - neededHeight < margin) {
+                page = pdfDoc.addPage([pageWidth, pageHeight]);
+                cursorY = drawHeader(page);
+            }
+        };
+
+        for (const paragraph of paragraphs) {
+            const text = paragraph.trimEnd(); // Mantemos espaços no início se houver indentação
+
+            if (!text) {
+                cursorY -= lineHeight; // Spacing for empty lines
+                continue;
+            }
+
+            // Word wrap
+            const words = text.split(' ');
+            let currentLine = '';
+
+            for (const word of words) {
+                const testLine = currentLine ? currentLine + ' ' + word : word;
+                const textWidth = helveticaFont.widthOfTextAtSize(testLine, fontSize);
+
+                if (textWidth > maxTextWidth) {
+                    checkPageBreak(lineHeight);
+                    page.drawText(currentLine, {
+                        x: margin,
+                        y: cursorY,
+                        size: fontSize,
+                        font: helveticaFont,
+                        color: rgb(0, 0, 0),
+                    });
+                    cursorY -= lineHeight;
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+
+            if (currentLine) {
+                checkPageBreak(lineHeight);
+                page.drawText(currentLine, {
+                    x: margin,
+                    y: cursorY,
+                    size: fontSize,
+                    font: helveticaFont,
+                    color: rgb(0, 0, 0),
+                });
+                cursorY -= lineHeight;
+            }
+        }
+
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'Minuta_Oficio_OSINT.pdf';
+        link.click();
+        URL.revokeObjectURL(link.href);
+
+        showToast('Ofício PDF baixado com sucesso!');
+        registrarLogAuditoria('Ofício PDF gerado com cabeçalho institucional.');
+
+    } catch (error) {
+        console.error('Erro ao gerar Ofício PDF:', error);
+        showToast('Erro ao gerar Ofício PDF.');
+    }
+}
+
+window.baixarOficioPDF = baixarOficioPDF;
