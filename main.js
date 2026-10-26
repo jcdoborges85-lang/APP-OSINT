@@ -1210,41 +1210,121 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
                     console.error('Erro na depuração do parser PIX:', e);
                 }
 
+                let tag26Data = {};
+                if (resultData['26']) {
+                    let j = 0;
+                    let tag26Val = resultData['26'];
+                    try {
+                        while (j < tag26Val.length) {
+                            let id = tag26Val.substring(j, j + 2);
+                            let len = parseInt(tag26Val.substring(j + 2, j + 4), 10);
+                            if (isNaN(len) || len <= 0) break;
+                            let subTagVal = tag26Val.substring(j + 4, j + 4 + len);
+                            tag26Data[id] = subTagVal;
+                            j += 4 + len;
+                        }
+                    } catch (e) {
+                        console.error('Erro no parser da Tag 26:', e);
+                    }
+                }
+
+                let tag62Data = {};
+                if (resultData['62']) {
+                    let k = 0;
+                    let tag62Val = resultData['62'];
+                    try {
+                        while (k < tag62Val.length) {
+                            let id = tag62Val.substring(k, k + 2);
+                            let len = parseInt(tag62Val.substring(k + 2, k + 4), 10);
+                            if (isNaN(len) || len <= 0) break;
+                            let subTagVal = tag62Val.substring(k + 4, k + 4 + len);
+                            tag62Data[id] = subTagVal;
+                            k += 4 + len;
+                        }
+                    } catch (e) {
+                        console.error('Erro no parser da Tag 62:', e);
+                    }
+                }
+
+                const chavePix = tag26Data['01'] || tag26Data['25'] || 'Não identificada';
+                const descricao = tag26Data['02'] || '';
+                const valorPix = resultData['54'] ? 'R$ ' + resultData['54'] : 'Valor aberto / Não definido';
+                const txId = tag62Data['05'] || 'Não identificado (Sub-tag 05 ausente)';
+                const nomeRecebedor = resultData['59'] || 'Não identificado (Tag 59 ausente)';
+                const nomeCidade = resultData['60'] || 'Não identificada (Tag 60 ausente)';
+
                 const container = document.createElement('div');
                 container.appendChild(document.createTextNode('Código EMVCo detectado e parseado.'));
                 container.appendChild(document.createElement('br'));
+                container.appendChild(document.createElement('br'));
+
+                const chaveStrong = document.createElement('strong');
+                chaveStrong.className = 'text-slate-400';
+                chaveStrong.textContent = 'Chave PIX / URL: ';
+                container.appendChild(chaveStrong);
+                const chaveSpan = document.createElement('span');
+                chaveSpan.className = 'text-white break-all';
+                chaveSpan.textContent = chavePix;
+                container.appendChild(chaveSpan);
+                container.appendChild(document.createElement('br'));
+
+                if (descricao) {
+                    const descStrong = document.createElement('strong');
+                    descStrong.className = 'text-slate-400';
+                    descStrong.textContent = 'Descrição: ';
+                    container.appendChild(descStrong);
+                    const descSpan = document.createElement('span');
+                    descSpan.className = 'text-white';
+                    descSpan.textContent = descricao;
+                    container.appendChild(descSpan);
+                    container.appendChild(document.createElement('br'));
+                }
 
                 const recStrong = document.createElement('strong');
                 recStrong.className = 'text-slate-400';
                 recStrong.textContent = 'Recebedor (Tag 59): ';
                 container.appendChild(recStrong);
-
-                const nomeRecebedor = resultData['59'] || 'Não identificado (Tag 59 ausente)';
                 const recSpan = document.createElement('span');
                 recSpan.className = 'text-white';
                 recSpan.textContent = nomeRecebedor;
                 container.appendChild(recSpan);
-
                 container.appendChild(document.createElement('br'));
 
                 const cityStrong = document.createElement('strong');
                 cityStrong.className = 'text-slate-400';
                 cityStrong.textContent = 'Cidade (Tag 60): ';
                 container.appendChild(cityStrong);
-
-                const nomeCidade = resultData['60'] || 'Não identificada (Tag 60 ausente)';
                 const citySpan = document.createElement('span');
                 citySpan.className = 'text-white';
                 citySpan.textContent = nomeCidade;
                 container.appendChild(citySpan);
+                container.appendChild(document.createElement('br'));
 
+                const valStrong = document.createElement('strong');
+                valStrong.className = 'text-slate-400';
+                valStrong.textContent = 'Valor (Tag 54): ';
+                container.appendChild(valStrong);
+                const valSpan = document.createElement('span');
+                valSpan.className = 'text-white';
+                valSpan.textContent = valorPix;
+                container.appendChild(valSpan);
+                container.appendChild(document.createElement('br'));
+
+                const txIdStrong = document.createElement('strong');
+                txIdStrong.className = 'text-slate-400';
+                txIdStrong.textContent = 'TxID (Tag 62.05): ';
+                container.appendChild(txIdStrong);
+                const txIdSpan = document.createElement('span');
+                txIdSpan.className = 'text-white break-all';
+                txIdSpan.textContent = txId;
+                container.appendChild(txIdSpan);
                 container.appendChild(document.createElement('br'));
                 container.appendChild(document.createElement('br'));
 
                 const copyBtn = document.createElement('button');
                 copyBtn.className = 'w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all mt-2';
                 copyBtn.onclick = function() {
-                    copiarDirect('[OSINT] PIX Recebedor: ' + nomeRecebedor + ' | Cidade: ' + nomeCidade);
+                    copiarDirect(`[OSINT-PIX] Chave: ${chavePix} | Titular: ${nomeRecebedor} | Cidade: ${nomeCidade} | Valor: ${valorPix} | TxID: ${txId}`);
                 };
 
                 const iconSpan = document.createElement('span');
