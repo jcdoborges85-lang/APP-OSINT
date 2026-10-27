@@ -1581,43 +1581,43 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4 lg:col-span-1">
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Número do Procedimento</label>
-<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioInquerito" oninput="atualizarMinutaOficio()" type="text" value="IP nº 123/2026 - DP"/>
+<label class="block text-xs font-medium text-slate-300 mb-1">1. Unidade Policial</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioUnidade" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: 21º Distrito Policial"/>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Autoridade Requisitante</label>
-<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioAutoridade" oninput="atualizarMinutaOficio()" type="text" value="Delegacia de Polícia"/>
+<label class="block text-xs font-medium text-slate-300 mb-1">2. Número do Ofício</label>
+<div class="flex gap-2">
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioNumero" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="Ex: 001/2026"/>
+<button onclick="gerarNumeroOficio()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-bold transition-all shrink-0">Gerar Automático</button>
+</div>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Destinatário</label>
-<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioDestinatario" oninput="atualizarMinutaOficio()" type="text" value="CLARO S.A. - Setor de Cumprimento de Ordens"/>
+<label class="block text-xs font-medium text-slate-300 mb-1">3. Procedimento / BO</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioProcedimento" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: BO nº 127-3110/2026"/>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Alvo Técnico Solicitado</label>
-<textarea class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioAlvo" oninput="atualizarMinutaOficio()" rows="3">IP: 177.132.45.10 | Porta Lógica: 51234 | Fuso: UTC-3</textarea>
+<label class="block text-xs font-medium text-slate-300 mb-1">4. Tipificação Penal</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioTipificacao" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: FURTO DE MOTOCICLETA (art. 155 do CP)"/>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Fundamentação Legal</label>
-<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioFundamentacao" onchange="atualizarMinutaOficio()">
-<option value="Art. 15 da Lei nº 12.965/2014 (Marco Civil da Internet)">Art. 15 - Marco Civil da Internet</option>
-<option value="Art. 13-A e 13-B da Lei nº 12.965/2014 c/c Lei nº 13.344/2016">Art. 13-A/13-B MCI c/c Lei do Tráfico de Pessoas</option>
-<option value="Art. 158-A e seguintes do Código de Processo Penal (Cadeia de Custódia)">Art. 158-A e ss. CPP - Cadeia de Custódia</option>
-<option value="Lei Complementar nº 105/2001 (Sigilo Bancário) c/c Resolução BCB">LC 105/2001 - Sigilo Bancário / SIMBA</option>
-</select>
+<label class="block text-xs font-medium text-slate-300 mb-1">5. Nome da Autoridade / Delegado</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioDelegado" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: Rafael Ferreira da Silva"/>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">Prazo para Resposta</label>
-<select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioPrazo" onchange="atualizarMinutaOficio()">
-<option value="24 (vinte e quatro) horas - URGENTE">24 horas (Urgência)</option>
-<option value="48 (quarenta e oito) horas">48 horas</option>
-<option selected="" value="05 (cinco) dias úteis">05 dias úteis</option>
-<option value="10 (dez) dias úteis">10 dias úteis</option>
-<option value="15 (quinze) dias úteis">15 dias úteis</option>
-</select>
+<label class="block text-xs font-medium text-slate-300 mb-1">6. Matrícula</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioMatricula" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: 3001507X"/>
 </div>
 <div>
-<label class="block text-xs font-medium text-slate-300 mb-1">E-mail Institucional (Retorno)</label>
-<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioEmailRetorno" type="email" value="contato@policiacivil.ce.gov.br" oninput="atualizarMinutaOficio()"/>
+<label class="block text-xs font-medium text-slate-300 mb-1">7. Destinatário</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioDestinatario" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="text" placeholder="ex: TIM S.A."/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">8. Alvo Técnico / Linhas Telefônicas</label>
+<textarea class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioAlvo" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" rows="3" placeholder="ex: +55 (85) 99683-6426"></textarea>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-300 mb-1">9. E-mail Institucional</label>
+<input class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-100 font-mono outline-none" id="oficioEmailRetorno" oninput="atualizarMinutaOficio(); salvarOficioLocalStorage();" type="email" placeholder="ex: rafael.f.silva@pc.ce.gov.br"/>
 </div>
 <button class="w-full py-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-bold rounded-lg text-xs flex items-center justify-center space-x-2 transition-all" onclick="baixarOficioTxt()">
 <span class="icon w-4 h-4">⬇️</span><span>Baixar Documento (.TXT)</span>

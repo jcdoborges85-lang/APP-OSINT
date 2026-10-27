@@ -1591,26 +1591,80 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
         }
 
         // ===================== OFÍCIO =====================
+        function salvarOficioLocalStorage() {
+            const oficiosData = {
+                oficioUnidade: document.getElementById('oficioUnidade')?.value || '',
+                oficioNumero: document.getElementById('oficioNumero')?.value || '',
+                oficioProcedimento: document.getElementById('oficioProcedimento')?.value || '',
+                oficioTipificacao: document.getElementById('oficioTipificacao')?.value || '',
+                oficioDelegado: document.getElementById('oficioDelegado')?.value || '',
+                oficioMatricula: document.getElementById('oficioMatricula')?.value || '',
+                oficioDestinatario: document.getElementById('oficioDestinatario')?.value || '',
+                oficioAlvo: document.getElementById('oficioAlvo')?.value || '',
+                oficioEmailRetorno: document.getElementById('oficioEmailRetorno')?.value || ''
+            };
+            localStorage.setItem('oficiosData', JSON.stringify(oficiosData));
+        }
+
+        function carregarOficioLocalStorage() {
+            const oficiosDataStr = localStorage.getItem('oficiosData');
+            if (oficiosDataStr) {
+                try {
+                    const oficiosData = JSON.parse(oficiosDataStr);
+                    if (oficiosData.oficioUnidade) document.getElementById('oficioUnidade').value = oficiosData.oficioUnidade;
+                    if (oficiosData.oficioNumero) document.getElementById('oficioNumero').value = oficiosData.oficioNumero;
+                    if (oficiosData.oficioProcedimento) document.getElementById('oficioProcedimento').value = oficiosData.oficioProcedimento;
+                    if (oficiosData.oficioTipificacao) document.getElementById('oficioTipificacao').value = oficiosData.oficioTipificacao;
+                    if (oficiosData.oficioDelegado) document.getElementById('oficioDelegado').value = oficiosData.oficioDelegado;
+                    if (oficiosData.oficioMatricula) document.getElementById('oficioMatricula').value = oficiosData.oficioMatricula;
+                    if (oficiosData.oficioDestinatario) document.getElementById('oficioDestinatario').value = oficiosData.oficioDestinatario;
+                    if (oficiosData.oficioAlvo) document.getElementById('oficioAlvo').value = oficiosData.oficioAlvo;
+                    if (oficiosData.oficioEmailRetorno) document.getElementById('oficioEmailRetorno').value = oficiosData.oficioEmailRetorno;
+                    atualizarMinutaOficio();
+                } catch (e) {
+                    console.error('Erro ao carregar dados do ofício do localStorage', e);
+                }
+            } else {
+                atualizarMinutaOficio();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            carregarOficioLocalStorage();
+        });
+
+        function gerarNumeroOficio() {
+            const numeroAleatorio = Math.floor(Math.random() * 900) + 100; // Gera número de 100 a 999
+            const ano = 2026;
+            const novoNumero = `${String(numeroAleatorio).padStart(3, '0')}/${ano}`;
+            const inputNumero = document.getElementById('oficioNumero');
+            if(inputNumero) {
+                inputNumero.value = novoNumero;
+                salvarOficioLocalStorage();
+                atualizarMinutaOficio();
+                showToast('Número gerado com sucesso!');
+            }
+        }
+        window.gerarNumeroOficio = gerarNumeroOficio;
+
         function atualizarMinutaOficio() {
-            const inquerito = document.getElementById('oficioInquerito').value || '[PROCEDIMENTO]';
-            const autoridade = document.getElementById('oficioAutoridade').value || '[AUTORIDADE REQUISITANTE]';
-            const destinatario = document.getElementById('oficioDestinatario').value || '[DESTINATÁRIO]';
-            const alvo = document.getElementById('oficioAlvo').value || '[ALVO]';
-            const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || '[EMAIL INSTITUCIONAL]';
-            const peritoNome = document.getElementById('peritoNome')?.value || '[NOME DO DELEGADO]';
-            const peritoMatricula = document.getElementById('peritoMatricula')?.value || '[MATRÍCULA]';
-            const peritoOrgao = document.getElementById('peritoOrgao')?.value || autoridade;
-            const prazo = document.getElementById('oficioPrazo').value || '48 horas';
+            const unidade = document.getElementById('oficioUnidade')?.value || 'NÃO INFORMADA';
+            const numeroOficio = document.getElementById('oficioNumero')?.value || 'S/N';
+            const inquerito = document.getElementById('oficioProcedimento')?.value || 'NÃO INFORMADO';
+            const tipificacao = document.getElementById('oficioTipificacao')?.value || 'NÃO INFORMADA';
+            const peritoNome = document.getElementById('oficioDelegado')?.value || 'NOME NÃO INFORMADO';
+            const peritoMatricula = document.getElementById('oficioMatricula')?.value || 'MATRÍCULA NÃO INFORMADA';
+            const destinatario = document.getElementById('oficioDestinatario')?.value || 'DESTINATÁRIO NÃO INFORMADO';
+            const alvo = document.getElementById('oficioAlvo')?.value || 'ALVO NÃO INFORMADO';
+            const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || 'EMAIL NÃO INFORMADO';
+            const prazo = document.getElementById('oficioPrazo')?.value || '48 horas';
 
-            const numeroOficio = '[Número]';
-            const anoOficio = new Date().getFullYear();
-
-            document.getElementById('oficioPreviewText').innerText = `OFÍCIO REQUISITÓRIO N° ${numeroOficio}/${anoOficio} - ${peritoOrgao}
+            document.getElementById('oficioPreviewText').innerText = `OFÍCIO REQUISITÓRIO N° ${numeroOficio} - ${unidade}
 
 À ${destinatario}
 
-Assunto: Requisição de dados cadastrais e preservação de registros - linha [Número]
-Referência: Boletim de Ocorrência nº ${inquerito}, apurando a prática de [Tipificação], em trâmite nesta unidade policial.
+Assunto: Requisição de dados cadastrais e preservação de registros - linha ${numeroOficio}
+Referência: ${inquerito}, apurando a prática de ${tipificacao}, em trâmite nesta unidade policial.
 
 1. DADOS CADASTRAIS
 Com fulcro no art. 10, §3º, da Lei nº 12.965/2014 (Marco Civil da Internet) e no art. 2º, §2º, da Lei nº 12.830/2013, REQUISITO, no prazo de ${prazo}, os dados cadastrais da(s) seguinte(s) linha(s) móvel(is), operada(s) por essa empresa:
@@ -1634,7 +1688,7 @@ ___________________________________________________
 ${peritoNome}
 Delegado de Polícia
 Matrícula: ${peritoMatricula}
-${peritoOrgao}`;
+${unidade}`;
         }
 
         function baixarOficioTxt() {
