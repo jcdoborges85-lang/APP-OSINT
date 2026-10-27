@@ -1663,7 +1663,7 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
 
 À ${destinatario}
 
-Assunto: Requisição de dados cadastrais e preservação de registros - linha ${numeroOficio}
+Assunto: Requisição de dados cadastrais e preservação de registros - linha(s) ${alvo}
 Referência: ${inquerito}, apurando a prática de ${tipificacao}, em trâmite nesta unidade policial.
 
 1. DADOS CADASTRAIS
