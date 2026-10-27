@@ -1682,13 +1682,7 @@ Nos termos do art. 13, §2º, da Lei nº 12.965/2014, REQUEIRO a PRESERVAÇÃO, 
 3. SIGILO E RETORNO
 Solicita-se que o titular NÃO seja comunicado sobre a presente requisição, a fim de não prejudicar as investigações em curso. As informações deverão ser encaminhadas para o e-mail institucional: ${emailRetorno}.
 
-Data: ${new Date().toLocaleDateString('pt-BR')}
-
-___________________________________________________
-${peritoNome}
-Delegado de Polícia
-Matrícula: ${peritoMatricula}
-${unidade}`;
+Data: ${new Date().toLocaleDateString('pt-BR')}`;
         }
 
         function baixarOficioTxt() {
@@ -2770,13 +2764,13 @@ async function baixarOficioPDF() {
 
 
         // ===================== BLOCO DE ASSINATURA E RODAPÉ =====================
-        const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || '';
+        const emailInstitucional = document.getElementById('oficioEmailRetorno')?.value || '';
         const nomeAutoridade = document.getElementById('oficioDelegado')?.value || 'NOME DA AUTORIDADE';
         const matriculaAutoridade = document.getElementById('oficioMatricula')?.value || 'MATRÍCULA NÃO INFORMADA';
-        const unidadeAutoridade = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
+        const unidadePolicial = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
 
         // Espaço necessário: margem + aviso (2 linhas) + email (1 linha) + 40 de espaçamento + assinatura (4 linhas) + folga
-        const footerNeededSpace = lineHeight * 10 + 40;
+        const footerNeededSpace = 115;
 
         if (cursorY - footerNeededSpace < margin) {
             page = pdfDoc.addPage([pageWidth, pageHeight]);
@@ -2802,11 +2796,11 @@ async function baixarOficioPDF() {
             page.drawText(txt, { x: (pageWidth / 2) - (txtWidth / 2), y: yPos, size: sz, font: fnt, color: rgb(0, 0, 0) });
         };
 
-        drawCenteredText(nomeAutoridade.toUpperCase(), cursorY, helveticaBoldFont, 11);
+        drawCenteredText(nomeAutoridade, cursorY, helveticaBoldFont, 11);
         cursorY -= lineHeight;
         drawCenteredText(`Delegado de Polícia Civil - Mat. ${matriculaAutoridade}`, cursorY, helveticaFont, 11);
         cursorY -= lineHeight;
-        drawCenteredText(unidadeAutoridade, cursorY, helveticaFont, 11);
+        drawCenteredText(unidadePolicial, cursorY, helveticaFont, 11);
 
         // Aviso de sigilo e email no rodapé
         const rodapeY = margin + 15;
@@ -2821,8 +2815,8 @@ async function baixarOficioPDF() {
         const txtAviso2 = "A quebra ou divulgação indevida sujeita o infrator às sanções civis, penais e administrativas cabíveis.";
         drawCenteredText(txtAviso, rodapeY, helveticaBoldFont, 8);
         drawCenteredText(txtAviso2, rodapeY - 10, helveticaFont, 8);
-        if (emailRetorno) {
-            drawCenteredText(`E-mail para resposta institucional: ${emailRetorno}`, rodapeY - 22, helveticaBoldFont, 9);
+        if (emailInstitucional) {
+            drawCenteredText(`E-mail para resposta institucional: ${emailInstitucional}`, rodapeY - 22, helveticaBoldFont, 9);
         }
 
         const pdfBytes = await pdfDoc.save();
