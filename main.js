@@ -2631,7 +2631,7 @@ async function baixarOficioPDF() {
         return;
     }
 
-    const unidadePolicial = document.getElementById('oficioAutoridade').value || 'Unidade Policial';
+    const unidadePolicial = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
 
     try {
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
@@ -2771,9 +2771,9 @@ async function baixarOficioPDF() {
 
         // ===================== BLOCO DE ASSINATURA E RODAPÉ =====================
         const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || '';
-        const nomeAutoridade = document.getElementById('peritoNome')?.value || 'NOME DA AUTORIDADE';
-        const matriculaAutoridade = document.getElementById('peritoMatricula')?.value || '000000-0-0';
-        const unidadeAutoridade = document.getElementById('peritoOrgao')?.value || 'UNIDADE POLICIAL';
+        const nomeAutoridade = document.getElementById('oficioDelegado')?.value || 'NOME DA AUTORIDADE';
+        const matriculaAutoridade = document.getElementById('oficioMatricula')?.value || 'MATRÍCULA NÃO INFORMADA';
+        const unidadeAutoridade = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
 
         // Espaço necessário: margem + aviso (2 linhas) + email (1 linha) + 40 de espaçamento + assinatura (4 linhas) + folga
         const footerNeededSpace = lineHeight * 10 + 40;
