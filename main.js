@@ -2695,6 +2695,63 @@ async function baixarOficioPDF() {
             }
         }
 
+
+        // ===================== BLOCO DE ASSINATURA E RODAPÉ =====================
+        const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || '';
+        const nomeAutoridade = document.getElementById('peritoNome')?.value || 'NOME DA AUTORIDADE';
+        const matriculaAutoridade = document.getElementById('peritoMatricula')?.value || '000000-0-0';
+        const unidadeAutoridade = document.getElementById('peritoOrgao')?.value || 'UNIDADE POLICIAL';
+
+        // Espaço necessário: margem + aviso (2 linhas) + email (1 linha) + 40 de espaçamento + assinatura (4 linhas) + folga
+        const footerNeededSpace = lineHeight * 10 + 40;
+
+        if (cursorY - footerNeededSpace < margin) {
+            page = pdfDoc.addPage([pageWidth, pageHeight]);
+            cursorY = drawHeader(page);
+        }
+
+        // Espaçamento antes do bloco de assinatura
+        cursorY -= 40;
+
+        const signatureLineY = cursorY;
+        const signatureLineWidth = 200;
+
+        page.drawLine({
+            start: { x: (pageWidth / 2) - (signatureLineWidth / 2), y: signatureLineY },
+            end: { x: (pageWidth / 2) + (signatureLineWidth / 2), y: signatureLineY },
+            thickness: 1,
+            color: rgb(0, 0, 0),
+        });
+
+        cursorY -= lineHeight;
+        const drawCenteredText = (txt, yPos, fnt, sz) => {
+            const txtWidth = fnt.widthOfTextAtSize(txt, sz);
+            page.drawText(txt, { x: (pageWidth / 2) - (txtWidth / 2), y: yPos, size: sz, font: fnt, color: rgb(0, 0, 0) });
+        };
+
+        drawCenteredText(nomeAutoridade.toUpperCase(), cursorY, helveticaBoldFont, 11);
+        cursorY -= lineHeight;
+        drawCenteredText(`Delegado de Polícia Civil - Mat. ${matriculaAutoridade}`, cursorY, helveticaFont, 11);
+        cursorY -= lineHeight;
+        drawCenteredText(unidadeAutoridade, cursorY, helveticaFont, 11);
+
+        // Aviso de sigilo e email no rodapé
+        const rodapeY = margin + 15;
+        page.drawLine({
+            start: { x: margin, y: rodapeY + 15 },
+            end: { x: pageWidth - margin, y: rodapeY + 15 },
+            thickness: 1,
+            color: rgb(0, 0, 0),
+        });
+
+        const txtAviso = "AVISO DE SIGILO: Este documento contém informações de caráter restrito e sigiloso.";
+        const txtAviso2 = "A quebra ou divulgação indevida sujeita o infrator às sanções civis, penais e administrativas cabíveis.";
+        drawCenteredText(txtAviso, rodapeY, helveticaBoldFont, 8);
+        drawCenteredText(txtAviso2, rodapeY - 10, helveticaFont, 8);
+        if (emailRetorno) {
+            drawCenteredText(`E-mail para resposta institucional: ${emailRetorno}`, rodapeY - 22, helveticaBoldFont, 9);
+        }
+
         const pdfBytes = await pdfDoc.save();
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const link = document.createElement('a');
