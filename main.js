@@ -2625,7 +2625,7 @@ async function baixarOficioPDF() {
         return;
     }
 
-    const unidadePolicial = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
+    const unidadePolicialStr = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
 
     try {
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
@@ -2681,8 +2681,8 @@ async function baixarOficioPDF() {
             headerY -= 15;
 
             // Linha 4: Unidade Policial
-            const text4Width = helveticaBoldFont.widthOfTextAtSize(unidadePolicial, 11);
-            currentPage.drawText(unidadePolicial, {
+            const text4Width = helveticaBoldFont.widthOfTextAtSize(unidadePolicialStr, 11);
+            currentPage.drawText(unidadePolicialStr, {
                 x: centerX - (text4Width / 2),
                 y: headerY,
                 size: 11,
@@ -2711,7 +2711,7 @@ async function baixarOficioPDF() {
         const paragraphs = textoOficio.split('\n');
 
         const checkPageBreak = (neededHeight) => {
-            if (cursorY - neededHeight < margin) {
+            if (cursorY - neededHeight < margin || cursorY <= margin) {
                 page = pdfDoc.addPage([pageWidth, pageHeight]);
                 cursorY = drawHeader(page);
             }
@@ -2721,6 +2721,7 @@ async function baixarOficioPDF() {
             const text = paragraph.trimEnd(); // Mantemos espaços no início se houver indentação
 
             if (!text) {
+                checkPageBreak(lineHeight);
                 cursorY -= lineHeight; // Spacing for empty lines
                 continue;
             }
@@ -2764,15 +2765,17 @@ async function baixarOficioPDF() {
 
 
         // ===================== BLOCO DE ASSINATURA E RODAPÉ =====================
-        const emailInstitucional = document.getElementById('oficioEmailRetorno')?.value || '';
-        const nomeAutoridade = document.getElementById('oficioDelegado')?.value || 'NOME DA AUTORIDADE';
-        const matriculaAutoridade = document.getElementById('oficioMatricula')?.value || 'MATRÍCULA NÃO INFORMADA';
-        const unidadePolicial = document.getElementById('oficioUnidade')?.value || 'UNIDADE POLICIAL NÃO INFORMADA';
+        const emailInstitucional = document.getElementById('oficioEmailRetorno')?.value || 'NÃO INFORMADO';
+        const nomeAutoridade = document.getElementById('oficioDelegado')?.value || 'NÃO INFORMADO';
+        const matriculaAutoridade = document.getElementById('oficioMatricula')?.value || 'NÃO INFORMADO';
+        const unidadePolicial = unidadePolicialStr;
 
         // Espaço necessário: margem + aviso (2 linhas) + email (1 linha) + 40 de espaçamento + assinatura (4 linhas) + folga
         const footerNeededSpace = 115;
 
-        if (cursorY - footerNeededSpace < margin) {
+        // The actual requirement is that we have enough space for the signature and footer,
+        // but also we should never draw outside the page bounds.
+        if (cursorY - footerNeededSpace < margin || cursorY <= margin) {
             page = pdfDoc.addPage([pageWidth, pageHeight]);
             cursorY = drawHeader(page);
         }
@@ -2831,7 +2834,7 @@ async function baixarOficioPDF() {
         registrarLogAuditoria('Ofício PDF gerado com cabeçalho institucional.');
 
     } catch (error) {
-        console.error('Erro ao gerar Ofício PDF:', error);
+        console.error("Erro no pdf-lib:", error);
         showToast('Erro ao gerar Ofício PDF.');
     }
 }
