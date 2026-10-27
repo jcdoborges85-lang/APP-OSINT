@@ -1596,26 +1596,45 @@ AGENTE DE INTELIGÊNCIA / PERITO RESPONSÁVEL`;
             const autoridade = document.getElementById('oficioAutoridade').value || '[AUTORIDADE REQUISITANTE]';
             const destinatario = document.getElementById('oficioDestinatario').value || '[DESTINATÁRIO]';
             const alvo = document.getElementById('oficioAlvo').value || '[ALVO]';
-            const fundamentacao = document.getElementById('oficioFundamentacao').value;
-            const prazo = document.getElementById('oficioPrazo').value;
+            const emailRetorno = document.getElementById('oficioEmailRetorno')?.value || '[EMAIL INSTITUCIONAL]';
+            const peritoNome = document.getElementById('peritoNome')?.value || '[NOME DO DELEGADO]';
+            const peritoMatricula = document.getElementById('peritoMatricula')?.value || '[MATRÍCULA]';
+            const peritoOrgao = document.getElementById('peritoOrgao')?.value || autoridade;
+            const prazo = document.getElementById('oficioPrazo').value || '48 horas';
 
-            document.getElementById('oficioPreviewText').innerText = `REQUISIÇÃO CAUTELAR DE DADOS DIGITAIS
+            const numeroOficio = '[Número]';
+            const anoOficio = new Date().getFullYear();
 
-Autoridade Requisitante: ${autoridade}
-Ao(À) Responsável pelo Setor Legal/Compliance: ${destinatario}
-Referência: ${inquerito}
+            document.getElementById('oficioPreviewText').innerText = `OFÍCIO REQUISITÓRIO N° ${numeroOficio}/${anoOficio} - ${peritoOrgao}
 
-Com fulcro no(a) ${fundamentacao}, REQUER-SE o fornecimento dos registros abaixo:
+À ${destinatario}
 
-1. ALVO TÉCNICO:
+Assunto: Requisição de dados cadastrais e preservação de registros - linha [Número]
+Referência: Boletim de Ocorrência nº ${inquerito}, apurando a prática de [Tipificação], em trâmite nesta unidade policial.
+
+1. DADOS CADASTRAIS
+Com fulcro no art. 10, §3º, da Lei nº 12.965/2014 (Marco Civil da Internet) e no art. 2º, §2º, da Lei nº 12.830/2013, REQUISITO, no prazo de ${prazo}, os dados cadastrais da(s) seguinte(s) linha(s) móvel(is), operada(s) por essa empresa:
+
 ${alvo}
 
-2. ESPECIFICAÇÃO:
-Registros de conexão/acesso (IP, porta lógica de origem, horário UTC) e dados cadastrais vinculados.
+a) nome completo, CPF/CNPJ, filiação e data de nascimento do titular;
+b) endereço de cadastro e de cobrança, e e-mail informado;
+c) data de ativação, modalidade (pré/pós-pago) e situação atual da linha;
+d) em caso de pré-pago, canal e forma das últimas recargas.
 
-3. PRAZO: ${prazo}.
+2. PRESERVAÇÃO CAUTELAR
+Nos termos do art. 13, §2º, da Lei nº 12.965/2014, REQUEIRO a PRESERVAÇÃO, por 60 (sessenta) dias, prorrogáveis, dos registros de conexão e de chamadas, dos dados de tráfego, das ERBs acionadas e do IMEI/IMSI vinculados à(s) linha(s).
 
-Data: ${new Date().toLocaleDateString('pt-BR')}.`;
+3. SIGILO E RETORNO
+Solicita-se que o titular NÃO seja comunicado sobre a presente requisição, a fim de não prejudicar as investigações em curso. As informações deverão ser encaminhadas para o e-mail institucional: ${emailRetorno}.
+
+Data: ${new Date().toLocaleDateString('pt-BR')}
+
+___________________________________________________
+${peritoNome}
+Delegado de Polícia
+Matrícula: ${peritoMatricula}
+${peritoOrgao}`;
         }
 
         function baixarOficioTxt() {
