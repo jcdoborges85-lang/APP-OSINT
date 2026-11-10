@@ -1634,10 +1634,9 @@
 </div>
 </div>
         </div>
-        </div>
 
         <button onclick="switchTab('biometria')" id="btn-biometria" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.46s">
-            <i class="fa-solid fa-face-viewfinder w-4 text-center"></i><span>Biometria Facial</span>
+            <span class="icon w-4 h-4 text-purple-500"><i class="fa-solid fa-face-viewfinder"></i></span><span>Biometria Facial</span>
             <span class="nav-chevron">›</span>
         </button>
         <div id="tab-biometria" class="tab-content accordion-panel space-y-6 hidden">
@@ -1658,41 +1657,39 @@
                     <!-- Imagem 1: Referência -->
                     <div class="space-y-2">
                         <label class="block text-xs font-medium text-slate-300">Imagem 1: Referência</label>
-                        <label for="upload-bio-ref" class="upload-zone cursor-pointer block border-2 border-dashed border-slate-700 bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 hover:border-slate-500 transition-all group">
-                            <i class="fa-regular fa-image text-2xl text-slate-500 mb-2 group-hover:text-slate-300 transition-colors"></i>
-                            <div class="text-sm font-medium text-slate-300">Arraste a imagem ou clique</div>
-                            <div class="text-[10px] text-slate-500 mt-1">PNG, JPG ou WEBP (Max. 5MB)</div>
-                        </label>
-                        <input type="file" id="upload-bio-ref" class="file-input-vh" accept="image/png, image/jpeg, image/webp">
+                        <div class="border-2 border-dashed border-slate-700 bg-slate-900/50 hover:bg-slate-800/50 transition-colors rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer group h-40">
+                            <i class="fa-regular fa-image text-3xl text-slate-500 group-hover:text-purple-400 transition-colors mb-3"></i>
+                            <span class="text-sm text-slate-300">Arraste a imagem ou clique</span>
+                            <span class="text-[10px] text-slate-500 mt-1">PNG, JPG ou WEBP (Max. 5MB)</span>
+                        </div>
                     </div>
 
                     <!-- Imagem 2: Questionada -->
                     <div class="space-y-2">
                         <label class="block text-xs font-medium text-slate-300">Imagem 2: Questionada</label>
-                        <label for="upload-bio-quest" class="upload-zone cursor-pointer block border-2 border-dashed border-slate-700 bg-slate-900 rounded-xl p-6 text-center hover:bg-slate-800 hover:border-slate-500 transition-all group">
-                            <i class="fa-regular fa-image text-2xl text-slate-500 mb-2 group-hover:text-slate-300 transition-colors"></i>
-                            <div class="text-sm font-medium text-slate-300">Arraste a imagem ou clique</div>
-                            <div class="text-[10px] text-slate-500 mt-1">PNG, JPG ou WEBP (Max. 5MB)</div>
-                        </label>
-                        <input type="file" id="upload-bio-quest" class="file-input-vh" accept="image/png, image/jpeg, image/webp">
+                        <div class="border-2 border-dashed border-slate-700 bg-slate-900/50 hover:bg-slate-800/50 transition-colors rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer group h-40">
+                            <i class="fa-regular fa-image text-3xl text-slate-500 group-hover:text-purple-400 transition-colors mb-3"></i>
+                            <span class="text-sm text-slate-300">Arraste a imagem ou clique</span>
+                            <span class="text-[10px] text-slate-500 mt-1">PNG, JPG ou WEBP (Max. 5MB)</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Botão de Ação -->
-                <button id="btn-analisar-biometria" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl flex items-center justify-center space-x-2 transition-all shadow-lg shadow-purple-900/20">
-                    <i class="fa-solid fa-microchip"></i>
-                    <span>Analisar Geometria Facial</span>
-                </button>
+                <div class="flex justify-center pt-2">
+                    <button class="w-full md:w-2/3 py-3 bg-purple-500 hover:bg-purple-600 text-white font-bold rounded-xl shadow-lg shadow-purple-500/20 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span>Analisar Geometria Facial</span>
+                    </button>
+                </div>
 
-                <!-- Painel de Resultados -->
-                <div id="resultado-biometria" class="hidden bg-slate-950 p-6 rounded-xl border border-slate-800 space-y-4">
+                <!-- Painel de Resultados (Oculto por padrão) -->
+                <div class="hidden bg-slate-950 border border-slate-800 rounded-xl p-6 space-y-4">
                     <div class="text-center space-y-2">
-                        <h3 class="text-sm font-medium text-slate-400">Porcentagem de Similaridade</h3>
-                        <div class="text-4xl font-bold text-emerald-400 tracking-tight">
-                            98.5%
-                        </div>
-                        <div class="text-sm font-bold text-emerald-500">
-                            Match Positivo
+                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Índice de Similaridade</h3>
+                        <div class="flex items-center justify-center gap-3">
+                            <span class="text-4xl font-black text-emerald-400">98.5%</span>
+                            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/20">Match Positivo</span>
                         </div>
                     </div>
 
@@ -1703,6 +1700,8 @@
                 </div>
 
             </div>
+        </div>
+
         </div>
     </div>
 
