@@ -96,12 +96,68 @@
 
         <div class="accordion-list">
             <p class="sidebar-title">Módulos de Investigação</p>
-
         <button onclick="switchTab('multipesquisa')" id="btn-multipesquisa" class="tab-btn nav-btn bg-[#2563eb] text-white shadow-md transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.0s">
             <span class="icon w-4 h-4">👥</span><span>Multi-Pesquisa de Identidades</span>
             <span class="nav-chevron open">›</span>
         </button>
-        <div id="tab-multipesquisa" class="tab-content accordion-panel space-y-6 hidden">
+        <button onclick="switchTab('redes')" id="btn-redes" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.02s">
+            <span class="icon w-4 h-4">🌐</span><span>Redes & Portais</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('plataformas')" id="btn-plataformas" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.04s">
+            <span class="icon w-4 h-4">✉️</span><span>E-mails & Apps</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('repositorio')" id="btn-repositorio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.08s">
+            <span class="icon w-4 h-4">🧭</span><span>Repositório OSINT</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('whoisbr')" id="btn-whoisbr" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.12s">
+            <span class="icon w-4 h-4">📡</span><span>WHOIS & Telefone BR</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('validadores')" id="btn-validadores" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.14s">
+            <span class="icon w-4 h-4">🛠️</span><span>Validadores & Calculadoras Forenses (PIX, IMEI, IP)</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('forense')" id="btn-forense" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.24s">
+            <span class="icon w-4 h-4">🖥️</span><span>Forense, Hash & Arquivo</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('exif')" id="btn-exif" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.28s">
+            <span class="icon w-4 h-4">📷</span><span>Análise EXIF</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('dorks')" id="btn-dorks" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.32s">
+            <span class="icon w-4 h-4">🔍</span><span>Google Dorks</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('coords')" id="btn-coords" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.36s">
+            <span class="icon w-4 h-4">📍</span><span>Coordenadas GPS</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('preservacao')" id="btn-preservacao" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.4s">
+            <span class="icon w-4 h-4">🌐</span><span>Preservação Web</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('extrator')" id="btn-extrator" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.42s">
+            <span class="icon w-4 h-4">🔍</span><span>Extrator Automático & Correlacionador</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('estudio')" id="btn-estudio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.42s">
+            <span class="icon w-4 h-4">🛠️</span><span>Estúdio de Evidências (PDF & TXT)</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('oficios')" id="btn-oficios" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.44s">
+            <span class="icon w-4 h-4">📄</span><span>Gerador de Ofício</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        <button onclick="switchTab('biometria')" id="btn-biometria" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.46s">
+            <i class="fa-solid fa-face-viewfinder w-4 text-center"></i><span>Biometria Facial</span>
+            <span class="nav-chevron">›</span>
+        </button>
+        </div>
+<div id="tab-multipesquisa" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <div class="flex items-center space-x-3">
@@ -132,11 +188,6 @@
                 </div>
             </div>
         </div>
-
-        <button onclick="switchTab('redes')" id="btn-redes" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.02s">
-            <span class="icon w-4 h-4">🌐</span><span>Redes & Portais</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-redes" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -389,10 +440,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('plataformas')" id="btn-plataformas" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.04s">
-            <span class="icon w-4 h-4">✉️</span><span>E-mails & Apps</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-plataformas" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -552,10 +599,6 @@
                 </p>
 </div>
         </div>
-        <button onclick="switchTab('repositorio')" id="btn-repositorio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.08s">
-            <span class="icon w-4 h-4">🧭</span><span>Repositório OSINT</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-repositorio" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -820,10 +863,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('whoisbr')" id="btn-whoisbr" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.12s">
-            <span class="icon w-4 h-4">📡</span><span>WHOIS & Telefone BR</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-whoisbr" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -883,10 +922,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('validadores')" id="btn-validadores" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.14s">
-            <span class="icon w-4 h-4">🛠️</span><span>Validadores & Calculadoras Forenses (PIX, IMEI, IP)</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-validadores" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1080,10 +1115,6 @@
                 </div>
             </div>
         </div>
-        <button onclick="switchTab('forense')" id="btn-forense" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.24s">
-            <span class="icon w-4 h-4">🖥️</span><span>Forense, Hash & Arquivo</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-forense" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -1190,10 +1221,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('exif')" id="btn-exif" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.28s">
-            <span class="icon w-4 h-4">📷</span><span>Análise EXIF</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-exif" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1233,10 +1260,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('dorks')" id="btn-dorks" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.32s">
-            <span class="icon w-4 h-4">🔍</span><span>Google Dorks</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-dorks" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1311,10 +1334,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('coords')" id="btn-coords" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.36s">
-            <span class="icon w-4 h-4">📍</span><span>Coordenadas GPS</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-coords" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1393,10 +1412,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('preservacao')" id="btn-preservacao" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.4s">
-            <span class="icon w-4 h-4">🌐</span><span>Preservação Web</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-preservacao" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1444,10 +1459,6 @@
 </div>
 </div>
         </div>
-        <button onclick="switchTab('extrator')" id="btn-extrator" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.42s">
-            <span class="icon w-4 h-4">🔍</span><span>Extrator Automático & Correlacionador</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-extrator" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1498,10 +1509,6 @@
                 </div>
             </div>
         </div>
-        <button onclick="switchTab('estudio')" id="btn-estudio" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.42s">
-            <span class="icon w-4 h-4">🛠️</span><span>Estúdio de Evidências (PDF & TXT)</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-estudio" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
                 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1562,11 +1569,6 @@
 
             </div>
         </div>
-
-        <button onclick="switchTab('oficios')" id="btn-oficios" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.44s">
-            <span class="icon w-4 h-4">📄</span><span>Gerador de Ofício</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-oficios" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
 <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
@@ -1634,12 +1636,6 @@
 </div>
 </div>
         </div>
-        </div>
-
-        <button onclick="switchTab('biometria')" id="btn-biometria" class="tab-btn nav-btn bg-slate-800 text-slate-300 transition-all flex items-center gap-3 rounded-xl" style="animation-delay:0.46s">
-            <i class="fa-solid fa-face-viewfinder w-4 text-center"></i><span>Biometria Facial</span>
-            <span class="nav-chevron">›</span>
-        </button>
         <div id="tab-biometria" class="tab-content accordion-panel space-y-6 hidden">
             <div class="glass-panel rounded-2xl p-6 shadow-xl space-y-6">
                 <!-- Cabeçalho -->
